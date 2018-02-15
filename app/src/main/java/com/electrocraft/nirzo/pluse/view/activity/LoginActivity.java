@@ -1,17 +1,13 @@
-package com.electrocraft.nirzo.pluse.view;
+package com.electrocraft.nirzo.pluse.view.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.electrocraft.nirzo.pluse.R;
-import com.electrocraft.nirzo.pluse.view.patient.Home;
-import com.electrocraft.nirzo.pluse.view.patient.SignUpEmailActivity;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.electrocraft.nirzo.pluse.view.activity.patient.Home;
+import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 
 public class LoginActivity extends AppCompatActivity {
 

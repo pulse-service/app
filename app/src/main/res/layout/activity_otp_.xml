@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.electrocraft.nirzo.pluse.view.activity.patient.OTP_Activity">
+
+    <include layout="@layout/appbar_layout" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="172dp"
+        android:ems="10"
+        android:hint="Enter Access Number"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/btn_resendOTP"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/editText3"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/resend_otp_btn_shape"
+        android:text="@string/resend_otp"
+        android:textColor="@color/color_white" />
+
+    <Button
+        android:id="@+id/btn_otp_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_resendOTP"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="86dp"
+        android:onClick="onOTPVerifyClick"
+        android:text="Verify N Continue " />
+</RelativeLayout>

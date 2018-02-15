@@ -1,4 +1,4 @@
-package com.electrocraft.nirzo.pluse.view;
+package com.electrocraft.nirzo.pluse.view.activity;
 
 import android.content.Intent;
 import android.os.Handler;

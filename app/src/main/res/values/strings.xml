@@ -15,4 +15,7 @@
     <string name="describe_problem">Describe problem</string>
     <string name="registration">Registration</string>
     <string name="forget_password">Forget Password</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="resend_otp">Resend OTP</string>
 </resources>

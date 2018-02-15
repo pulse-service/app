@@ -1,4 +1,4 @@
-package com.electrocraft.nirzo.pluse.view.patient;
+package com.electrocraft.nirzo.pluse.view.activity.patient;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;

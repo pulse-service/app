@@ -3,15 +3,23 @@
     package="com.electrocraft.nirzo.pluse">
 
     <application
+        android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="pulse_db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
+
         <activity android:name=".view.MainActivity" />
         <activity
-            android:name=".view.SplashScreen"
+            android:name=".view.activity.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -20,13 +28,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.LoginActivity" />
-        <activity android:name=".view.patient.HomeActivity" />
+        <activity android:name=".view.activity.LoginActivity" />
         <activity
-            android:name=".view.patient.Home"
+            android:name=".view.activity.patient.Home"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme" />
-        <activity android:name=".view.patient.SignUpEmailActivity"></activity>
+        <activity android:name=".view.activity.patient.SignUpEmailActivity" />
+        <activity android:name=".view.activity.patient.OTP_Activity" />
+        <activity android:name=".view.activity.patient.SexNDobRegActivity"></activity>
     </application>
 
 </manifest>

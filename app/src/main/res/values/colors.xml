@@ -8,4 +8,6 @@
     <color name="red">#FF0000</color>
     <color name="neon_pink">#FF55D4</color>
     <color name="royal_blue">#2650A5</color>
+    <color name="ao_green">#1C5C0C</color>
+    <color name="dark_gray">#878787</color>
 </resources>
