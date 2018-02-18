@@ -82,6 +82,8 @@
                 android:inputType="textPassword" />
 
             <Button
+                android:textColor="@color/color_white"
+                android:background="@drawable/ripple_effect_reg"
                 android:onClick="onSignContinueClick"
                 android:id="@+id/pt_signUp_continue"
                 android:layout_width="match_parent"

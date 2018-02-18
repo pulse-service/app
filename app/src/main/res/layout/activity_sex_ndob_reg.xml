@@ -61,19 +61,31 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/imgFemale"
-        android:layout_alignRight="@+id/imgFemale"
+        android:layout_alignLeft="@+id/imgFemale"
+        android:layout_alignStart="@+id/imgFemale"
         android:layout_below="@+id/radioGroup"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="36dp"
         android:text="Date Of Birth" />
 
     <EditText
         android:id="@+id/editText5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView2"
+
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
         android:layout_toEndOf="@+id/textView2"
         android:layout_toRightOf="@+id/textView2"
         android:ems="10"
+        android:hint="dd-mm-yyyy"
         android:inputType="date" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="57dp"
+        android:text="Submit" />
 </RelativeLayout>
