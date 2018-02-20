@@ -25,8 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.ll_sub)
     public LinearLayout sub;
 
-    @BindView(R.id.btn_sub_login)
-    public Button btn_subLogIn;
+  //  @BindView(R.id.btn_sub_login)
+    //public Button btn_subLogIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

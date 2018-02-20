@@ -18,7 +18,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="128dp"
-        app:srcCompat="@drawable/female" />
+        app:srcCompat="@drawable/ic_female" />
 
     <ImageView
         android:id="@+id/imgMale"
@@ -29,7 +29,7 @@
         android:layout_alignTop="@+id/imgFemale"
         android:layout_marginEnd="130dp"
         android:layout_marginRight="140dp"
-        app:srcCompat="@drawable/male" />
+        app:srcCompat="@drawable/ic_male" />
 
     <RadioGroup
         android:layout_width="match_parent"

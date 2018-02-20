@@ -16,32 +16,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/my_toolbar">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp">
+        <RelativeLayout style="@style/container_style_1">
 
             <EditText
                 android:id="@+id/edit_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                style="@style/edit_text_style_1"
                 android:layout_alignParentStart="true"
-
                 android:layout_marginTop="36dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="@string/name" />
+                android:hint="@string/name"
+                android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/editText4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:id="@+id/edt_email"
+                style="@style/edit_text_style_1"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/edit_name"
                 android:layout_marginTop="14dp"
-                android:ems="10"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
 
@@ -49,49 +39,41 @@
                 android:id="@+id/spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editText4"
+                android:layout_below="@+id/edt_email"
                 android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
                 android:layout_marginTop="22dp"
-                android:layout_toLeftOf="@+id/edt_phoneNo"
                 android:layout_toStartOf="@+id/edt_phoneNo" />
 
             <EditText
                 android:id="@+id/edt_phoneNo"
+                style="@style/edit_text_style_1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/spinner"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="21dp"
-                android:layout_marginRight="21dp"
-                android:ems="10"
+                android:layout_below="@+id/edt_email"
+                android:layout_marginTop="10dp"
                 android:hint="@string/phone_no"
                 android:inputType="phone" />
 
             <EditText
                 android:id="@+id/edt_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                style="@style/edit_text_style_1"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/edt_phoneNo"
                 android:layout_marginTop="14dp"
-                android:ems="10"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
 
             <Button
-                android:textColor="@color/color_white"
-                android:background="@drawable/ripple_effect_reg"
-                android:onClick="onSignContinueClick"
                 android:id="@+id/pt_signUp_continue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/edt_password"
-                android:text="Continue" />
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ripple_effect_reg"
+                android:onClick="onSignContinueClick"
+                android:text="Continue"
+                android:textColor="@color/color_white" />
 
         </RelativeLayout>
     </ScrollView>

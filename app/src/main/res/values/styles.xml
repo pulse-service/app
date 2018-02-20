@@ -12,4 +12,49 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <!--A custom materials theme base for tab view-->
+
+    <style name="MaterialsTheme" parent="MaterialsTheme.Base">
+
+    </style>
+
+    <!--the parent theme-->
+    <style name="MaterialsTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary_1</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_1</item>
+        <item name="colorAccent">@color/colorAccent_1</item>
+    </style>
+
+    <!--A style for Container layout ie: LinerLayout or RelativeLayout-->
+
+    <style name="container_style_1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/container_margin</item>
+        <item name="android:paddingStart">@dimen/container_margin</item>
+        <item name="android:paddingEnd">@dimen/container_margin</item>
+        <item name="android:paddingRight">@dimen/container_margin</item>
+    </style>
+
+    <!--   A style for Edit Text     -->
+
+    <style name="edit_text_style_1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!--    <item name="android:background">@drawable/border_edt_text</item>    -->
+        <item name="android:ems">10</item>
+        <item name="android:padding">@dimen/edit_text_padding</item>
+    </style>
+
+    <!--spinner item style-->
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+
+    </style>
+    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+
+    </style>
+
 </resources>
