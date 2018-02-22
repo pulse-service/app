@@ -1,0 +1,7 @@
+sl       name                    meaning
+01-      list_row-               Adapter List row
+02-      pt-                     patient
+03-      rsc                     resource
+04-      ic-                     icon
+05       lr-                     list row use for id the view
+06

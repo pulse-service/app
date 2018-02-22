@@ -1,12 +1,12 @@
 package com.electrocraft.nirzo.pluse.model;
 
 /**
- * Create on 2/15/2018.
+ *
  * This class responsible to produce spinner
  *
  * @author Faisal Mohammad
  * @version 0.1
- * @since 0.1
+ * @since 2/15/2018.
  */
 
 public class SpinnerHelper {

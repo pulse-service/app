@@ -125,8 +125,7 @@ public class Home extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        //int id = ;
+
 
         switch (item.getItemId()) {
             case R.id.nav_camera:

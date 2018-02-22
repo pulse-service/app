@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/lr_iv_DocImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/ic_doctor" />
+
+    <TextView
+        android:id="@+id/lr_tv_DocName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/lr_iv_DocImage"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/lr_iv_DocImage"
+        android:text="Dr. Faisal Khali"
+        android:textSize="@dimen/doc_name_size" />
+
+    <TextView
+        android:id="@+id/lr_tv_DocInstitution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lr_iv_DocImage"
+        android:layout_alignStart="@+id/lr_tv_DocName"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/lr_btn_book"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/lr_tv_DocInstitution"
+        android:layout_marginEnd="13dp"
+        android:text="Book" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/lr_btn_book"
+        android:layout_below="@+id/lr_btn_book"
+        android:layout_marginEnd="14dp"
+        app:srcCompat="@drawable/ic_arrow_right_32px" />
+
+    <ImageView
+        android:id="@+id/lr_iv_DocAvailableStatus"
+        android:layout_width="@dimen/doc_availableStatus_width"
+        android:layout_height="@dimen/doc_availableStatus_height"
+        android:layout_alignEnd="@+id/lr_iv_DocImage"
+        android:layout_below="@+id/lr_iv_DocImage"
+        android:layout_marginEnd="11dp"
+        app:srcCompat="@drawable/ic_offline" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+     android:layout_below="@+id/lr_iv_DocAvailableStatus"
+
+        android:text="TextView" />
+</RelativeLayout>

@@ -10,14 +10,20 @@
     <dimen name="tab_padding_bottom">16dp</dimen>
     <dimen name="tab_label">14sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
-    
+
     <!-- margin for container -->
     <dimen name="container_margin">10dp</dimen>
-    
+
     <!--padding for edit Text -->
     <dimen name="edit_text_padding">10dp</dimen>
 
     <!--corner radius for spinner -->
     <dimen name="corner_rad">5dp</dimen>
+
+    <!--for Doctor search list-->
+    <dimen name="doc_name_size">22sp</dimen>
+    <dimen name="doc_availableStatus_height">20dp</dimen>
+    <dimen name="doc_availableStatus_width">20dp</dimen>
+
 
 </resources>
