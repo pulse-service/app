@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:paddingEnd="5dp"
     android:paddingStart="5dp"
-    tools:context="com.electrocraft.nirzo.pluse.view.fragment.SpecializationFragment">
+    tools:context="com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <!--    <TextView
@@ -19,39 +19,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--Spinner-->
         <RelativeLayout
             android:id="@+id/spinner_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border_spinner">
+            style="@style/spinner_border_style">
 
             <Spinner
                 android:id="@+id/sp_specializationCat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:background="@android:color/transparent"
-                android:gravity="center"
-                android:spinnerMode="dropdown" />
+                style="@style/spinner_style" />
 
-            <ImageView
-
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_spinner_indicator" />
+            <ImageView style="@style/spinner_image_style" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:scrollbars="vertical"
-            android:id="@+id/recyclerViewDocSearch"
+            android:id="@+id/recyVDocSearch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/spinner_layout"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:scrollbars="vertical" />
     </RelativeLayout>
 
 

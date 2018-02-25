@@ -9,13 +9,14 @@ import android.view.ViewGroup;
 
 import com.electrocraft.nirzo.pluse.R;
 
+import butterknife.ButterKnife;
+
 /**
- * Created by nirzon on 2/20/2018.
+ * Created by nirzo on 2/25/2018.
  */
 
-public class LocationBaseFragment extends Fragment {
-
-    public LocationBaseFragment() {
+public class PtProfileFragment extends Fragment {
+    public PtProfileFragment() {
     }
 
     @Override
@@ -25,7 +26,10 @@ public class LocationBaseFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.frag_location_base,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.frag_pt_profile, container, false);
+        ButterKnife.bind(this, view);
+
+        return view;
     }
 }

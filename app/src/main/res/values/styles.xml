@@ -39,6 +39,19 @@
         <item name="android:paddingRight">@dimen/container_margin</item>
     </style>
 
+    <style name="container_style_2">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">@dimen/container_margin</item>
+        <item name="android:paddingStart">@dimen/container_margin</item>
+        <item name="android:paddingEnd">@dimen/container_margin</item>
+        <item name="android:paddingRight">@dimen/container_margin</item>
+        <item name="android:paddingTop">@dimen/actionbar_to_container_spacing</item>
+
+
+    </style>
+
     <!--   A style for Edit Text     -->
 
     <style name="edit_text_style_1">
@@ -53,7 +66,36 @@
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
 
     </style>
+
+    <!--spinner  drop Down item style-->
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+
+    </style>
+
+    <!--spinner border-->
+    <style name="spinner_border_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/spinner_border_margin_top</item>
+        <item name="android:background">@drawable/border_spinner</item>
+    </style>
+    <style name="spinner_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginStart">@dimen/spinner_margin_left</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:spinnerMode">dropdown</item>
+
+    </style>
+
+    <style name="spinner_image_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/spinner_image_height</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:src">@drawable/ic_spinner_indicator</item>
 
     </style>
 

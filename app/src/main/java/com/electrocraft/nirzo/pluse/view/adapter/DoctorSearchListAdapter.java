@@ -18,7 +18,10 @@ import butterknife.ButterKnife;
 
 
 /**
- * Created by nirzo on 2/22/2018.
+ * This class is responsible for  generate single row item in list
+ *
+ * @author Faisal Mohammad
+ * @since 2/22/2018
  */
 
 public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchListAdapter.ViewHolder> {
@@ -43,7 +46,7 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
         @BindView(R.id.lr_iv_DocAvailableStatus)
         ImageView docAvailable;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 

@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -13,11 +14,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.electrocraft.nirzo.pluse.R;
-import com.electrocraft.nirzo.pluse.view.fragment.DescribeProblemFragment;
-import com.electrocraft.nirzo.pluse.view.fragment.SpecializationFragment;
-import com.electrocraft.nirzo.pluse.view.fragment.LocationBaseFragment;
+import com.electrocraft.nirzo.pluse.view.fragment.PtDescribeProblemFragment;
+import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfile;
+import com.electrocraft.nirzo.pluse.view.fragment.PtLocationBaseFragment;
+import com.electrocraft.nirzo.pluse.view.fragment.PtProfileFragment;
+import com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,13 +71,13 @@ public class Home extends AppCompatActivity
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new SpecializationFragment(),
+        adapter.addFragment(new PtSpecializationFragment(),
                 getResources().getString(R.string.specialization));
 
-        adapter.addFragment(new LocationBaseFragment(),
+        adapter.addFragment(new PtLocationBaseFragment(),
                 getResources().getString(R.string.location_base));
 
-        adapter.addFragment(new DescribeProblemFragment(),
+        adapter.addFragment(new PtDescribeProblemFragment(),
                 getResources().getString(R.string.describe_problem));
 
         viewPager.setAdapter(adapter);
@@ -125,19 +129,39 @@ public class Home extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
+        Fragment fragment = null;
+        String title = getString(R.string.app_name);
 
         switch (item.getItemId()) {
-            case R.id.nav_camera:
+
+            case R.id.nav_profile:
+                fragment =  new PtProfileFragment();
+                title="Profile";
                 break;
-            case R.id.nav_gallery:
+
+            case R.id.nav_health:
+                fragment =  new PtHealthProfile();
+                title="Health";
                 break;
+
             case R.id.nav_slideshow:
                 break;
             case R.id.nav_manage:
                 break;
         }
 
+        if (fragment != null) {
+            viewPager.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+        }
+
+        // set the toolbar title
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

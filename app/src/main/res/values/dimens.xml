@@ -25,5 +25,18 @@
     <dimen name="doc_availableStatus_height">20dp</dimen>
     <dimen name="doc_availableStatus_width">20dp</dimen>
 
+    <!--for Location search list-->
+    <dimen name="loc_name_size">20sp</dimen>
+    <!--Text size -->
+    <dimen name="label_txt_size">18sp</dimen>
 
+    <!--Action bar height size -->
+    <dimen name="action_bar_height">45dp</dimen>
+
+    <dimen name="actionbar_to_container_spacing">50dp</dimen>
+
+     <!--for spinner-->
+    <dimen name="spinner_border_margin_top">10dp</dimen>
+    <dimen name="spinner_margin_left">5dp</dimen>
+    <dimen name="spinner_image_height">30dp</dimen>
 </resources>

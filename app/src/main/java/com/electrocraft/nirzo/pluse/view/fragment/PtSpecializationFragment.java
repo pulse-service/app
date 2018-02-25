@@ -4,18 +4,22 @@ package com.electrocraft.nirzo.pluse.view.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.model.DoctorSearch;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorSearchListAdapter;
+import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +32,13 @@ import butterknife.ButterKnife;
  * @since 2/20/2018
  */
 
-public class SpecializationFragment extends Fragment {
+public class PtSpecializationFragment extends Fragment {
 
     @BindView(R.id.sp_specializationCat)
     Spinner spSpecialCat;
     private String[] catName = {"Dentist", "General Physician", "Homeopathy", "Orthopedist"};
     private String[] catCode = {"01", "02", "03", "04"};
-    @BindView(R.id.recyclerViewDocSearch)
+    @BindView(R.id.recyVDocSearch)
     RecyclerView rvDocSearch;
     private List<DoctorSearch> mList = new ArrayList<>();
 
@@ -42,7 +46,7 @@ public class SpecializationFragment extends Fragment {
     private DoctorSearchListAdapter mAdapter;
 
 
-    public SpecializationFragment() {
+    public PtSpecializationFragment() {
         // required  empty public constructor
     }
 
@@ -64,7 +68,20 @@ public class SpecializationFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rvDocSearch.setLayoutManager(mLayoutManager);
         rvDocSearch.setItemAnimator(new DefaultItemAnimator());
+        rvDocSearch.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         rvDocSearch.setAdapter(mAdapter);
+        rvDocSearch.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rvDocSearch, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                DoctorSearch doctorSearch= mList.get(position);
+                Toast.makeText(getContext(),"HEloo doc"+doctorSearch.getName(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
         prepareData();
         return view;
 
