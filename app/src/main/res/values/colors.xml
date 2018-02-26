@@ -6,6 +6,7 @@
     <color name="color_white">#FFF</color>
 
     <color name="red">#FF0000</color>
+    <color name="dark_red">#A5FF0000</color>
     <color name="neon_pink">#FF55D4</color>
 
     <color name="ao_green">#1C5C0C</color>
@@ -29,6 +30,7 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
+    <color name="yellow">#FF0</color>
 
 
 </resources>

@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
  * @since 2/25/2018
  */
 
-public class PtHealthProfile extends Fragment {
+public class PtHealthProfileFragment extends Fragment {
 
     @BindView(R.id.edtWeight)
     EditText edtWeight;
@@ -40,7 +40,7 @@ public class PtHealthProfile extends Fragment {
     Spinner spBloodGroup;
 
 
-    public PtHealthProfile() {
+    public PtHealthProfileFragment() {
     }
 
     @Override

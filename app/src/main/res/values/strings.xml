@@ -11,6 +11,9 @@
 
     <string name="action_settings">Settings</string>
     <string name="specialization">Specialization</string>
+    <string name="details">Details</string>
+    <string name="service">Service</string>
+    <string name="blog">Blog</string>
     <string name="location_base">Location base</string>
     <string name="describe_problem">Describe problem</string>
     <string name="reg">Registration</string>
@@ -39,4 +42,12 @@
     <string name="bp">BP (upper/lower)</string>
     <string name="family_disease_history">Family Disease History</string>
     <string name="existing_medical_report">Existing Medical Report</string>
+    <string name="specialist_tag">Specialist Tag</string>
+    <string name="language">Language</string>
+    <string name="english">English</string>
+    <string name="call_charges">Call Charges</string>
+    <string name="_1200bdt">1200 BDT</string>
+    <string name="available_time">Available Time</string>
+    <string name="pick_time_n_date">Pick Time &amp; Date</string>
+    <string name="book_reason_not_provided">Book Reason not Provided</string>
 </resources>

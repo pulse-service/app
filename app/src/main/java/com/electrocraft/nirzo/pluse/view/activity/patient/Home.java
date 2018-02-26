@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -17,14 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.view.adapter.ViewPagerAdapter;
 import com.electrocraft.nirzo.pluse.view.fragment.PtDescribeProblemFragment;
-import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfile;
+import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtLocationBaseFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,11 +29,16 @@ public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
-    public Toolbar toolbar;
+    Toolbar toolbar;
+
     @BindView(R.id.tabs)
-    public TabLayout tabLayout;
+    TabLayout tabLayout;
+
     @BindView(R.id.viewpager)
-    public ViewPager viewPager;
+    ViewPager viewPager;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class Home extends AppCompatActivity
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -84,36 +85,6 @@ public class Home extends AppCompatActivity
 
     }
 
-   public class ViewPagerAdapter extends FragmentPagerAdapter {
-
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -135,13 +106,13 @@ public class Home extends AppCompatActivity
         switch (item.getItemId()) {
 
             case R.id.nav_profile:
-                fragment =  new PtProfileFragment();
-                title="Profile";
+                fragment = new PtProfileFragment();
+                title = "Profile";
                 break;
 
             case R.id.nav_health:
-                fragment =  new PtHealthProfile();
-                title="Health";
+                fragment = new PtHealthProfileFragment();
+                title = "Health";
                 break;
 
             case R.id.nav_slideshow:
@@ -163,7 +134,7 @@ public class Home extends AppCompatActivity
             getSupportActionBar().setTitle(title);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

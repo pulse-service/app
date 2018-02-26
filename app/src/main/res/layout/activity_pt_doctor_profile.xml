@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.electrocraft.nirzo.pluse.view.activity.patient.PtDoctorProfileActivity">
+
+
+    <ImageView
+        android:id="@+id/ivDoctorCoverPic"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/doc_cover_pic_height"
+        android:background="@color/dark_gray" />
+
+    <TextView
+        android:id="@+id/tv_docRatting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="29dp"
+        android:text="45%"
+        android:textColor="@color/yellow"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivDoctorCoverPic"
+        android:layout_alignParentStart="true"
+        android:text="23 voted"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tvDocName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivDoctorCoverPic"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:text="DR. ABC"
+        android:textColor="@color/red"
+        android:textSize="20sp" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvDocName"
+        app:tabGravity="fill"
+        app:tabMode="fixed" />
+
+    <Button
+        android:id="@+id/btn_appointBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Appointment" />
+
+    <android.support.v4.view.ViewPager
+        android:layout_above="@+id/btn_appointBook"
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabs"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</RelativeLayout>

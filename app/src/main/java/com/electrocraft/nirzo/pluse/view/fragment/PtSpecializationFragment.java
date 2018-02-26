@@ -1,6 +1,7 @@
 package com.electrocraft.nirzo.pluse.view.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,14 +19,17 @@ import android.widget.Toast;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.model.DoctorSearch;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
+import com.electrocraft.nirzo.pluse.view.activity.patient.PtDoctorProfileActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorSearchListAdapter;
 import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
+import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * @author Faisal Mohammad
@@ -73,8 +77,12 @@ public class PtSpecializationFragment extends Fragment {
         rvDocSearch.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rvDocSearch, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                DoctorSearch doctorSearch= mList.get(position);
-                Toast.makeText(getContext(),"HEloo doc"+doctorSearch.getName(),Toast.LENGTH_SHORT).show();
+                DoctorSearch doctorSearch = mList.get(position);
+                //  Timber.d("hello Doc");
+                Intent intent = new Intent(getActivity(), PtDoctorProfileActivity.class);
+                intent.putExtra(Key.DOCTOR_NAME_KEY, doctorSearch.getName());
+                startActivity(intent);
+
             }
 
             @Override
@@ -88,19 +96,19 @@ public class PtSpecializationFragment extends Fragment {
     }
 
     private void prepareData() {
-        DoctorSearch doctor = new DoctorSearch("Dr. Saleha", "Dhaka medical",true);
+        DoctorSearch doctor = new DoctorSearch("Dr. Saleha", "Dhaka medical", true);
         mList.add(doctor);
 
-        doctor = new DoctorSearch("Dr. bin", "BAT",false);
+        doctor = new DoctorSearch("Dr. bin", "BAT", false);
         mList.add(doctor);
 
-        doctor = new DoctorSearch("Dr. Niloy", "TAB",true);
+        doctor = new DoctorSearch("Dr. Niloy", "TAB", true);
         mList.add(doctor);
 
-        doctor = new DoctorSearch("Dr. Amir", "TAB",false);
+        doctor = new DoctorSearch("Dr. Amir", "TAB", false);
         mList.add(doctor);
 
-        doctor = new DoctorSearch("Dr. Jamil", "TAB",true);
+        doctor = new DoctorSearch("Dr. Jamil", "TAB", true);
         mList.add(doctor);
 
         mAdapter.notifyDataSetChanged();
