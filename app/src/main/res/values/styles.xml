@@ -99,4 +99,13 @@
 
     </style>
 
+    <style name="text_label_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:padding">@dimen/padding_def</item>
+        <item name="android:textSize">@dimen/label_txt_size</item>
+    </style>
+
 </resources>

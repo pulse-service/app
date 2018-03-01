@@ -1,5 +1,6 @@
 package com.electrocraft.nirzo.pluse.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,11 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DocRegistrationActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.Home;
 import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -25,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.ll_sub)
     public LinearLayout sub;
 
+    private Context mContext=null;
+
   //  @BindView(R.id.btn_sub_login)
     //public Button btn_subLogIn;
 
@@ -34,6 +39,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        if (mContext == null)
+            mContext=this;
+
+    }
+
+    @OnClick(R.id.btn_sub_reg_doc)
+    public void onDoctorRegistrationButton(){
+        startActivity(new Intent(mContext, DocRegistrationActivity.class));
     }
 
     public void onLoginClick(View view) {

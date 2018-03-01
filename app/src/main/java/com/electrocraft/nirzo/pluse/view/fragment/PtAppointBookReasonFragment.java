@@ -47,9 +47,6 @@ public class PtAppointBookReasonFragment extends Fragment {
     @OnClick(R.id.btn_pickTime)
     public  void onPickTimeClick(View view){
         Fragment fragment= new PtPickUpTimeDateFragment();
-
-       // FragmentManager ft= getFragmentManager();
-
         FragmentTransaction ft= getFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame,fragment);
         ft.commit();

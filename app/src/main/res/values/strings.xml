@@ -22,7 +22,7 @@
     <string name="email">Email</string>
     <string name="resend_otp">Resend OTP</string>
     <string name="doc_instruction_login">Log in or create an account for patient\'s treatment at your flexible plan</string>
-    <string name="my_pulse">My pulse</string>
+    <string name="my_pulse">Patient</string>
     <string name="patient_instruction">Log in or create My Pluse account to get doctor\'s consultation at your flexibility</string>
     <string name="ok">ok</string>
     <string name="sample_string">sdfjlklksdjf</string>
@@ -50,4 +50,13 @@
     <string name="available_time">Available Time</string>
     <string name="pick_time_n_date">Pick Time &amp; Date</string>
     <string name="book_reason_not_provided">Book Reason not Provided</string>
+    <string name="continu">Continue</string>
+    <string name="change_mobile_no">Change Mobile No</string>
+    <string name="verify_n_continue">Verify &amp; Continue</string>
+    <string name="enter_access_number">Enter Access Number</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="blood_group">Blood Group</string>
+    <string name="nationality">Nationality</string>
+    <string name="language">Language</string>
 </resources>

@@ -8,10 +8,10 @@ import android.widget.EditText;
 
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
-import com.electrocraft.nirzo.pluse.view.notification.DialogFragments;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SignUpEmailActivity extends AppCompatActivity  {
 
@@ -29,11 +29,12 @@ public class SignUpEmailActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up_email);
+        setContentView(R.layout.frag_sign_up_email);
         ButterKnife.bind(this);
 
     }
 
+    @OnClick(R.id.btnSignUpContinue)
     public void onSignContinueClick(View view) {
 
         if (edt_pt_name.getText().toString().length() == 0){

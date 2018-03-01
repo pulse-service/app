@@ -41,4 +41,7 @@ dependencies {
     // Fixable Logging library Timber
     implementation 'com.jakewharton.timber:timber:4.6.1'
 
+    // Gson  library  can be used to convert Java Objects into  JSON
+    compile 'com.google.code.gson:gson:2.8.2'
+
 }

@@ -7,14 +7,19 @@ import android.view.View;
 
 import com.electrocraft.nirzo.pluse.R;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class OTP_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_otp_);
+        setContentView(R.layout.frag_otp);
+        ButterKnife.bind(this);
     }
 
+    @OnClick(R.id.btn_otp_verify)
     public void onOTPVerifyClick(View view){
         startActivity(new Intent(OTP_Activity.this,SexNDobRegActivity.class));
     }

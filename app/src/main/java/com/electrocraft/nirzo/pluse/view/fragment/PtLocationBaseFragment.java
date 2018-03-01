@@ -1,10 +1,12 @@
 package com.electrocraft.nirzo.pluse.view.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,8 +16,13 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.model.DoctorSearch;
 import com.electrocraft.nirzo.pluse.model.GeoLayR4Location;
+import com.electrocraft.nirzo.pluse.view.activity.patient.PtDoctorProfileActivity;
+import com.electrocraft.nirzo.pluse.view.adapter.DoctorSearchListAdapter;
 import com.electrocraft.nirzo.pluse.view.adapter.LocationSearchListAdapter;
+import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
+import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,19 +36,19 @@ import butterknife.ButterKnife;
 
 public class PtLocationBaseFragment extends Fragment {
 
-    private LocationSearchListAdapter mAdapter;
+    private DoctorSearchListAdapter mAdapter;
 
     @BindView(R.id.recyVLocationSearch)
-    RecyclerView rvLocationSearch;
+    RecyclerView rvDocSearch;
 
     //Getting the instance of AutoCompleteTextView
     @BindView(R.id.actv_location)
     AutoCompleteTextView actvLocationSearch;
 
     List<String> autoCtvHelper = new ArrayList<>();
+    private List<DoctorSearch> mList = new ArrayList<>();
 
-
-    private List<GeoLayR4Location> mList = new ArrayList<>();
+    //private List<GeoLayR4Location> mList = new ArrayList<>();
 
     public PtLocationBaseFragment() {
     }
@@ -61,12 +68,30 @@ public class PtLocationBaseFragment extends Fragment {
 
 
 
-        mAdapter = new LocationSearchListAdapter(mList);
+        mAdapter = new DoctorSearchListAdapter(mList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        rvLocationSearch.setLayoutManager(mLayoutManager);
-        rvLocationSearch.setItemAnimator(new DefaultItemAnimator());
-        rvLocationSearch.setAdapter(mAdapter);
+        rvDocSearch.setLayoutManager(mLayoutManager);
+        rvDocSearch.setItemAnimator(new DefaultItemAnimator());
+        rvDocSearch.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        rvDocSearch.setAdapter(mAdapter);
+        rvDocSearch.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rvDocSearch, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                DoctorSearch doctorSearch = mList.get(position);
+                //  Timber.d("hello Doc");
+                Intent intent = new Intent(getActivity(), PtDoctorProfileActivity.class);
+                intent.putExtra(Key.DOCTOR_NAME_KEY, doctorSearch.getName());
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
         prepareData();
+        prepareLocationData();
 
         //Creating the instance of ArrayAdapter containing list of autoCtvHelper names
         ArrayAdapter<String> adapter = new ArrayAdapter<>
@@ -80,52 +105,72 @@ public class PtLocationBaseFragment extends Fragment {
     }
 
     private void prepareData() {
+        DoctorSearch doctor = new DoctorSearch("Dr. Saleha", "Dhaka medical", true);
+        mList.add(doctor);
+
+        doctor = new DoctorSearch("Dr. bin", "BAT", false);
+        mList.add(doctor);
+
+        doctor = new DoctorSearch("Dr. Niloy", "TAB", true);
+        mList.add(doctor);
+
+        doctor = new DoctorSearch("Dr. Amir", "TAB", false);
+        mList.add(doctor);
+
+        doctor = new DoctorSearch("Dr. Jamil", "TAB", true);
+        mList.add(doctor);
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void prepareLocationData() {
+        List<GeoLayR4Location> list = new ArrayList<>();
         GeoLayR4Location loc = new GeoLayR4Location("004", "Mohammadpur");
-        mList.add(loc);
+        list.add(loc);
 
         loc = new GeoLayR4Location("004", "Agargou");
-        mList.add(loc);
+        list.add(loc);
 
         loc = new GeoLayR4Location("004", "Shamoly");
-        mList.add(loc);
+        list.add(loc);
 
         loc = new GeoLayR4Location("004", "Sher-e Bangla");
-        mList.add(loc);
+        list.add(loc);
 
         loc = new GeoLayR4Location("004", "Mogbazer");
-        mList.add(loc);
+        list.add(loc);
 
         loc = new GeoLayR4Location("004", "Adabor");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "pirer bug");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "badda");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "modho pirer baug");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "china bandam");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "murir bug");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "Time");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "A");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "B");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "C");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "D");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "Mogbazer");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "Mogbazer");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "Mogbazer");
-        mList.add(loc);
+        list.add(loc);
         loc = new GeoLayR4Location("004", "Mogbazer");
-        mList.add(loc);
-        for (GeoLayR4Location location : mList) {
+        list.add(loc);
+        for (GeoLayR4Location location : list) {
             autoCtvHelper.add(location.getLayR4ListName());
         }
 

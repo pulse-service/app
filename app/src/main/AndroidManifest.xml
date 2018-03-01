@@ -36,9 +36,10 @@
         <activity android:name=".view.activity.patient.SignUpEmailActivity" />
         <activity android:name=".view.activity.patient.OTP_Activity" />
         <activity android:name=".view.activity.patient.SexNDobRegActivity" />
-        <activity android:name=".view.activity.doctor.DocSignUpEmailActivity" />
+        <activity android:name=".view.activity.doctor.DocRegistrationActivity" />
         <activity android:name=".view.activity.patient.PtDoctorProfileActivity" />
-        <activity android:name=".view.activity.patient.PtAppointBookActivity"></activity>
+        <activity android:name=".view.activity.patient.PtAppointBookActivity" />
+        <activity android:name=".view.activity.doctor.DoctorHomeActivity"></activity>
     </application>
 
 </manifest>

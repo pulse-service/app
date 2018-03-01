@@ -42,4 +42,7 @@
 
     <!--for Doctor Cover pic -->
     <dimen name="doc_cover_pic_height">200dp</dimen>
+
+    <!--padding Default-->
+    <dimen name="padding_def">10dp</dimen>
 </resources>

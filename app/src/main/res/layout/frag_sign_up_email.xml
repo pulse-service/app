@@ -64,15 +64,14 @@
                 android:inputType="textPassword" />
 
             <Button
-                android:id="@+id/pt_signUp_continue"
+                android:id="@+id/btnSignUpContinue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/edt_password"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/ripple_effect_reg"
-                android:onClick="onSignContinueClick"
-                android:text="Continue"
+                android:text="@string/continu"
                 android:textColor="@color/color_white" />
 
         </RelativeLayout>

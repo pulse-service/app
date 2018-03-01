@@ -2,6 +2,7 @@ package com.electrocraft.nirzo.pluse.view.fragment;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -38,8 +40,8 @@ import timber.log.Timber;
 
 public class PtSpecializationFragment extends Fragment {
 
-    @BindView(R.id.sp_specializationCat)
-    Spinner spSpecialCat;
+//    @BindView(R.id.sp_specializationCat)
+//    Spinner spSpecialCat;
     private String[] catName = {"Dentist", "General Physician", "Homeopathy", "Orthopedist"};
     private String[] catCode = {"01", "02", "03", "04"};
     @BindView(R.id.recyVDocSearch)
@@ -48,6 +50,11 @@ public class PtSpecializationFragment extends Fragment {
 
 
     private DoctorSearchListAdapter mAdapter;
+
+    @BindView(R.id.actv_specializationCat)
+    AutoCompleteTextView actvLocationSearch;
+
+    //String [] autoCtvHelper = {};
 
 
     public PtSpecializationFragment() {
@@ -66,7 +73,7 @@ public class PtSpecializationFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_specialization, container, false);
         ButterKnife.bind(this, view);
 
-        loadCategories();
+//        loadCategories();
 
         mAdapter = new DoctorSearchListAdapter(mList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -91,6 +98,15 @@ public class PtSpecializationFragment extends Fragment {
             }
         }));
         prepareData();
+
+        //Creating the instance of ArrayAdapter containing list of autoCtvHelper names
+        ArrayAdapter<String> adapter = new ArrayAdapter<>
+                (getContext(), android.R.layout.select_dialog_item, catName);
+
+
+        actvLocationSearch.setThreshold(1);                                                         //will start working from first character
+        actvLocationSearch.setAdapter(adapter);                                                     //setting the adapter data into the AutoCompleteTextView
+        actvLocationSearch.setTextColor(Color.RED);
         return view;
 
     }
@@ -114,10 +130,10 @@ public class PtSpecializationFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
-    /**
+    /*
      * load spinner of Doctor's Specialization
      */
-    private void loadCategories() {
+   /* private void loadCategories() {
         List<SpinnerHelper> list = new ArrayList<>();
         for (int i = 0; i < catName.length; i++) {
             SpinnerHelper helper = new SpinnerHelper(i, catCode[i], catName[i]);
@@ -129,5 +145,5 @@ public class PtSpecializationFragment extends Fragment {
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
 
         spSpecialCat.setAdapter(adapter);
-    }
+    }*/
 }

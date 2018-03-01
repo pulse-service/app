@@ -2,24 +2,24 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pt_drawer_layout"
+    android:id="@+id/doc_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
     <include
-        layout="@layout/pt_app_bar_home"
+        layout="@layout/doc_app_bar_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/pt_nav_view"
+        android:id="@+id/doc_nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/pt_nav_header_home"
-        app:menu="@menu/activity_home2_drawer" />
+        app:headerLayout="@layout/doc_nav_header_home"
+        app:menu="@menu/activity_doc_home_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

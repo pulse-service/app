@@ -47,7 +47,7 @@
             android:inputType="date" />
 
         <TextView
-            android:id="@+id/tvAge"
+            android:id="@+id/tvBloodLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvAge"
+            android:layout_below="@+id/tvBloodLbl"
 
             android:layout_marginTop="24dp"
             android:ems="10"
