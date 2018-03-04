@@ -44,4 +44,9 @@ dependencies {
     // Gson  library  can be used to convert Java Objects into  JSON
     compile 'com.google.code.gson:gson:2.8.2'
 
+
+
+    // Volley
+    compile 'com.android.volley:volley:1.0.0'
+
 }
