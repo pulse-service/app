@@ -1,7 +1,6 @@
 package com.electrocraft.nirzo.pluse.view.activity;
 
 import android.app.ProgressDialog;
-import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -18,19 +17,17 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.electrocraft.nirzo.pluse.R;
-import com.electrocraft.nirzo.pluse.controller.AppConfig;
-import com.electrocraft.nirzo.pluse.controller.AppController;
+import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
+import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.network.ConnectionDetector;
 import com.electrocraft.nirzo.pluse.model.dba.User;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DocRegistrationActivity;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
+import com.electrocraft.nirzo.pluse.view.activity.patient.Home;
 import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
-
-import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -45,12 +42,17 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private boolean docLogin = false;
 
-    private static final String TAG ="LoginActivity" ;
+    private ProgressDialog pDialog;
+    private static final String TAG = "LoginActivity";
+
     @BindView(R.id.rl_sub_patient)
     public RelativeLayout rl_sub;
+
     @BindView(R.id.rly_login)
     public RelativeLayout rly_login;
+
     @BindView(R.id.ll_sub)
     public LinearLayout sub;
 
@@ -65,7 +67,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private ConnectionDetector cd;
 
-
+    @OnClick(R.id.btn_sub_login_doc)
+    public void docLoginClick(View view) {
+        viewVisibilityController();
+        docLogin = true;
+    }
 
 
     @Override
@@ -102,14 +108,16 @@ public class LoginActivity extends AppCompatActivity {
                 user.save();
 
 
-                timeConsume();
-
-                //  startActivity(new Intent(LoginActivity.this, Home.class));
+//                timeConsume();
+                if (!docLogin)
+                    startActivity(new Intent(LoginActivity.this, Home.class));
+                else
+                    startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));
             } else {
                 AlertDialogManager.showErrorDialog(mContext, "Insert phone no & password");
             }
 
-        }else {
+        } else {
             AlertDialogManager.showErrorDialog(mContext, "No internet Connection");
         }
 
@@ -130,43 +138,43 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onSubLoginClick(View view) {
+        viewVisibilityController();
+
+        docLogin = false;
+    }
+
+
+    private void viewVisibilityController() {
         if (rly_login.getVisibility() == View.GONE) {
             rly_login.setVisibility(View.VISIBLE);
             sub.setVisibility(View.GONE);
         } else
             rly_login.setVisibility(View.GONE);
     }
-    ProgressDialog pDialog;
 
-    private void timeConsume(){
+    private void timeConsume() {
 
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK+"login", new Response.Listener<String>()
-        {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "login", new Response.Listener<String>() {
             @Override
-            public void onResponse(String s)
-            {
+            public void onResponse(String s) {
                 AppController.getInstance().getRequestQueue().getCache().clear();
                 Log.d("MAL", s.toString());
                 pDialog.hide();
             }
-        }, new Response.ErrorListener()
-        {
+        }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error)
-            {
+            public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 // hide the progress dialog
                 pDialog.hide();
             }
-        })
-        {
+        }) {
             @Override
-            protected Map<String, String> getParams()
-            {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("email", "user@user.com");
                 params.put("password", "123456");
@@ -176,13 +184,14 @@ public class LoginActivity extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(stringRequest, "hello");
     }
-    private void heatStoke(){
+
+    private void heatStoke() {
         // Tag used to cancel the request
         String tag_json_obj = "json_obj_req";
 
-        String url = AppConfig.API_LINK+"user_list";
+        String url = AppConfig.API_LINK + "user_list";
 
-         pDialog = new ProgressDialog(this);
+        pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.show();
 
@@ -203,18 +212,15 @@ public class LoginActivity extends AppCompatActivity {
                 // hide the progress dialog
                 pDialog.hide();
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
-                Map<String,String> params= new HashMap<String, String>();
-                params.put("token","eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuNy9lbGNfYXBpL3B1YmxpYy9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTUyMDE3MTA3NCwiZXhwIjoxNTIwMTc0Njc0LCJuYmYiOjE1MjAxNzEwNzQsImp0aSI6ImRsemlZRHoya29rckhKeXgifQ.nBicqrL3zYmxkCs0E2C-Y0IOaSdYunUqqZM4vWiVMP4");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuNy9lbGNfYXBpL3B1YmxpYy9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTUyMDE3MTA3NCwiZXhwIjoxNTIwMTc0Njc0LCJuYmYiOjE1MjAxNzEwNzQsImp0aSI6ImRsemlZRHoya29rckhKeXgifQ.nBicqrL3zYmxkCs0E2C-Y0IOaSdYunUqqZM4vWiVMP4");
                 return params;
             }
-        }
-
-
-        ;
+        };
 
 
 // Adding request to request queue

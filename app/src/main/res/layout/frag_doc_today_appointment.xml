@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/ic_doctor" />
+
+    <TextView
+        android:id="@+id/tv_docName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView4"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/imageView4"
+        android:text="TextView"
+        android:textColor="@color/red"
+        android:textSize="@dimen/doc_name_size" />
+
+    <TextView
+        android:id="@+id/tvDocDegree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tv_docName"
+        android:layout_below="@+id/tv_docName"
+        android:layout_marginTop="5dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDocSpecialist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tv_docName"
+        android:layout_below="@+id/tvDocDegree"
+        android:layout_marginTop="5dp"
+        android:text="TextView"
+        android:textSize="12sp" />
+
+    <View
+        android:id="@+id/vBorder"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/tvDocSpecialist"
+        android:layout_marginTop="10dp"
+        android:background="#c0c0c0" />
+
+    <TextView
+        android:id="@+id/tvTodayLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vBorder"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/red"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_timeSechdul"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTodayLabel"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnDocS_7_00pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickListenerSee"
+            android:text="07:00 pm" />
+
+        <Button
+            android:id="@+id/btnDocS_7_30pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="07:00 pm" />
+
+        <Button
+            android:id="@+id/btnDocS_8_00pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="07:00 pm" />
+
+        <Button
+            android:id="@+id/btnDocS_8_30pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="07:00 pm" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vBorder1"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/ll_timeSechdul"
+        android:layout_marginTop="10dp"
+        android:background="#c0c0c0" />
+
+    <TextView
+        android:id="@+id/tvPatientName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vBorder1"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvPatientSex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tv_docName"
+        android:layout_alignTop="@+id/tvPatientName"
+        android:text="Sex"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvPatientProblem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvPatientName"
+        android:layout_marginTop="19dp"
+        android:text="TextView"
+        android:visibility="gone" />
+
+</RelativeLayout>

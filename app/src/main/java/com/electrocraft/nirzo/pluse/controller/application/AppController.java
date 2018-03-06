@@ -1,5 +1,6 @@
-package com.electrocraft.nirzo.pluse.controller;
+package com.electrocraft.nirzo.pluse.controller.application;
 
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -7,6 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.electrocraft.nirzo.pluse.controller.util.LruBitmapCache;
+import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import timber.log.Timber;
 
@@ -29,11 +31,22 @@ public class AppController extends com.activeandroid.app.Application {
     private ImageLoader mImageLoader;
 
     private static AppController mInstance;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
         Timber.plant(new Timber.DebugTree());
+
+        SharedPreferences preferences = getSharedPreferences(Key.APP_PREFERENCE, MODE_PRIVATE);
+        boolean isFirstRun = preferences.getBoolean(Key.KEY_IS_FIRST_TIME, false);
+
+        if (!isFirstRun) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(Key.KEY_IS_FIRST_TIME,true);
+            editor.apply();
+        }
     }
 
     public static synchronized AppController getInstance() {

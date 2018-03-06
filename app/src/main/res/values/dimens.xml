@@ -30,6 +30,7 @@
     <!--Text size -->
     <dimen name="label_txt_size">18sp</dimen>
 
+
     <!--Action bar height size -->
     <dimen name="action_bar_height">45dp</dimen>
 

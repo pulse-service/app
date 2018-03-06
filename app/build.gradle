@@ -16,6 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    allprojects {
+        repositories {
+            maven {
+                url "https://github.com/jitsi/jitsi-maven-repository/raw/master/releases"
+            }
+        }
+    }
 }
 
 dependencies {
@@ -44,9 +52,9 @@ dependencies {
     // Gson  library  can be used to convert Java Objects into  JSON
     compile 'com.google.code.gson:gson:2.8.2'
 
-
-
     // Volley
     compile 'com.android.volley:volley:1.0.0'
+
+    compile 'org.jitsi.react:jitsi-meet-sdk:1.9.0'
 
 }

@@ -1,0 +1,47 @@
+{
+	"error_flag": false,
+	"error_info": "success",
+	"doctor": {
+		"name": "Dr. Hemonto Kumar",
+		"degree": [{
+			"degreeName": "MD(CARD)"
+		},
+		{
+			"degreeName": "FACC(USA)"
+		}],
+		"specialist": {
+			"specId": 1,
+			"specName": "Cardiologist"
+		},
+		"todayStr": {
+			"today": "Tus, Mar 03,2018"
+		},
+		"appointments": [{
+			"isBooked": true,
+			"time": "07:00pm",
+			"patients": {
+				"name": "Fahad",
+				"sex": "male",
+				"prob": "frequently chest pain"
+			}
+		},
+		{
+			"isBooked": true,
+			"time": "07:30pm",
+			"patients": {
+				"name": "Chiba",
+				"sex": "male",
+				"prob": "frequently chest pain"
+			}
+		},
+		{
+			"isBooked": false,
+			"time": "08:00pm",
+			"patients": {
+				"name": "",
+				"sex": "",
+				"prob": ""
+			}
+		}]
+	}
+}

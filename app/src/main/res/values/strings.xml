@@ -33,6 +33,14 @@
     <string name="lbl_disease_symptom">Write down your symptom of the disease</string>
     <string name="dot">...................................</string>
     <string name="profile">profile</string>
+    <string name="doc_profileInfo">Personal Information</string>
+    <string name="doc_chamberInfo">Chamber Information</string>
+    <string name="doc_bankInfo">Bank Information</string>
+    <string name="doc_today">Today\'s Appointment</string>
+    <string name="doc_patientList">Existing patient List</string>
+    <string name="doc_labReport">Review Lab Reports</string>
+    <string name="doc_healthFeed">Health Feed</string>
+    <string name="logout">Logout</string>
     <string name="save">Save</string>
     <string name="father_name">Father Name</string>
     <string name="mother_name">Mother Name</string>

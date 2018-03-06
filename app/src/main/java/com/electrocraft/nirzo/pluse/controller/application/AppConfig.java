@@ -1,4 +1,4 @@
-package com.electrocraft.nirzo.pluse.controller;
+package com.electrocraft.nirzo.pluse.controller.application;
 
 /**
  * Created by nirzo on 3/4/2018.

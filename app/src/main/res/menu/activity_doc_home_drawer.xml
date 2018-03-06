@@ -5,21 +5,41 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_profile"
-            android:title="@string/profile" />
+            android:id="@+id/nav_doc_profile"
+            android:icon="@drawable/ic_menu_doc_profile"
+            android:title="@string/doc_profileInfo" />
         <item
-            android:id="@+id/nav_health"
+            android:id="@+id/nav_doc_chamber"
+            android:icon="@drawable/ic_menu_chamber"
+            android:title="@string/doc_chamberInfo" />
+        <item
+            android:id="@+id/nav_doc_bank"
+            android:icon="@drawable/ic_account_balance"
+            android:title="@string/doc_bankInfo" />
+        <item
+            android:id="@+id/nav_doc_today"
+            android:icon="@drawable/ic_menu_date_range"
+            android:title="@string/doc_today" />
+
+        <item
+            android:id="@+id/nav_doc_existing_patient"
+            android:icon="@drawable/ic_menu_patient"
+            android:title="@string/doc_patientList" />
+
+        <item
+            android:id="@+id/nav_doc_lab_report"
+            android:icon="@drawable/ic_menu_report"
+            android:title="@string/doc_labReport" />
+
+        <item
+            android:id="@+id/nav_doc_health_feed"
             android:icon="@drawable/ic_menu_heartbeat"
-            android:title="@string/health" />
+            android:title="@string/doc_healthFeed" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_exit_to_app"
+            android:title="@string/logout" />
     </group>
 
 
