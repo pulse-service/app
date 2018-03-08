@@ -126,4 +126,20 @@
         <item name="android:background">@color/line_border_color_white_gray</item>
         <item name="android:layout_marginTop">@dimen/margin_top_def</item>
     </style>
+
+    <style name="pin_edit_text_style">
+        <item name="android:gravity">center</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:minEms">2</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:layout_marginStart">@dimen/margin_top_def</item>
+        <item name="android:background">@drawable/general_border_box</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/padding_def</item>
+
+        <!-- <item name="android:inputType">textPassword</item>-->
+    </style>
 </resources>

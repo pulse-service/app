@@ -41,8 +41,8 @@ public class DocOTPFragments extends Fragment {
         }
     };
 
-    @BindView(R.id.edtOtpInput)
-    EditText edtOtpInput;
+  /*  @BindView(R.id.edtOtpInput)
+    EditText edtOtpInput;*/
 
     @BindView(R.id.btn_changeNo)
     Button btnChangeNo;
@@ -59,12 +59,12 @@ public class DocOTPFragments extends Fragment {
     }
 
 
-    @OnTextChanged(R.id.edtOtpInput)
+ /*   @OnTextChanged(R.id.edtOtpInput)
     public void textChanged(CharSequence charSequence) {
         if (charSequence.length() > 3)
             ButterKnife.apply(btnOtpVerify,ENABLE);
         Timber.d("the otp" + charSequence);
-    }
+    }*/
 
 
     @OnClick(R.id.btn_otp_verify)
@@ -89,4 +89,11 @@ public class DocOTPFragments extends Fragment {
     }
 
 
+    public static void setFocus(EditText editText) {
+        if (editText != null) {
+            editText.setFocusable(true);
+            editText.setFocusableInTouchMode(true);
+            editText.requestFocus();
+        }
+    }
 }

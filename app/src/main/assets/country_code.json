@@ -1,11 +1,11 @@
 {
 	"result": [{
-		"shortName": "SWE",
-		"accessCode": "0046"
-	},
-	{
 		"shortName": "BD",
 		"accessCode": "880"
+	},
+	{
+		"shortName": "SWE",
+		"accessCode": "0046"
 	}],
 	"mss": "successfull"
 }

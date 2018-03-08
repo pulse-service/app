@@ -50,4 +50,5 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'org.jitsi.react:jitsi-meet-sdk:1.9.0'
 
+
 }

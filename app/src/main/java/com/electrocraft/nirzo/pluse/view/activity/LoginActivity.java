@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -27,6 +28,9 @@ import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         docLogin = true;
     }
 
+    String mToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +110,12 @@ public class LoginActivity extends AppCompatActivity {
 //                user.save();
 
 
-//                timeConsume();
-                if (!docLogin)
+                getToken();
+//                loginPatient(edtPhone.getText().toString(), "dop");
+           /*     if (!docLogin)
                     startActivity(new Intent(LoginActivity.this, PatientHomeActivity.class));
                 else
-                    startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));
+                    startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));*/
             } else {
                 AlertDialogManager.showErrorDialog(mContext, "Insert phone no & password");
             }
@@ -149,17 +155,22 @@ public class LoginActivity extends AppCompatActivity {
             rly_login.setVisibility(View.GONE);
     }
 
-    private void timeConsume() {
 
-
-        pDialog = new ProgressDialog(this);
+    private void loginPatient(final String phoneNo, final String token) {
+        String patient_login_tag = "patient_log_in_tag";
+ /*       pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
-        pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login", new Response.Listener<String>() {
+        pDialog.show();*/
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "checkpatientlogin/" + phoneNo + "?token=" + token, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("MAL", s.toString());
+//                AppController.getInstance().getRequestQueue().getCache().clear();
+                Log.d("MAL", s);
+
+                if (!docLogin)
+                    startActivity(new Intent(LoginActivity.this, PatientHomeActivity.class));
+                else
+                    startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));
                 pDialog.hide();
             }
         }, new Response.ErrorListener() {
@@ -168,6 +179,49 @@ public class LoginActivity extends AppCompatActivity {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 // hide the progress dialog
                 pDialog.hide();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+//                params.put("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuMTE1OjgwODAvZWxjX2FwaS9wdWJsaWMvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE1MjA1NTgxNTEsImV4cCI6MTUyMDU2MTc1MSwibmJmIjoxNTIwNTU4MTUxLCJqdGkiOiI0dml3TE01NzVKelpsZmhFIn0._s5WZLtVXbcIHRcqDZq0T-aXMcg6CyNn4ktrCOtU6As");
+
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest, patient_login_tag);
+
+    }
+
+    private void getToken() {
+
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                AppController.getInstance().getRequestQueue().getCache().clear();
+                Log.d("MOR", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    mToken = jsonObject.getString("token");
+                    if (mToken.length() > 20)
+                        loginPatient(edtPhone.getText().toString(), mToken);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                pDialog.hide();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                // hide the progress dialog
+                pDialog.hide();
+                Toast.makeText(LoginActivity.this, "Error:" + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         }) {
             @Override

@@ -52,4 +52,7 @@
 
     <!--Line border height-->
     <dimen name="line_border_height">2dp</dimen>
+
+    <!--pin left margin-->
+    <dimen name="pin_edit_left_margin">5dp</dimen>
 </resources>

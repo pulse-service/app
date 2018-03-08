@@ -47,7 +47,7 @@
         <activity android:name=".view.activity.doctor.DocRegistrationActivity" />
         <activity android:name=".view.activity.patient.PtDoctorProfileActivity" />
         <activity android:name=".view.activity.patient.PtAppointBookActivity" />
-        <activity android:name=".view.activity.doctor.DoctorHomeActivity"></activity>
+        <activity android:name=".view.activity.doctor.DoctorHomeActivity"/>
     </application>
 
 </manifest>
