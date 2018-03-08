@@ -26,7 +26,7 @@ public class SexNDobRegActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_pt_reg_submit)
     public void submit(View view){
-        startActivity(new Intent(SexNDobRegActivity.this,Home.class));
+        startActivity(new Intent(SexNDobRegActivity.this,PatientHomeActivity.class));
         finish();
     }
 

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.electrocraft.nirzo.pluse.R;
@@ -16,6 +17,7 @@ import com.electrocraft.nirzo.pluse.model.deserialization.Degree;
 import com.electrocraft.nirzo.pluse.model.deserialization.DocAppointments;
 import com.electrocraft.nirzo.pluse.model.deserialization.JsonResponse;
 import com.electrocraft.nirzo.pluse.model.deserialization.PatientShortInfo;
+import com.electrocraft.nirzo.pluse.view.viewhelper.BKViewController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -29,25 +31,36 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Optional;
 import butterknife.Unbinder;
-import timber.log.Timber;
 
 /**
- * Created by nirzo on 3/5/2018.
+ * Created by nirzo on
+ *
+ * @author Faisal Mohammad
+ * @since 3/5/2018.
  */
 
 public class DocTodayAppointFragment extends Fragment {
 
     private Unbinder unbinder;
 
+    @BindView(R.id.ll_patient)
+    RelativeLayout relativeLayout;
 
     @BindView(R.id.tv_docName)
     TextView tvDocName;
 
+
+    @BindView(R.id.tvDocSpecialist)
+    TextView tvDocSpecialist;
+
     @BindView(R.id.tvDocDegree)
     TextView tvDocDegree;
 
-    @BindView(R.id.tvPatientName)
+    @BindView(R.id.tvPatientName_1)
     TextView tvPatientName;
+
+    @BindView(R.id.tvTodayLabel)
+    TextView tvTodayLabel;
 
     @BindView(R.id.tvPatientSex)
     TextView tvPatientSex;
@@ -67,22 +80,34 @@ public class DocTodayAppointFragment extends Fragment {
     @BindView(R.id.btnDocS_8_30pm)
     Button btnDocS_8_30pm;
 
-    List<DocAppointments> list= new ArrayList<>();
+    @BindView(R.id.btnDocS_9_00pm)
+    Button btnDocS_9_00pm;
+
+    @BindView(R.id.btnDocS_9_30pm)
+    Button btnDocS_9_30pm;
+
+    @BindView(R.id.btnDocS_10_00pm)
+    Button btnDocS_10_00pm;
+
+    @BindView(R.id.btnDocS_10_30pm)
+    Button btnDocS_10_30pm;
+
+    List<DocAppointments> list = new ArrayList<>();
 
     @Optional
     @OnClick({R.id.btnDocS_7_00pm, R.id.btnDocS_7_30pm, R.id.btnDocS_8_00pm, R.id.btnDocS_8_30pm})
     public void onClickListenerSee(View view) {
         DocAppointments appointments;
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnDocS_7_00pm:
-                appointments= list.get(0);
+                appointments = list.get(0);
                 setPatientInfoIntoTextView(appointments.getPatients());
-
+                relativeLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.btnDocS_7_30pm:
-                appointments= list.get(1);
+                appointments = list.get(1);
                 setPatientInfoIntoTextView(appointments.getPatients());
-
+                relativeLayout.setVisibility(View.VISIBLE);
                 break;
         }
         tvPatientName.setVisibility(View.VISIBLE);
@@ -91,7 +116,7 @@ public class DocTodayAppointFragment extends Fragment {
 
     }
 
-    public static final ButterKnife.Action<View> DISABLE = new ButterKnife.Action<View>() {
+/*    public static final ButterKnife.Action<View> DISABLE = new ButterKnife.Action<View>() {
         @Override
         public void apply(@NonNull View view, int index) {
             view.setEnabled(false);
@@ -103,7 +128,7 @@ public class DocTodayAppointFragment extends Fragment {
         public void apply(@NonNull View view, int index) {
             view.setEnabled(true);
         }
-    };
+    };*/
 
 
     public DocTodayAppointFragment() {
@@ -128,7 +153,7 @@ public class DocTodayAppointFragment extends Fragment {
             builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
             Gson gson = builder.create();
 
-            JsonResponse  jsonResponse = gson.fromJson(response, JsonResponse.class);
+            JsonResponse jsonResponse = gson.fromJson(response, JsonResponse.class);
 //            Timber.d(response);
 
             tvDocName.setText(jsonResponse.getDoctor().getName());
@@ -138,32 +163,43 @@ public class DocTodayAppointFragment extends Fragment {
                 docDgree = docDgree + degree.getDegreeName();
                 docDgree = docDgree + ", ";
             }
+
             docDgree = docDgree.substring(0, docDgree.length() - 2);
+
             tvDocDegree.setText(docDgree);
+            tvTodayLabel.setText(jsonResponse.getDoctor().getTodayStr().getToday());
+            tvDocSpecialist.setText(jsonResponse.getDoctor().getSpecialist().getSpecName());
 
             for (DocAppointments appointList : jsonResponse.getDoctor().getAppointments()) {
+
                 switch (appointList.getTime()) {
+
                     case "07:00pm":
                         if (appointList.isIsBooked()) {
                             enableButton(btnDocS_7_00pm);
-                            btnDocS_7_00pm.setText(appointList.getTime());
 
-
-                        } else
-                            resetPatientInfoIntoTextView();
-
-
+                        }
                         break;
+
                     case "07:30pm":
                         if (appointList.isIsBooked()) {
                             enableButton(btnDocS_7_30pm);
-                            btnDocS_7_30pm.setText(appointList.getTime());
 
+                        }
+                        break;
 
-                        } else
-                            resetPatientInfoIntoTextView();
+                    case "08:00pm":
+                        if (appointList.isIsBooked()) {
+                            enableButton(btnDocS_8_00pm);
 
+                        }
+                        break;
 
+                    case "08:30pm":
+                        if (appointList.isIsBooked()) {
+                            enableButton(btnDocS_8_30pm);
+
+                        }
                         break;
                 }
                 list.add(appointList);
@@ -181,7 +217,7 @@ public class DocTodayAppointFragment extends Fragment {
 
     private void setPatientInfoIntoTextView(PatientShortInfo patientInfo) {
         tvPatientName.setText(patientInfo.getName());
-        tvPatientSex.setText("sex :" + patientInfo.getSex());
+        tvPatientSex.setText("(" + patientInfo.getSex() + ")");
         tvPatientProblem.setText(patientInfo.getProb());
     }
 
@@ -192,14 +228,19 @@ public class DocTodayAppointFragment extends Fragment {
     }
 
     private void disableAllButton() {
-        ButterKnife.apply(btnDocS_7_00pm, DISABLE);
-        ButterKnife.apply(btnDocS_7_30pm, DISABLE);
-        ButterKnife.apply(btnDocS_8_00pm, DISABLE);
-        ButterKnife.apply(btnDocS_8_30pm, DISABLE);
+        ButterKnife.apply(btnDocS_7_00pm, BKViewController.DISABLE);
+        ButterKnife.apply(btnDocS_7_30pm, BKViewController.DISABLE);
+        ButterKnife.apply(btnDocS_8_00pm, BKViewController.DISABLE);
+        ButterKnife.apply(btnDocS_8_30pm, BKViewController.DISABLE);
+        ButterKnife.apply(btnDocS_9_00pm, BKViewController.DISABLE);
+        ButterKnife.apply(btnDocS_9_30pm, BKViewController.DISABLE);
+        ButterKnife.apply(btnDocS_10_00pm, BKViewController.DISABLE);
+        ButterKnife.apply(btnDocS_10_30pm, BKViewController.DISABLE);
+
     }
 
     private void enableButton(View view) {
-        ButterKnife.apply(view, ENABLE);
+        ButterKnife.apply(view, BKViewController.ENABLE);
     }
 
     @Override

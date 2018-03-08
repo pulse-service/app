@@ -9,5 +9,8 @@ public class AppConfig {
     /**
      * Habib's pc server host
      */
-    public static final String API_LINK = "http://192.168.1.7/elc_api/public/api/";
+//    public static final String API_LINK = "http://192.168.1.7/elc_api/public/api/auth/";
+    /**
+     * Hemonto Dada pc */
+    public static final String API_LINK = "http://192.168.1.115:8080/elc_api/public/api/";
 }

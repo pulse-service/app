@@ -9,12 +9,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.controller.util.AssetUtils;
 import com.electrocraft.nirzo.pluse.model.GeoLayR4Location;
+import com.electrocraft.nirzo.pluse.model.deserialization.CurrentDate;
 import com.electrocraft.nirzo.pluse.view.adapter.LocationSearchListAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,12 +31,14 @@ import butterknife.ButterKnife;
  * Created by nirzo on 2/26/2018.
  */
 
-public class PtPickUpTimeDateFragment extends Fragment{
+public class PtPickUpTimeDateFragment extends Fragment {
 
     @BindView(R.id.recyVLocationSearch)
     RecyclerView rvLocationSearch;
     List<String> autoCtvHelper = new ArrayList<>();
 
+    @BindView(R.id.calendarView)
+    CalendarView calendarView;
 
     private List<GeoLayR4Location> mList = new ArrayList<>();
     private LocationSearchListAdapter mAdapter;
@@ -43,12 +52,42 @@ public class PtPickUpTimeDateFragment extends Fragment{
     }
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_pt_pickup_calander, container, false);
         ButterKnife.bind(this, view);
+
+        CurrentDate jsonResponse;
+      /*  int year;
+        int month;
+*/
+        try {
+            String response = AssetUtils.getJsonAsString("current_month_n_year.json", getContext());
+            GsonBuilder builder = new GsonBuilder();
+            builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
+            Gson gson = builder.create();
+
+             jsonResponse = gson.fromJson(response, CurrentDate.class);
+
+             Integer.parseInt(jsonResponse.getCurrentMonth());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Calendar febFirst = Calendar.getInstance();
+
+//        febFirst.set(2017, 1, 1, 0, 0, 0);
+
+        calendarView.setMinDate(febFirst.getTimeInMillis());
+
+        Calendar febLast = Calendar.getInstance();
+
+
+        febLast.set(2018, 3, 0, 0, 0, 0);
+
+        calendarView.setMaxDate(febLast.getTimeInMillis());
+        calendarView.setDate(febFirst.getTimeInMillis());
 
         mAdapter = new LocationSearchListAdapter(mList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -89,22 +128,7 @@ public class PtPickUpTimeDateFragment extends Fragment{
         mList.add(loc);
         loc = new GeoLayR4Location("004", "Time");
         mList.add(loc);
-        loc = new GeoLayR4Location("004", "A");
-        mList.add(loc);
-        loc = new GeoLayR4Location("004", "B");
-        mList.add(loc);
-        loc = new GeoLayR4Location("004", "C");
-        mList.add(loc);
-        loc = new GeoLayR4Location("004", "D");
-        mList.add(loc);
-        loc = new GeoLayR4Location("004", "Mogbazer");
-        mList.add(loc);
-        loc = new GeoLayR4Location("004", "Mogbazer");
-        mList.add(loc);
-        loc = new GeoLayR4Location("004", "Mogbazer");
-        mList.add(loc);
-        loc = new GeoLayR4Location("004", "Mogbazer");
-        mList.add(loc);
+
         for (GeoLayR4Location location : mList) {
             autoCtvHelper.add(location.getLayR4ListName());
         }

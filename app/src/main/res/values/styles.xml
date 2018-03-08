@@ -79,6 +79,7 @@
         <item name="android:layout_marginTop">@dimen/spinner_border_margin_top</item>
         <item name="android:background">@drawable/border_spinner</item>
     </style>
+
     <style name="spinner_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -108,4 +109,21 @@
         <item name="android:textSize">@dimen/label_txt_size</item>
     </style>
 
+    <!--Doctor Name Title-->
+    <style name="text_doctor_name_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_def</item>
+        <item name="android:layout_marginStart">@dimen/margin_top_def</item>
+        <item name="android:textSize">@dimen/doc_name_size</item>
+    </style>
+
+    <!--Line Border style-->
+    <style name="line_border_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/line_border_height</item>
+        <item name="android:background">@color/line_border_color_white_gray</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_def</item>
+    </style>
 </resources>

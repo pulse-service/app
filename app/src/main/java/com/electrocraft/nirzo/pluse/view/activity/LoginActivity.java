@@ -22,15 +22,12 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.network.ConnectionDetector;
-import com.electrocraft.nirzo.pluse.model.dba.User;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DocRegistrationActivity;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
-import com.electrocraft.nirzo.pluse.view.activity.patient.Home;
+import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,21 +93,21 @@ public class LoginActivity extends AppCompatActivity {
 
         String phone = edtPhone.getText().toString();
         String password = edtPassword.getText().toString();
-        String logInTime = DateFormat.getDateTimeInstance().format(new Date());
+//        String logInTime = DateFormat.getDateTimeInstance().format(new Date());
 
         if (cd.isConnectingToInternet()) {
 
             if (phone.length() != 0 && password.length() != 0) {
-                User user = new User();
-                user.userName = phone;
-                user.password = password;
-                user.logInTime = logInTime;
-                user.save();
+//                User user = new User();
+//                user.userName = phone;
+//                user.password = password;
+//                user.logInTime = logInTime;
+//                user.save();
 
 
 //                timeConsume();
                 if (!docLogin)
-                    startActivity(new Intent(LoginActivity.this, Home.class));
+                    startActivity(new Intent(LoginActivity.this, PatientHomeActivity.class));
                 else
                     startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));
             } else {
@@ -158,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "login", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 AppController.getInstance().getRequestQueue().getCache().clear();

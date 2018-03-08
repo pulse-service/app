@@ -1,5 +1,6 @@
 package com.electrocraft.nirzo.pluse.view.activity.patient;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -25,7 +26,7 @@ import com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Home extends AppCompatActivity
+public class PatientHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
@@ -115,12 +116,18 @@ public class Home extends AppCompatActivity
                 title = "Health";
                 break;
 
-            case R.id.nav_slideshow:
-                break;
-            case R.id.nav_manage:
+            case R.id.nav_logout:
+
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
                 break;
         }
 
+        // this if block the null point Exception if Fragment is null
         if (fragment != null) {
             viewPager.setVisibility(View.GONE);
             tabLayout.setVisibility(View.GONE);

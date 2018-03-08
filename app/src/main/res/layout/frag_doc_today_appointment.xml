@@ -15,15 +15,10 @@
 
     <TextView
         android:id="@+id/tv_docName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/text_doctor_name_style"
         android:layout_alignTop="@+id/imageView4"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/imageView4"
-        android:text="TextView"
-        android:textColor="@color/red"
-        android:textSize="@dimen/doc_name_size" />
+        android:text="TextView" />
 
     <TextView
         android:id="@+id/tvDocDegree"
@@ -48,11 +43,8 @@
 
     <View
         android:id="@+id/vBorder"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_below="@+id/tvDocSpecialist"
-        android:layout_marginTop="10dp"
-        android:background="#c0c0c0" />
+        style="@style/line_border_style"
+        android:layout_below="@+id/tvDocSpecialist" />
 
     <TextView
         android:id="@+id/tvTodayLabel"
@@ -66,7 +58,7 @@
         android:textSize="12sp" />
 
     <LinearLayout
-        android:id="@+id/ll_timeSechdul"
+        android:id="@+id/ll_timeSechdul1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTodayLabel"
@@ -77,64 +69,116 @@
             android:id="@+id/btnDocS_7_00pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onClickListenerSee"
             android:text="07:00 pm" />
 
         <Button
             android:id="@+id/btnDocS_7_30pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="07:00 pm" />
+            android:text="07:30 pm" />
 
         <Button
             android:id="@+id/btnDocS_8_00pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="07:00 pm" />
+            android:text="08:00 pm" />
 
         <Button
             android:id="@+id/btnDocS_8_30pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="07:00 pm" />
+            android:text="08:30 pm" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_timeSechdul2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_timeSechdul1"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnDocS_9_00pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09:00 pm" />
+
+        <Button
+            android:id="@+id/btnDocS_9_30pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09:30 pm" />
+
+        <Button
+            android:id="@+id/btnDocS_10_00pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:00 pm" />
+
+        <Button
+            android:id="@+id/btnDocS_10_30pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:30 pm" />
     </LinearLayout>
 
     <View
         android:id="@+id/vBorder1"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_below="@+id/ll_timeSechdul"
-        android:layout_marginTop="10dp"
-        android:background="#c0c0c0" />
+        style="@style/line_border_style"
+        android:layout_below="@+id/ll_timeSechdul2" />
 
-    <TextView
-        android:id="@+id/tvPatientName"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/ll_patient"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/vBorder1"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:text="TextView"
-        android:textSize="18sp"
-        android:visibility="gone" />
+        android:layout_marginTop="20dp"
+        android:visibility="gone">
 
-    <TextView
-        android:id="@+id/tvPatientSex"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tv_docName"
-        android:layout_alignTop="@+id/tvPatientName"
-        android:text="Sex"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/ivPatientThamb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/tvPatientName_1"
 
-    <TextView
-        android:id="@+id/tvPatientProblem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvPatientName"
-        android:layout_marginTop="19dp"
-        android:text="TextView"
-        android:visibility="gone" />
+            android:layout_marginEnd="9dp"
+            android:layout_marginStart="10dp"
+            app:srcCompat="@drawable/ic_male" />
+
+        <!--patient name-->
+        <TextView
+            android:id="@+id/tvPatientName_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/ivPatientThamb"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <!--patient sex -->
+        <TextView
+            android:id="@+id/tvPatientSex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvPatientName_1"
+            android:layout_alignBottom="@+id/tvPatientName_1"
+            android:layout_centerHorizontal="true"
+            android:text="" />
+ <!--patient Problem-->
+        <TextView
+            android:id="@+id/tvPatientProblem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tvPatientName_1"
+            android:layout_below="@+id/tvPatientName_1"
+            android:layout_marginTop="15dp"
+            android:text=""
+            android:textColor="@color/royal_blue" />
+    </RelativeLayout>
+
 
 </RelativeLayout>

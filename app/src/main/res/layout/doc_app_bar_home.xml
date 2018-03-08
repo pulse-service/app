@@ -20,26 +20,30 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 
-
     </android.support.design.widget.AppBarLayout>
 
-
+    <ImageView
+        android:id="@+id/iv_doc_cover_pic"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/appbar"
+        android:src="@color/red" />
 
     <FrameLayout
-        android:layout_below="@+id/appbar"
         android:id="@+id/doc_content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_below="@+id/iv_doc_cover_pic">
 
 
     </FrameLayout>
 
- <!--   experiment to the video
-    <Button
-        android:layout_below="@+id/doc_content_frame"
-        android:id="@+id/btn_video"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_behavior="" />-->
+    <!--   experiment to the video
+       <Button
+           android:layout_below="@+id/doc_content_frame"
+           android:id="@+id/btn_video"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Button"
+           app:layout_behavior="" />-->
 </RelativeLayout>

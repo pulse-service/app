@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -63,12 +63,58 @@
                 android:hint="@string/password"
                 android:inputType="textPassword" />
 
+            <TextView
+                android:id="@+id/tv_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edt_password"
+                android:layout_marginTop="30dp"
+                android:text="@string/otp_info" />
+
+
+            <TextView
+                android:id="@+id/tv_labe2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_label"
+                android:layout_marginTop="@dimen/margin_top_def"
+                android:gravity="center"
+                android:text="@string/lable" />
+
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_labe2"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_labe3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+
+                    android:text="@string/terms_N_condition"
+                    android:textColor="@color/red"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_labe4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/privacyNpolicy"
+                    android:textColor="@color/red"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
             <Button
                 android:id="@+id/btnSignUpContinue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/edt_password"
+                android:layout_below="@+id/ll"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/ripple_effect_reg"
                 android:text="@string/continu"

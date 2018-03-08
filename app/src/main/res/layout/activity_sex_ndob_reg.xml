@@ -12,10 +12,8 @@
         android:id="@+id/imgFemale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="128dp"
         app:srcCompat="@drawable/ic_female" />
@@ -25,35 +23,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/imgFemale"
         android:layout_marginEnd="130dp"
-        android:layout_marginRight="140dp"
         app:srcCompat="@drawable/ic_male" />
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imgFemale"
         android:orientation="horizontal"
-        android:weightSum="2"
-        android:id="@+id/radioGroup">
+        android:weightSum="2">
 
         <RadioButton
             android:id="@+id/rbtnFemale"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_weight="1"
-            android:text="Female" />
+            android:text="@string/female" />
 
         <RadioButton
             android:id="@+id/rbtnMale"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Male" />
+            android:text="@string/male" />
 
     </RadioGroup>
 
@@ -65,20 +60,17 @@
         android:layout_alignStart="@+id/imgFemale"
         android:layout_below="@+id/radioGroup"
         android:layout_marginTop="36dp"
-        android:text="Date Of Birth" />
+        android:text="@string/age" />
 
     <EditText
         android:id="@+id/editText5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_alignBottom="@+id/textView2"
-        android:layout_marginLeft="14dp"
         android:layout_marginStart="14dp"
         android:layout_toEndOf="@+id/textView2"
-        android:layout_toRightOf="@+id/textView2"
         android:ems="10"
-        android:hint="dd-mm-yyyy"
+        android:hint=""
         android:inputType="date" />
 
     <Button

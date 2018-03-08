@@ -12,14 +12,11 @@
             android:id="@+id/nav_health"
             android:icon="@drawable/ic_menu_heartbeat"
             android:title="@string/health" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_exit_to_app"
+            android:title="@string/logout" />
     </group>
 
 

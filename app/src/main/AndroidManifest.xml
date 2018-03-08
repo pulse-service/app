@@ -38,7 +38,7 @@
         </activity>
         <activity android:name=".view.activity.LoginActivity" />
         <activity
-            android:name=".view.activity.patient.Home"
+            android:name=".view.activity.patient.PatientHomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme" />
         <activity android:name=".view.activity.patient.SignUpEmailActivity" />

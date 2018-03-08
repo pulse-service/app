@@ -6,11 +6,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_doc_profile"
-            android:icon="@drawable/ic_menu_doc_profile"
+            android:icon="@drawable/ic_menu_person"
             android:title="@string/doc_profileInfo" />
         <item
             android:id="@+id/nav_doc_chamber"
-            android:icon="@drawable/ic_menu_chamber"
+            android:icon="@drawable/ic_menu_business"
             android:title="@string/doc_chamberInfo" />
         <item
             android:id="@+id/nav_doc_bank"
@@ -23,7 +23,7 @@
 
         <item
             android:id="@+id/nav_doc_existing_patient"
-            android:icon="@drawable/ic_menu_patient"
+            android:icon="@drawable/ic_menu_group"
             android:title="@string/doc_patientList" />
 
         <item
