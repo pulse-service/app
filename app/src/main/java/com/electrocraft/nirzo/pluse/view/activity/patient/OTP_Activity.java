@@ -22,6 +22,7 @@ public class OTP_Activity extends AppCompatActivity implements View.OnFocusChang
 
     @BindView(R.id.login_pin_first_edittext)
     EditText mPinFirstDigitEditText;
+
     @BindView(R.id.login_pin_forth_edittext)
     EditText mPinForthDigitEditText;
 
@@ -35,6 +36,59 @@ public class OTP_Activity extends AppCompatActivity implements View.OnFocusChang
     @BindView(R.id.login_pin_hidden_edittext)
     EditText mPinHiddenEditText;
 
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.frag_otp);
+        ButterKnife.bind(this);
+        setPINListeners();
+    }
+
+    @OnClick(R.id.btn_otp_verify)
+    public void onOTPVerifyClick(View view) {
+        startActivity(new Intent(OTP_Activity.this, PatientHomeActivity.class));
+    }
+
+    private void setDefaultPinBackground(EditText editText) {
+        setViewBackground(editText, getResources().getDrawable(R.drawable.general_border_box));
+    }
+
+    public void setViewBackground(View view, Drawable background) {
+        if (view != null && background != null) {
+            if (Build.VERSION.SDK_INT >= 17) {
+                view.setBackground(background);
+            } else {
+                view.setBackgroundDrawable(background);
+            }
+        }
+    }
+
+    public static void setFocus(EditText editText) {
+        if (editText != null) {
+            editText.setFocusable(true);
+            editText.setFocusableInTouchMode(true);
+            editText.requestFocus();
+        }
+    }
+
+    private void setFocusedPinBackground(EditText editText) {
+        setViewBackground(editText, getResources().getDrawable(R.drawable.general_border_box));
+    }
+
+    private void setPINListeners() {
+        mPinHiddenEditText.addTextChangedListener(this);
+        mPinFirstDigitEditText.setOnFocusChangeListener(this);
+        mPinSecondDigitEditText.setOnFocusChangeListener(this);
+        mPinThirdDigitEditText.setOnFocusChangeListener(this);
+        mPinForthDigitEditText.setOnFocusChangeListener(this);
+        mPinFirstDigitEditText.setOnKeyListener(this);
+        mPinSecondDigitEditText.setOnKeyListener(this);
+        mPinThirdDigitEditText.setOnKeyListener(this);
+        mPinForthDigitEditText.setOnKeyListener(this);
+        mPinHiddenEditText.setOnKeyListener(this);
+    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -135,55 +189,4 @@ public class OTP_Activity extends AppCompatActivity implements View.OnFocusChang
         return false;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.frag_otp);
-        ButterKnife.bind(this);
-        setPINListeners();
-    }
-
-    @OnClick(R.id.btn_otp_verify)
-    public void onOTPVerifyClick(View view) {
-        startActivity(new Intent(OTP_Activity.this, PatientHomeActivity.class));
-    }
-
-    private void setDefaultPinBackground(EditText editText) {
-        setViewBackground(editText, getResources().getDrawable(R.drawable.general_border_box));
-    }
-
-    public void setViewBackground(View view, Drawable background) {
-        if (view != null && background != null) {
-            if (Build.VERSION.SDK_INT >= 17) {
-                view.setBackground(background);
-            } else {
-                view.setBackgroundDrawable(background);
-            }
-        }
-    }
-
-    public static void setFocus(EditText editText) {
-        if (editText != null) {
-            editText.setFocusable(true);
-            editText.setFocusableInTouchMode(true);
-            editText.requestFocus();
-        }
-    }
-
-    private void setFocusedPinBackground(EditText editText) {
-        setViewBackground(editText, getResources().getDrawable(R.drawable.general_border_box));
-    }
-
-    private void setPINListeners() {
-        mPinHiddenEditText.addTextChangedListener(this);
-        mPinFirstDigitEditText.setOnFocusChangeListener(this);
-        mPinSecondDigitEditText.setOnFocusChangeListener(this);
-        mPinThirdDigitEditText.setOnFocusChangeListener(this);
-        mPinForthDigitEditText.setOnFocusChangeListener(this);
-        mPinFirstDigitEditText.setOnKeyListener(this);
-        mPinSecondDigitEditText.setOnKeyListener(this);
-        mPinThirdDigitEditText.setOnKeyListener(this);
-        mPinForthDigitEditText.setOnKeyListener(this);
-        mPinHiddenEditText.setOnKeyListener(this);
-    }
 }

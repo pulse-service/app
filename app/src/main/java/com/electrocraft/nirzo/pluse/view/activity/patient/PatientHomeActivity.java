@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.view.adapter.ViewPagerAdapter;
@@ -40,6 +42,8 @@ public class PatientHomeActivity extends AppCompatActivity
 
     @BindView(R.id.pt_drawer_layout)
     DrawerLayout drawer;
+    @BindView(R.id.pt_nav_view)
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,8 @@ public class PatientHomeActivity extends AppCompatActivity
         setContentView(R.layout.pt_activity_home);
 
         ButterKnife.bind(this);
+
+        Intent intent= getIntent();
 
         // toolbar
 
@@ -65,8 +71,17 @@ public class PatientHomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.pt_nav_view);
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.pt_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (navigationView != null) {
+            LinearLayout mParent = (LinearLayout) navigationView.getHeaderView(0);
+            if (mParent != null) {
+
+                TextView userName = mParent.findViewById(R.id.nav_tvPatientNameNavBar);
+                userName.setText(intent.getStringExtra("PTName"));
+            }
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {

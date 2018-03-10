@@ -8,8 +8,11 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -29,6 +32,7 @@ import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,6 +42,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 
@@ -76,6 +81,9 @@ public class LoginActivity extends AppCompatActivity {
 
     String mToken;
 
+    @BindView(R.id.rbGroupLogin)
+    RadioGroup rbGroupLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +95,36 @@ public class LoginActivity extends AppCompatActivity {
 
 
         cd = new ConnectionDetector(this);
+
+        /*rbGroupLogin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton rb = (RadioButton) findViewById(checkedId);
+
+
+                if (rb.getText().equals("doctor"))
+                    docLogin = true;
+                else
+                    docLogin = false;
+            }
+        });*/
+    }
+
+
+    @OnCheckedChanged({R.id.rbPatient, R.id.rbDoctor})
+    public void onRadioButtonCheckChanged(CompoundButton button, boolean checked) {
+        if (checked) {
+            switch (button.getId()) {
+                case R.id.rbPatient:
+                    // do stuff
+                    docLogin = false;
+                    break;
+                case R.id.rbDoctor:
+                    // do stuff
+                    docLogin = true;
+                    break;
+            }
+        }
     }
 
     @OnClick(R.id.btn_sub_reg_doc)
@@ -98,24 +136,15 @@ public class LoginActivity extends AppCompatActivity {
 
         String phone = edtPhone.getText().toString();
         String password = edtPassword.getText().toString();
-//        String logInTime = DateFormat.getDateTimeInstance().format(new Date());
+
 
         if (cd.isConnectingToInternet()) {
 
             if (phone.length() != 0 && password.length() != 0) {
-//                User user = new User();
-//                user.userName = phone;
-//                user.password = password;
-//                user.logInTime = logInTime;
-//                user.save();
 
 
                 getToken();
-//                loginPatient(edtPhone.getText().toString(), "dop");
-           /*     if (!docLogin)
-                    startActivity(new Intent(LoginActivity.this, PatientHomeActivity.class));
-                else
-                    startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));*/
+
             } else {
                 AlertDialogManager.showErrorDialog(mContext, "Insert phone no & password");
             }
@@ -127,7 +156,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onRegistrationClick(View view) {
-        startActivity(new Intent(LoginActivity.this, SignUpEmailActivity.class));
+        if (!docLogin) {
+            startActivity(new Intent(LoginActivity.this, SignUpEmailActivity.class));
+        } else
+            onDoctorRegistrationButton();
     }
 
     public void onTextViewClick(View view) {
@@ -158,20 +190,54 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginPatient(final String phoneNo, final String token) {
         String patient_login_tag = "patient_log_in_tag";
- /*       pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        pDialog.show();*/
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "checkpatientlogin/" + phoneNo + "?token=" + token, new Response.Listener<String>() {
             @Override
-            public void onResponse(String s) {
+            public void onResponse(String response) {
 //                AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("MAL", s);
+                Log.d("MAL", response);
 
-                if (!docLogin)
-                    startActivity(new Intent(LoginActivity.this, PatientHomeActivity.class));
-                else
-                    startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));
+                String PRI_PTID = "";
+                String PRI_PTName = "";
+                String ACS_CountryCode = "";
+                String PRI_Phone = "";
+                String PRI_Email = "";
+
                 pDialog.hide();
+                try {
+                    JSONObject object = new JSONObject(response);
+
+                    if (!object.isNull("result")) {
+
+                        JSONArray array = object.getJSONArray("result");
+
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            PRI_PTID = jsonObject.getString("PRI_PTID");
+                            PRI_PTName = jsonObject.getString("PRI_PTName");
+                            ACS_CountryCode = jsonObject.getString("ACS_CountryCode");
+                            PRI_Phone = jsonObject.getString("PRI_Phone");
+                            PRI_Email = jsonObject.getString("PRI_Email");
+                        }
+
+                        if (PRI_PTName.length() > 0) {
+                            if (!docLogin) {
+                                Intent intent = new Intent(LoginActivity.this, PatientHomeActivity.class);
+                                intent.putExtra("PTID", PRI_PTID);
+                                intent.putExtra("PTName", PRI_PTName);
+                                startActivity(intent);
+                            } else
+                                startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));
+                        } else {
+                            AlertDialogManager.showErrorDialog(LoginActivity.this, "Invalid User");
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -184,7 +250,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-//                params.put("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuMTE1OjgwODAvZWxjX2FwaS9wdWJsaWMvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE1MjA1NTgxNTEsImV4cCI6MTUyMDU2MTc1MSwibmJmIjoxNTIwNTU4MTUxLCJqdGkiOiI0dml3TE01NzVKelpsZmhFIn0._s5WZLtVXbcIHRcqDZq0T-aXMcg6CyNn4ktrCOtU6As");
+
 
                 return params;
             }
@@ -236,7 +302,7 @@ public class LoginActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(stringRequest, "hello");
     }
 
-    private void heatStoke() {
+/*    private void heatStoke() {
         // Tag used to cancel the request
         String tag_json_obj = "json_obj_req";
 
@@ -276,5 +342,5 @@ public class LoginActivity extends AppCompatActivity {
 
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(stringRequest, tag_json_obj);
-    }
+    }*/
 }

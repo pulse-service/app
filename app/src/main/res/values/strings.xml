@@ -18,7 +18,7 @@
     <string name="location_base">Location base</string>
     <string name="describe_problem">Describe problem</string>
     <string name="reg">Registration</string>
-    <string name="forget_password">Forget Password</string>
+    <string name="forget_password">Forget Password ?</string>
     <string name="name">* Name</string>
     <string name="email">* Email</string>
     <string name="resend_otp">Resend OTP</string>
@@ -78,4 +78,5 @@
     <string name="pin_content_desc">PIN input field</string>
     <string name="pin_label_text">PIN</string>
     <string name="login_using_facebook">Login using FaceBook</string>
+    <string name="login_registration_as">Login / Registration As</string>
 </resources>

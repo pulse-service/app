@@ -16,7 +16,7 @@
     <item >
         <shape android:shape="rectangle">
             <corners android:radius="3.0dip" />
-            <solid android:color="@color/ao_green" />
+            <solid android:color="@color/btn_green_" />
         </shape>
     </item>
 </selector>

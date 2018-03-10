@@ -118,7 +118,7 @@ public class SignUpEmailActivity extends AppCompatActivity {
             AlertDialogManager.showMissingDialog(SignUpEmailActivity.this, "Phone Missing");
 
         else if (!Util.isValidPhoneNo(phoneNo) || phoneNo.length() != 10)
-            AlertDialogManager.showMissingDialog(SignUpEmailActivity.this, "Invalid Phone No");
+            AlertDialogManager.showMissingDialog(SignUpEmailActivity.this, "Invalid Phone Number");
 
         else if (password.length() == 0)
             AlertDialogManager.showErrorDialog(SignUpEmailActivity.this, "Insert Password");

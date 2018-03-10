@@ -1,125 +1,187 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment">
 
+    <include
+        android:id="@+id/my_toolbar"
+        layout="@layout/appbar_layout" />
 
-    <RelativeLayout style="@style/container_style_2">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_toolbar">
 
-
-        <Button
-            android:id="@+id/btn_symptom_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:text="@string/save" />
-
-        <EditText
-            android:id="@+id/edtDocFirstName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-
-            android:ems="10"
-            android:hint="@string/first_name"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/edtDocLastName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/edtDocFirstName"
-            android:ems="10"
-            android:hint="@string/last_name"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/editDocDOB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/edtDocLastName"
-            android:ems="10"
-            android:hint="DOB"
-            android:inputType="date" />
-
-        <TextView
-            android:id="@+id/tvBloodLbl"
-            style="@style/text_label_style"
-            android:layout_below="@+id/editDocDOB"
-            android:text="@string/blood_group" />
-
-        <RelativeLayout
-            android:id="@+id/spinner_layout"
-            style="@style/spinner_border_style"
-            android:layout_below="@+id/editDocDOB"
-            android:layout_toEndOf="@+id/tvBloodLbl">
+        <RelativeLayout style="@style/container_style_2">
 
 
-            <Spinner
+            <Button
+                android:id="@+id/btn_symptom_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:text="@string/save" />
 
-                android:id="@+id/sp_DocBloodGroup"
-                style="@style/spinner_style" />
+            <EditText
+                android:id="@+id/edtDocFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:ems="10"
+                android:hint="@string/first_name"
+                android:inputType="textPersonName" />
 
-            <ImageView style="@style/spinner_image_style" />
+            <EditText
+                android:id="@+id/edtDocLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edtDocFirstName"
+                android:ems="10"
+                android:hint="@string/last_name"
+                android:inputType="textPersonName" />
+
+            <!--         <EditText
+                         android:id="@+id/editDocDOB"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_alignParentEnd="true"
+                         android:layout_below="@+id/edtDocLastName"
+                         android:ems="10"
+                         android:hint="DOB"
+                         android:inputType="date" />-->
+
+
+            <!-- Registration Date -->
+            <RelativeLayout
+                android:id="@+id/rl"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/edtDocLastName"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:id="@+id/editDocDOB"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:hint="DOB"
+
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/input_label_hint"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvBloodLbl"
+                style="@style/text_label_style"
+                android:layout_below="@+id/rl"
+                android:text="@string/blood_group" />
+
+            <RelativeLayout
+                android:id="@+id/spinner_layout"
+                style="@style/spinner_border_style"
+                android:layout_below="@+id/rl"
+                android:layout_toEndOf="@+id/tvBloodLbl">
+
+
+                <Spinner
+
+                    android:id="@+id/sp_DocBloodGroup"
+                    style="@style/spinner_style" />
+
+                <ImageView style="@style/spinner_image_style" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvNationalityLbl"
+                style="@style/text_label_style"
+                android:layout_below="@+id/tvBloodLbl"
+                android:text="@string/nationality" />
+
+            <RelativeLayout
+                android:id="@+id/spinner_layout_1"
+                style="@style/spinner_border_style"
+                android:layout_below="@+id/tvBloodLbl"
+                android:layout_toEndOf="@+id/tvBloodLbl">
+
+
+                <Spinner
+
+                    android:id="@+id/sp_DocNationality"
+                    style="@style/spinner_style" />
+
+                <ImageView style="@style/spinner_image_style" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_LanguageLbl"
+                style="@style/text_label_style"
+                android:layout_below="@+id/tvNationalityLbl"
+                android:text="@string/language" />
+
+            <RelativeLayout
+                android:id="@+id/spinner_layout_2"
+                style="@style/spinner_border_style"
+                android:layout_below="@+id/tvNationalityLbl"
+                android:layout_toEndOf="@+id/tvBloodLbl">
+
+
+                <Spinner
+
+                    android:id="@+id/sp_DocLanguage"
+                    style="@style/spinner_style" />
+
+                <ImageView style="@style/spinner_image_style" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_doc_image_thumbel"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_LanguageLbl"
+                android:layout_marginBottom="79dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/border_spinner"
+                android:src="@drawable/ic_doctor" />
+
+            <ImageView
+                android:id="@+id/ivCamera"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/tv_LanguageLbl"
+                android:layout_marginBottom="79dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/iv_doc_image_thumbel"
+                android:background="@drawable/border_spinner"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_menu_camera" />
+
+            <ImageView
+                android:id="@+id/ivFolder"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/tv_LanguageLbl"
+                android:layout_marginBottom="79dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/ivCamera"
+                android:background="@drawable/border_spinner"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_folder_black_24dp" />
         </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tvNationalityLbl"
-            style="@style/text_label_style"
-            android:layout_below="@+id/tvBloodLbl"
-            android:text="@string/nationality" />
-
-        <RelativeLayout
-            android:id="@+id/spinner_layout_1"
-            style="@style/spinner_border_style"
-            android:layout_below="@+id/tvBloodLbl"
-            android:layout_toEndOf="@+id/tvBloodLbl">
+    </ScrollView>
 
 
-            <Spinner
-
-                android:id="@+id/sp_DocNationality"
-                style="@style/spinner_style" />
-
-            <ImageView style="@style/spinner_image_style" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tv_LanguageLbl"
-            style="@style/text_label_style"
-            android:layout_below="@+id/tvNationalityLbl"
-            android:text="@string/language" />
-
-        <RelativeLayout
-            android:id="@+id/spinner_layout_2"
-            style="@style/spinner_border_style"
-            android:layout_below="@+id/tvNationalityLbl"
-            android:layout_toEndOf="@+id/tvBloodLbl">
-
-
-            <Spinner
-
-                android:id="@+id/sp_DocLanguage"
-                style="@style/spinner_style" />
-
-            <ImageView style="@style/spinner_image_style" />
-        </RelativeLayout>
-
-        <ImageView
-            android:background="@drawable/border_spinner"
-            android:id="@+id/imageView2"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_above="@+id/btn_symptom_submit"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="79dp"
-            android:layout_marginStart="23dp"
-            android:src="@drawable/ic_doctor" />
-    </RelativeLayout>
-
-</FrameLayout>
+</RelativeLayout>

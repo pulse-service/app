@@ -9,6 +9,7 @@ package com.electrocraft.nirzo.pluse.model;
 public class DoctorSearch {
     private String name;
     private String institution;
+    private String amount;
     private boolean availableFlag;
 
     public String getName() {
@@ -23,6 +24,20 @@ public class DoctorSearch {
         return institution;
     }
 
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public DoctorSearch(String name, String institution, String amount, boolean availableFlag) {
+        this.name = name;
+        this.institution = institution;
+        this.amount = amount;
+        this.availableFlag = availableFlag;
+    }
 
     public void setInstitution(String institution) {
         this.institution = institution;

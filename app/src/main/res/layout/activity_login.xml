@@ -29,13 +29,44 @@
                 android:layout_height="wrap_content"
 
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="170dp"
+                android:layout_marginTop="100dp"
                 android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/lable_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+
+                    android:text="@string/login_registration_as" />
+
+                <RadioGroup
+                    android:id="@+id/rbGroupLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbPatient"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:checked="true"
+                        android:text="@string/patient" />
+
+                    <RadioButton
+                        android:id="@+id/rbDoctor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/doctor" />
+                </RadioGroup>
 
                 <EditText
                     android:id="@+id/edtPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/lable_1"
 
                     android:ems="10"
                     android:hint="@string/phone_no"
@@ -45,7 +76,6 @@
                     android:id="@+id/edtPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/edtPhone"
                     android:layout_marginTop="10dp"
@@ -58,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/edtPassword"
-                    android:layout_marginTop="41dp"
+                    android:layout_marginTop="30dp"
                     android:background="@drawable/ripple_effect_login"
                     android:onClick="onLoginClick"
                     android:text="Login"
@@ -80,44 +110,56 @@
                     android:id="@+id/tvForgetPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/edtPassword"
-                    android:layout_marginTop="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/btn_reg"
+                    android:layout_marginTop="20dp"
                     android:clickable="true"
                     android:text="@string/forget_password"
                     android:textColor="@color/royal_blue"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_marginTop="5dp"
+                    android:id="@+id/tvSignIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/edtPassword"
-                    android:layout_toStartOf="@+id/rbGroup"
-                    android:text="Login As " />
+                    android:layout_below="@+id/tvForgetPassword"
+                    android:layout_marginTop="20dp"
+                    android:clickable="true"
+                    android:maxLines="1"
+                    android:text="------------------------ Or sign in with ------------------"
 
-                <RadioGroup
-                    android:id="@+id/rbGroup"
+                    android:textStyle="bold" />
+
+                <!-- facebook button -->
+                <!--                <Button
+                                    android:id="@+id/btnRegistrationFaceBook"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_below="@+id/tvSignIn"
+                                    android:layout_marginTop="20dp"
+                                    android:background="@color/fb_color"
+                                    android:text="@string/login_using_facebook"
+                                    android:textColor="@color/color_white"
+                                    android:textStyle="bold" />-->
+                <ImageView
+                    android:id="@+id/ivSignwithFaceBook"
+                    android:layout_marginStart="130dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@+id/edtPassword"
+                    android:layout_below="@+id/tvSignIn"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_fb_logo" />
 
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rbPatient"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:checked="true"
-                        android:text="@string/patient" />
-
-                    <RadioButton
-                        android:id="@+id/rbDoctor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/doctor" />
-                </RadioGroup>
+                <ImageView
+                    android:layout_toRightOf="@+id/ivSignwithFaceBook"
+                    android:id="@+id/ivSignwithGooglePulse"
+                    android:layout_marginStart="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvSignIn"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_google_plus" />
 
             </RelativeLayout>
 
@@ -127,7 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="onTextViewClick"
@@ -138,7 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
+
                     android:text="LogIn"
                     android:textColor="@color/water_blue"
                     android:textStyle="bold" />
@@ -148,7 +190,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="13dp"
-                    android:layout_marginRight="13dp"
+
                     android:text="or" />
 
                 <TextView
@@ -185,10 +227,10 @@
                         android:id="@+id/tv_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+
                         android:layout_marginStart="10dp"
                         android:layout_toEndOf="@+id/iv_person"
-                        android:layout_toRightOf="@+id/iv_person"
+
                         android:text="@string/my_pulse"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -198,10 +240,10 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_title"
-                        android:layout_marginLeft="10dp"
+
                         android:layout_marginStart="10dp"
                         android:layout_toEndOf="@+id/iv_person"
-                        android:layout_toRightOf="@+id/iv_person"
+
                         android:padding="5dp"
                         android:text="@string/patient_instruction"
                         android:textSize="12sp" />
@@ -211,13 +253,13 @@
                         android:layout_width="90dp"
                         android:layout_height="40dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_alignParentLeft="true"
+
                         android:layout_alignParentStart="true"
                         android:layout_below="@+id/tv_desc"
-                        android:layout_marginLeft="12dp"
+
                         android:layout_marginStart="12dp"
                         android:drawableEnd="@drawable/ic_arrow_right_32px"
-                        android:drawableRight="@drawable/ic_arrow_right_32px"
+
                         android:onClick="onSubLoginClick"
                         android:text="login"
                         android:textSize="10sp" />
@@ -228,9 +270,9 @@
                         android:layout_height="40dp"
                         android:layout_below="@+id/tv_desc"
                         android:layout_toEndOf="@+id/btn_sub_login"
-                        android:layout_toRightOf="@+id/btn_sub_login"
+
                         android:drawableEnd="@drawable/ic_arrow_right_32px"
-                        android:drawableRight="@drawable/ic_arrow_right_32px"
+
                         android:onClick="onRegistrationClick"
                         android:text="@string/reg"
                         android:textSize="10sp" />
@@ -253,10 +295,10 @@
                         android:id="@+id/tv_title_doc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+
                         android:layout_marginStart="10dp"
                         android:layout_toEndOf="@+id/iv_doctor"
-                        android:layout_toRightOf="@+id/iv_doctor"
+
                         android:text="Doctor"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -266,10 +308,10 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_title_doc"
-                        android:layout_marginLeft="10dp"
+
                         android:layout_marginStart="10dp"
                         android:layout_toEndOf="@+id/iv_doctor"
-                        android:layout_toRightOf="@+id/iv_doctor"
+
                         android:padding="5dp"
                         android:text="@string/doc_instruction_login"
                         android:textSize="12sp" />
@@ -279,10 +321,8 @@
                         android:layout_width="90dp"
                         android:layout_height="40dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_below="@+id/tv_desc_doc"
-                        android:layout_marginLeft="12dp"
                         android:layout_marginStart="12dp"
                         android:drawableEnd="@drawable/ic_arrow_right_32px"
                         android:drawableRight="@drawable/ic_arrow_right_32px"
@@ -296,9 +336,7 @@
                         android:layout_height="40dp"
                         android:layout_below="@+id/tv_desc_doc"
                         android:layout_toEndOf="@+id/btn_sub_login_doc"
-                        android:layout_toRightOf="@+id/btn_sub_login_doc"
                         android:drawableEnd="@drawable/ic_arrow_right_32px"
-                        android:drawableRight="@drawable/ic_arrow_right_32px"
                         android:onClick="onRegistrationClick"
                         android:text="Registration"
                         android:textSize="10sp" />

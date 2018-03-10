@@ -41,6 +41,10 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
         TextView docName;
         @BindView(R.id.lr_tv_DocInstitution)
         TextView docInstitution;
+
+        @BindView(R.id.lr_tv_doc_consult_price)
+        TextView docConsultPrice;
+
         @BindView(R.id.lr_btn_book)
         Button btnBook;
         @BindView(R.id.lr_iv_DocAvailableStatus)
@@ -65,6 +69,7 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
         DoctorSearch doctor = doctorList.get(position);
         holder.docName.setText(doctor.getName());
         holder.docInstitution.setText(doctor.getInstitution());
+        holder.docConsultPrice.setText("Consult online for "+doctor.getAmount()+" BDT");
         if (doctor.isAvailableFlag())
             holder.docAvailable.setImageResource(R.drawable.ic_online);
 

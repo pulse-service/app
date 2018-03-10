@@ -33,13 +33,13 @@
         android:text="TextView" />
 
     <Button
-        android:layout_marginTop="30dp"
         android:id="@+id/lr_btn_book"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/lr_tv_DocInstitution"
         android:layout_marginEnd="13dp"
+        android:layout_marginTop="30dp"
         android:text="Book" />
 
     <ImageView
@@ -52,28 +52,28 @@
         app:srcCompat="@drawable/ic_arrow_right_32px" />
 
     <ImageView
-        android:layout_marginTop="10dp"
         android:id="@+id/lr_iv_DocAvailableStatus"
         android:layout_width="@dimen/doc_availableStatus_width"
         android:layout_height="@dimen/doc_availableStatus_height"
         android:layout_alignEnd="@+id/lr_iv_DocImage"
         android:layout_below="@+id/lr_iv_DocImage"
         android:layout_marginEnd="11dp"
+        android:layout_marginTop="10dp"
         app:srcCompat="@drawable/ic_offline" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/lr_tv_doc_consult_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-     android:layout_below="@+id/lr_iv_DocAvailableStatus"
+        android:layout_below="@+id/lr_iv_DocAvailableStatus"
+        android:text="TextView"
+        android:textColor="@color/red" />
 
-        android:text="TextView" />
-
-    <TextView
+ <!--   <TextView
         android:id="@+id/lr_tv_docRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/imageView3"
         android:layout_below="@+id/lr_tv_DocName"
-        android:text="@string/_30" />
+        android:text="@string/_30" />-->
 </RelativeLayout>
