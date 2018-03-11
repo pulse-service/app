@@ -23,6 +23,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
+                android:layout_below="@+id/border1"
+                android:layout_marginTop="10dp"
                 android:text="@string/save" />
 
             <EditText
@@ -74,11 +76,11 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:hint="DOB"
+                    android:hint="@string/death_of_birth"
 
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/input_label_hint"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
 
             <TextView
@@ -144,13 +146,23 @@
                 <ImageView style="@style/spinner_image_style" />
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/iv_doc_image_thumbel"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+            <EditText
+                android:id="@+id/edtDocConsultationPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/tv_LanguageLbl"
-                android:layout_marginBottom="79dp"
+                android:ems="10"
+                android:hint="@string/consultation_charge"
+                android:inputType="textPersonName" />
+
+            <ImageView
+                android:id="@+id/iv_doc_image_thumbel"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edtDocConsultationPrice"
+
                 android:layout_marginStart="10dp"
                 android:background="@drawable/border_spinner"
                 android:src="@drawable/ic_doctor" />
@@ -159,7 +171,7 @@
                 android:id="@+id/ivCamera"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/tv_LanguageLbl"
+                android:layout_below="@+id/edtDocConsultationPrice"
                 android:layout_marginBottom="79dp"
                 android:layout_marginStart="20dp"
                 android:layout_toEndOf="@+id/iv_doc_image_thumbel"
@@ -172,7 +184,7 @@
                 android:id="@+id/ivFolder"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/tv_LanguageLbl"
+                android:layout_below="@+id/edtDocConsultationPrice"
                 android:layout_marginBottom="79dp"
                 android:layout_marginStart="20dp"
                 android:layout_toEndOf="@+id/ivCamera"
@@ -180,6 +192,102 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_folder_black_24dp" />
+
+            <View
+                android:id="@+id/border2"
+                style="@style/line_border_style"
+                android:layout_below="@+id/iv_doc_image_thumbel" />
+            <TextView
+                android:id="@+id/tet_pass"
+                android:gravity="center"
+                android:layout_below="@+id/border2"
+                android:text="Passport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_doc_passport_thumbel"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tet_pass"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_spinner"
+                android:src="@drawable/ic_if_file_doc" />
+
+            <ImageView
+                android:id="@+id/ivCameraPassPort"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignTop="@+id/iv_doc_passport_thumbel"
+                android:layout_toEndOf="@+id/tv_LanguageLbl"
+                android:background="@drawable/border_spinner"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_menu_camera" />
+
+            <ImageView
+                android:id="@+id/ivFolderpassport"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignStart="@+id/ivFolder"
+                android:layout_alignTop="@+id/ivCameraPassPort"
+                android:background="@drawable/border_spinner"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_folder_black_24dp" />
+
+            <View
+                android:id="@+id/border3"
+                style="@style/line_border_style"
+                android:layout_below="@+id/iv_doc_passport_thumbel" />
+            <TextView
+                android:id="@+id/tet_nid"
+                android:gravity="center"
+                android:layout_below="@+id/border3"
+                android:text="NID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_doc_nid_thumbel"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tet_nid"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_spinner"
+                android:src="@drawable/ic_if_file_doc" />
+
+            <ImageView
+                android:id="@+id/ivCameraNid"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignTop="@+id/iv_doc_nid_thumbel"
+                android:layout_toEndOf="@+id/tv_LanguageLbl"
+                android:background="@drawable/border_spinner"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_menu_camera" />
+
+            <ImageView
+                android:id="@+id/ivFolderNid"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignStart="@+id/ivFolder"
+                android:layout_alignTop="@+id/ivCameraNid"
+                android:background="@drawable/border_spinner"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_folder_black_24dp" />
+
+            <View
+                android:id="@+id/border1"
+                style="@style/line_border_style"
+                android:layout_below="@+id/iv_doc_nid_thumbel" />
+
         </RelativeLayout>
     </ScrollView>
 

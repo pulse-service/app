@@ -13,4 +13,7 @@ public class AppConfig {
     /**
      * Hemonto Dada pc */
     public static final String API_LINK = "http://192.168.1.116:8080/elc_api/public/api/";
+
+
+    public static final String IMAGE_UPLOAD_API_LINK = "http://192.168.1.110:82/pic_up/upload.php";
 }

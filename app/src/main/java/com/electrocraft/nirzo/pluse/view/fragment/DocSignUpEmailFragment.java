@@ -27,6 +27,7 @@ import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.AssetUtils;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
+import com.electrocraft.nirzo.pluse.view.util.Key;
 import com.electrocraft.nirzo.pluse.view.util.Util;
 
 import org.json.JSONArray;
@@ -154,6 +155,9 @@ public class DocSignUpEmailFragment extends Fragment {
 
         else if (edtDoctorPassword.getText().toString().length() == 0)
             AlertDialogManager.showErrorDialog(context, "Insert Password");
+
+        else if (edtDoctorPassword.getText().toString().length() < 6)
+            AlertDialogManager.showErrorDialog(context, "Password must be 6 digit");
         else {
 
             getToken();
@@ -211,11 +215,11 @@ public class DocSignUpEmailFragment extends Fragment {
     private void registerADoctor(final String token) {
         String patient_login_tag = "patient_log_in_tag";
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "doctorRegistration" + "?token=" + token, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "doctorregistration" + "?token=" + token, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("BORODIM", response);
+//                Log.d("BORODIM", response);
 
 
                 pDialog.hide();
@@ -223,7 +227,16 @@ public class DocSignUpEmailFragment extends Fragment {
                     JSONObject object = new JSONObject(response);
 
                     if (object.getBoolean("flag")) {
+
+                        /*
+                         * Send data (mPhoneNo no) fragment to fragment
+                         */
+                        String phoneNo=valueCountryCode+edtDoctorPhone.getText().toString();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Key.KEY_PHONE_NO,phoneNo);
+
                         Fragment frag = new DocOTPFragments();
+                        frag.setArguments(bundle);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.replace(R.id.docFrame, frag);
                         ft.commit();

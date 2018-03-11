@@ -57,7 +57,7 @@ public class PtSpecializationFragment extends Fragment {
 
     private static final String TAG = "PtSpecializationFragment";
 
-    //    @BindView(R.id.sp_specializationCat)
+    //    @BindView(R.otpCode.sp_specializationCat)
 //    Spinner spSpecialCat;
     private String[] catName = {"Dentist", "General Physician", "Homeopathy", "Orthopedist"};
     private String[] catCode = {"01", "02", "03", "04"};
@@ -120,7 +120,7 @@ public class PtSpecializationFragment extends Fragment {
         getToken();
 //        prepareData();
 
-        //Creating the instance of ArrayAdapter containing list of autoCtvHelper names
+        //Creating the instance of ArrayAdapter containing bloodGroupList of autoCtvHelper names
         ArrayAdapter<String> adapter = new ArrayAdapter<>
                 (getContext(), android.R.layout.select_dialog_item, catName);
 
@@ -251,13 +251,13 @@ public class PtSpecializationFragment extends Fragment {
      * load spinner of Doctor's Specialization
      */
    /* private void loadCategories() {
-        List<SpinnerHelper> list = new ArrayList<>();
+        List<SpinnerHelper> bloodGroupList = new ArrayList<>();
         for (int i = 0; i < catName.length; i++) {
             SpinnerHelper helper = new SpinnerHelper(i, catCode[i], catName[i]);
-            list.add(helper);
+            bloodGroupList.add(helper);
         }
         ArrayAdapter<SpinnerHelper> adapter = new ArrayAdapter<>(getActivity(),
-                R.layout.rsc_spinner_text, list);
+                R.layout.rsc_spinner_text, bloodGroupList);
 
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
 

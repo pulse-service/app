@@ -93,7 +93,7 @@ public class PtLocationBaseFragment extends Fragment {
         prepareData();
         prepareLocationData();
 
-        //Creating the instance of ArrayAdapter containing list of autoCtvHelper names
+        //Creating the instance of ArrayAdapter containing bloodGroupList of autoCtvHelper names
         ArrayAdapter<String> adapter = new ArrayAdapter<>
                 (getContext(), android.R.layout.select_dialog_item, autoCtvHelper);
 

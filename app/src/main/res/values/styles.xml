@@ -47,7 +47,7 @@
         <item name="android:paddingStart">@dimen/container_margin</item>
         <item name="android:paddingEnd">@dimen/container_margin</item>
         <item name="android:paddingRight">@dimen/container_margin</item>
-        <item name="android:paddingTop">@dimen/actionbar_to_container_spacing</item>
+        <item name="android:paddingTop">@dimen/container_margin</item>
 
 
     </style>

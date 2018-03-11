@@ -1,6 +1,7 @@
 package com.electrocraft.nirzo.pluse.view.activity.patient;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -99,6 +100,7 @@ public class SignUpEmailActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnSignUpContinue)
     public void onSignContinueClick(View view) {
+        Context context = SignUpEmailActivity.this;
 
         String phoneNo = edt_pt_phone.getText().toString();
         String patientName = edt_pt_name.getText().toString();
@@ -107,32 +109,34 @@ public class SignUpEmailActivity extends AppCompatActivity {
 
         if (patientName.length() == 0) {
 
-            AlertDialogManager.showMissingDialog(SignUpEmailActivity.this, "Name Missing");
+            AlertDialogManager.showMissingDialog(context, "Name Missing");
         } else if (email.length() == 0)
-            AlertDialogManager.showMissingDialog(SignUpEmailActivity.this, "Email Missing");
+            AlertDialogManager.showMissingDialog(context, "Email Missing");
 
         else if (!Util.isValidEmail(email))
-            AlertDialogManager.showMissingDialog(SignUpEmailActivity.this, "Invalid Email");
+            AlertDialogManager.showMissingDialog(context, "Invalid Email");
 
         else if (phoneNo.length() == 0)
-            AlertDialogManager.showMissingDialog(SignUpEmailActivity.this, "Phone Missing");
+            AlertDialogManager.showMissingDialog(context, "Phone Missing");
 
         else if (!Util.isValidPhoneNo(phoneNo) || phoneNo.length() != 10)
-            AlertDialogManager.showMissingDialog(SignUpEmailActivity.this, "Invalid Phone Number");
+            AlertDialogManager.showMissingDialog(context, "Invalid Phone Number");
 
         else if (password.length() == 0)
-            AlertDialogManager.showErrorDialog(SignUpEmailActivity.this, "Insert Password");
+            AlertDialogManager.showErrorDialog(context, "Insert Password");
 
+        else if (password.length() < 6)
+            AlertDialogManager.showErrorDialog(context, "Password must be 6 digit");
         else {
 
-            registerPatient(patientName,email,phoneNo,password);
+            registerPatient(patientName, email, phoneNo, password);
 
 //            finish();
         }
 
     }
 
-    private void registerPatient(final String name,final String email, final String phoneNo,final String password) {
+    private void registerPatient(final String name, final String email, final String phoneNo, final String password) {
 
 
         pDialog = new ProgressDialog(this);
@@ -155,7 +159,7 @@ public class SignUpEmailActivity extends AppCompatActivity {
                 Log.d("More", response);
                 pDialog.hide();
 
-               startActivity(new Intent(SignUpEmailActivity.this, OTP_Activity.class));
+                startActivity(new Intent(SignUpEmailActivity.this, OTP_Activity.class));
             }
         }, new Response.ErrorListener() {
             @Override

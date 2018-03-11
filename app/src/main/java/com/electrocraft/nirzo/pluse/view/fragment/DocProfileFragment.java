@@ -2,13 +2,17 @@ package com.electrocraft.nirzo.pluse.view.fragment;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +22,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
+import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.controller.util.ImageFilePath;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -30,12 +48,17 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+
+import timber.log.Timber;
 
 /**
  * Created by nirzo on 3/1/2018.
@@ -45,6 +68,7 @@ public class DocProfileFragment extends Fragment {
 
     public static final int REQUEST_CAMERA = 1;
     public static final int SELECT_FILE = 2;
+    private static final int PICK_IMAGE_REQUEST = 3;
     @BindView(R.id.edtDocFirstName)
     EditText edtDocFirstName;
 
@@ -71,6 +95,9 @@ public class DocProfileFragment extends Fragment {
 
     @BindView(R.id.ivCamera)
     public ImageView ivCamera;
+    private ProgressDialog progressDialog;
+    private ProgressDialog pDialog;
+    private String mToken = "";
 
     @OnClick(R.id.ivCamera)
     public void onCameraClick() {
@@ -81,6 +108,9 @@ public class DocProfileFragment extends Fragment {
     public void getONText() {
         setDate();
     }
+
+
+    String imageFilePath;
 
     public DocProfileFragment() {
     }
@@ -95,9 +125,15 @@ public class DocProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_doc_profile, container, false);
         ButterKnife.bind(this, view);
-        loadBloodGroup();
-        loadNationality();
-        loadLanguage();
+
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");
+
+        getToken("load_blood");
+        getToken("load_national");
+        getToken("load_language");
+//        loadNationality();
+//        loadLanguage();
         return view;
     }
 
@@ -123,30 +159,230 @@ public class DocProfileFragment extends Fragment {
         }
     };
 
+
+    private void getToken(final String request) {
+
+
+
+        pDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                AppController.getInstance().getRequestQueue().getCache().clear();
+                Log.d("MOR", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    mToken = jsonObject.getString("token");
+                    if (mToken.length() > 20) {
+                        switch (request) {
+                            case "load_blood":
+                                getBloodGroup(mToken);
+                                break;
+                            case "load_national":
+                                getNationality(mToken);
+                                break;
+
+                            case "load_language":
+                                getLanguage(mToken);
+                                break;
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Timber.d("Error: " + error.getMessage());
+
+
+                closeDialog();
+                Toast.makeText(getActivity(), "Error:" + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("email", "user@user.com");
+                params.put("password", "123456");
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest, "hello");
+    }
+
+
+    private void getBloodGroup(final String token) {
+        String blood_group_tag = "blood_group_tag";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "getbloodgroup" + "?token=" + token, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                AppController.getInstance().getRequestQueue().getCache().clear();
+                Timber.d(response);
+
+                String BGCode = "";
+                String BGName = "";
+
+
+                closeDialog();
+                try {
+                    JSONObject object = new JSONObject(response);
+                    List<SpinnerHelper> bloodGroupList = new ArrayList<>();
+                    if (!object.isNull("result")) {
+
+                        JSONArray array = object.getJSONArray("result");
+
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            BGCode = jsonObject.getString("BGCode");
+                            BGName = jsonObject.getString("BGName");
+
+                            SpinnerHelper helper = new SpinnerHelper(i, BGCode, BGName);
+                            bloodGroupList.add(helper);
+
+                        }
+                        loadBloodGroup(bloodGroupList);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Timber.d("Error: " + error.getMessage());
+                pDialog.hide();                                                                           // hide the progress dialog
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(stringRequest, blood_group_tag);
+
+    }
+
+    /**
+     * hide the progress dialog
+     */
+    private void closeDialog() {
+        if (pDialog.isShowing())
+            pDialog.hide();
+    }
+
+    private void getNationality(final String token) {
+        String blood_group_tag = "blood_group_tag";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "getnationality" + "?token=" + token, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                AppController.getInstance().getRequestQueue().getCache().clear();
+                Timber.d(response);
+
+                String nCode = "";
+                String nName = "";
+
+                closeDialog();
+                try {
+                    JSONObject object = new JSONObject(response);
+                    List<SpinnerHelper> list = new ArrayList<>();
+                    if (!object.isNull("result")) {
+
+                        JSONArray array = object.getJSONArray("result");
+
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            nCode = jsonObject.getString("nCode");
+                            nName = jsonObject.getString("nName");
+
+                            SpinnerHelper helper = new SpinnerHelper(i, nCode, nName);
+                            list.add(helper);
+
+                        }
+                        loadNationality(list);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Timber.d("Error: " + error.getMessage());
+                pDialog.hide();                                                                           // hide the progress dialog
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(stringRequest, blood_group_tag);
+
+    }
+
+
+    private void getLanguage(final String token) {
+        String blood_group_tag = "language_tag";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "getlanguagelist" + "?token=" + token, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                AppController.getInstance().getRequestQueue().getCache().clear();
+                Timber.d(response);
+
+                String lanCode = "";
+                String lanName = "";
+
+                closeDialog();
+                try {
+                    JSONObject object = new JSONObject(response);
+                    List<SpinnerHelper> list = new ArrayList<>();
+                    if (!object.isNull("result")) {
+
+                        JSONArray array = object.getJSONArray("result");
+
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            lanCode = jsonObject.getString("lanCode");
+                            lanName = jsonObject.getString("lanName");
+
+                            SpinnerHelper helper = new SpinnerHelper(i, lanCode, lanName);
+                            list.add(helper);
+
+                        }
+                        loadLanguage(list);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Timber.d("Error: " + error.getMessage());
+                pDialog.hide();                                                                           // hide the progress dialog
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(stringRequest, blood_group_tag);
+
+    }
+
     /**
      * load spinner of Blood Group
      */
-    private void loadBloodGroup() {
-        List<SpinnerHelper> list = new ArrayList<>();
-        SpinnerHelper helper;
+    private void loadBloodGroup(List<SpinnerHelper> list) {
 
-        //todo get method apply
-        helper = new SpinnerHelper(1, "001", "O+");
-        list.add(helper);
-        helper = new SpinnerHelper(2, "002", "O-");
-        list.add(helper);
-        helper = new SpinnerHelper(3, "003", "A+");
-        list.add(helper);
-        helper = new SpinnerHelper(4, "004", "A-");
-        list.add(helper);
-        helper = new SpinnerHelper(5, "005", "B+");
-        list.add(helper);
-        helper = new SpinnerHelper(6, "006", "B-");
-        list.add(helper);
-        helper = new SpinnerHelper(7, "007", "AB+");
-        list.add(helper);
-        helper = new SpinnerHelper(8, "008", "AB-");
-        list.add(helper);
 
         ArrayAdapter<SpinnerHelper> adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.rsc_spinner_text, list);
@@ -157,15 +393,7 @@ public class DocProfileFragment extends Fragment {
     }
 
 
-    private void loadNationality() {
-        List<SpinnerHelper> list = new ArrayList<>();
-        SpinnerHelper helper;
-
-        //todo get method apply
-        helper = new SpinnerHelper(1, "001", "Bangladeshi");
-        list.add(helper);
-        helper = new SpinnerHelper(2, "002", "Indian");
-        list.add(helper);
+    private void loadNationality(List<SpinnerHelper> list) {
 
 
         ArrayAdapter<SpinnerHelper> adapter = new ArrayAdapter<>(getActivity(),
@@ -177,16 +405,9 @@ public class DocProfileFragment extends Fragment {
     }
 
 
-    private void loadLanguage() {
-        List<SpinnerHelper> list = new ArrayList<>();
-        SpinnerHelper helper;
+    private void loadLanguage(List<SpinnerHelper> list) {
 
-        //todo get method apply
-        helper = new SpinnerHelper(1, "001", "English");
-        list.add(helper);
-        helper = new SpinnerHelper(2, "002", "Bengali");
-        list.add(helper);
-
+        closeDialog();
 
         ArrayAdapter<SpinnerHelper> adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.rsc_spinner_text, list);
@@ -206,19 +427,102 @@ public class DocProfileFragment extends Fragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), PICK_IMAGE_REQUEST);
     }
+
+
+    public void imageBrowse() {
+
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        // Start  the Intent
+        startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+
+    }
+
+    Bitmap bitmap;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
+
+
+            else if (requestCode == PICK_IMAGE_REQUEST) {
+
+
+                if (data != null && data.getData() != null) {
+                    Uri uri = data.getData();
+                    imageFilePath = ImageFilePath.getPath(getActivity(), data.getData());
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                        ivImage.setImageBitmap(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Some thing wrong", Toast.LENGTH_SHORT).show();
+                }
+
+            }
         }
     }
+
+    @OnClick(R.id.btn_symptom_submit)
+    public void onSummit(View view) {
+        imageUpload(imageFilePath);
+    }
+
+    public void imageUpload(final String imagePath) {
+
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Uploading, please wait...");
+        progressDialog.show();
+
+        //converting image to base64 string
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        final String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+        //sending image to server
+        StringRequest request = new StringRequest(Request.Method.POST, AppConfig.IMAGE_UPLOAD_API_LINK, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Log.d("MORDIM", s);
+                progressDialog.dismiss();
+        /*        if (s.equals("true")) {
+                    Toast.makeText(getActivity(), "Uploaded Successful", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Some error occurred!", Toast.LENGTH_LONG).show();
+                }*/
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getActivity(), "Some error occurred -> " + volleyError, Toast.LENGTH_LONG).show();
+                ;
+            }
+        }) {
+            //adding parameters to send
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("image", imageString);
+                return parameters;
+            }
+        };
+
+
+        AppController.getInstance().addToRequestQueue(request);
+    }
+
 
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {

@@ -13,4 +13,6 @@ public class Key {
     public static final  String APP_PREFERENCE ="pluse_prefe";
 
     public static final String KEY_IS_FIRST_TIME="KEY_IS_FIRST_TIME";
+
+    public static final String KEY_PHONE_NO="KeyPhoneNo";
 }

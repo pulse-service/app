@@ -7,16 +7,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
+import com.electrocraft.nirzo.pluse.controller.application.AppController;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class OTP_Activity extends AppCompatActivity implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher {
 
@@ -35,7 +51,7 @@ public class OTP_Activity extends AppCompatActivity implements View.OnFocusChang
     /*    EditText mPinSixthDigitEditText;*/
     @BindView(R.id.login_pin_hidden_edittext)
     EditText mPinHiddenEditText;
-
+    private String otpCode;
 
 
     @Override
@@ -44,6 +60,79 @@ public class OTP_Activity extends AppCompatActivity implements View.OnFocusChang
         setContentView(R.layout.frag_otp);
         ButterKnife.bind(this);
         setPINListeners();
+    }
+
+    private void generateFourDigitOTP(final String phoneNo) {
+        Random random = new Random();
+        otpCode = String.format("%04d", random.nextInt(10000));
+
+        getToken(phoneNo, otpCode);
+    }
+
+    private void getToken(final String phoneNo, final String otp) {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login",
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("MOR", response);
+                        try {
+
+                            JSONObject jsonObject = new JSONObject(response);
+                            String mToken = jsonObject.getString("token");
+
+                            if (mToken.length() > 20)
+                                sendOTP(phoneNo, otp, mToken);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Timber.d("Error: " + error.getMessage());
+
+                Toast.makeText(getActivity(), "Error:" + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("email", "user@user.com");
+                params.put("password", "123456");
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest, "hello");
+    }
+
+    private void sendOTP(final String phoneNo, final String otp, final String token) {
+        String tag = "send_otp_tag";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK
+                + "sendsms/" + phoneNo + "/" + otp + "?token=" + token
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                AppController.getInstance().getRequestQueue().getCache().clear();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(stringRequest, tag);
+
     }
 
     @OnClick(R.id.btn_otp_verify)
