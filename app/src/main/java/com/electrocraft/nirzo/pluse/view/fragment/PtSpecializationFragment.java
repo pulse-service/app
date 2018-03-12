@@ -117,7 +117,7 @@ public class PtSpecializationFragment extends Fragment {
             }
         }));
 
-        getToken();
+        getDoctorList();
 //        prepareData();
 
         //Creating the instance of ArrayAdapter containing bloodGroupList of autoCtvHelper names
@@ -133,113 +133,66 @@ public class PtSpecializationFragment extends Fragment {
     }
 
 
-
-    private void getToken() {
-
-
+    private void getDoctorList() {
+        String patient_login_tag = "doc_search_tag";
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("MOR", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    mToken = jsonObject.getString("token");
-                    if (mToken.length() > 20)
-                        getDoctorList(mToken);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "doctor_list",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("DIM", response);
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                // hide the progress dialog
-                pDialog.hide();
-                Toast.makeText(getActivity(), "Error:" + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", "user@user.com");
-                params.put("password", "123456");
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, "hello");
-    }
+                        String DRI_DrName = "";
+                        String DCharge = "";
+                        String Expertise = "";
+                        String SPName = "";
 
 
-    private void getDoctorList(final String token) {
-        String patient_login_tag = "patient_log_in_tag";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "doctorsList" + "?token=" + token, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-//                AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("DIM", response);
-
-                String name = "";
-                String amount = "";
+                        closeDialog();
+                        try {
+                            JSONObject object = new JSONObject(response);
 
 
-                pDialog.hide();
-                try {
-                    JSONObject object = new JSONObject(response);
+                            if (!object.isNull("data")) {
 
-                    if (object.getBoolean("flag")) {
-                        if (!object.isNull("DoctorsLists")) {
+                                JSONArray array = object.getJSONArray("data");
 
-                            JSONArray array = object.getJSONArray("DoctorsLists");
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject jsonObject = array.getJSONObject(i);
 
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject jsonObject = array.getJSONObject(i);
+                                    DRI_DrName = jsonObject.getString("DRI_DrName");
+                                    Expertise = jsonObject.getString("Expertise");
+                                    SPName = jsonObject.getString("SPName");
 
-                                name = jsonObject.getString("name");
+                                    DCharge = jsonObject.getString("DCharge");
 
-                                amount = jsonObject.getString("amount");
+                                    DoctorSearch doctor = new DoctorSearch(DRI_DrName, Expertise, SPName, DCharge, true);
+                                    mList.add(doctor);
+                                }
 
-                                DoctorSearch doctor = new DoctorSearch(name, " ", amount, true);
-                                mList.add(doctor);
+                                mAdapter.notifyDataSetChanged();
                             }
 
-                            mAdapter.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+
+
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener()
+                }, new Response.ErrorListener()
 
         {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 // hide the progress dialog
-                pDialog.hide();
+                closeDialog();
             }
-        })
-
-        {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-
-
-                return params;
-            }
-        };
+        });
 
         AppController.getInstance().
 
@@ -247,6 +200,10 @@ public class PtSpecializationFragment extends Fragment {
 
     }
 
+    private void closeDialog() {
+        if (pDialog != null && pDialog.isShowing())
+            pDialog.hide();
+    }
     /*
      * load spinner of Doctor's Specialization
      */

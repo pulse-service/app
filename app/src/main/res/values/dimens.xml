@@ -55,4 +55,8 @@
 
     <!--pin left margin-->
     <dimen name="pin_edit_left_margin">5dp</dimen>
+
+    <!--date picker container height-->
+    <dimen name="date_picker_height">40dp</dimen>
+    <dimen name="date_picker_text_size">14sp</dimen>
 </resources>

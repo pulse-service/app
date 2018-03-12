@@ -73,8 +73,9 @@ public class PatientOtpActivity extends AppCompatActivity implements View.OnFocu
         mPhone = intent.getStringExtra(Key.KEY_PHONE_NO);
 
         mContext = this;
-        if (mPhone.length() > 0)
-            generateFourDigitOTP(mPhone);
+        if (!AppConfig.SMS_OTP_OFF)
+            if (mPhone.length() > 0)
+                generateFourDigitOTP(mPhone);
     }
 
     private String editTextToString(EditText editText) {
@@ -83,18 +84,21 @@ public class PatientOtpActivity extends AppCompatActivity implements View.OnFocu
 
     @OnClick(R.id.btn_otp_verify)
     public void onOTPVerifyClick(View view) {
+        if (!AppConfig.SMS_OTP_OFF) {
+            String inputOTP = editTextToString(mPinFirstDigitEditText) +
+                    editTextToString(mPinSecondDigitEditText) +
+                    editTextToString(mPinThirdDigitEditText) +
+                    editTextToString(mPinForthDigitEditText);
 
-        String inputOTP = editTextToString(mPinFirstDigitEditText) +
-                editTextToString(mPinSecondDigitEditText) +
-                editTextToString(mPinThirdDigitEditText) +
-                editTextToString(mPinForthDigitEditText);
-
-        Timber.e("Otp :" + inputOTP);
-        if (otpCode.equals(inputOTP)) {
+            Timber.e("Otp :" + inputOTP);
+            if (otpCode.equals(inputOTP)) {
+                startActivity(new Intent(PatientOtpActivity.this, PatientHomeActivity.class));
+            } else {
+                AlertDialogManager.showErrorDialog(mContext, "Wrong OTP");
+            }
+        } else
             startActivity(new Intent(PatientOtpActivity.this, PatientHomeActivity.class));
-        } else {
-            AlertDialogManager.showErrorDialog(mContext, "Wrong OTP");
-        }
+
 
     }
 
@@ -102,65 +106,23 @@ public class PatientOtpActivity extends AppCompatActivity implements View.OnFocu
         Random random = new Random();
         otpCode = String.format("%04d", random.nextInt(10000));
 
-        getToken(phoneNo, otpCode);
+        sendOTP(phoneNo, otpCode);
     }
 
-    private void getToken(final String phoneNo, final String otp) {
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login",
+    private void sendOTP(final String phoneNo, final String otp) {
+        String tag = "send_otp_tag";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK
+                + "sendsms/" + phoneNo + "/" + otp,
                 new Response.Listener<String>() {
-
                     @Override
                     public void onResponse(String response) {
-
                         AppController.getInstance().getRequestQueue().getCache().clear();
-                        Log.d("MOR", response);
-                        try {
-
-                            JSONObject jsonObject = new JSONObject(response);
-                            String mToken = jsonObject.getString("token");
-
-                            if (mToken.length() > 20)
-                                sendOTP(phoneNo, otp, mToken);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
 
                     }
                 }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Timber.d("Error: " + error.getMessage());
-
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", "user@user.com");
-                params.put("password", "123456");
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, "hello");
-    }
-
-    private void sendOTP(final String phoneNo, final String otp, final String token) {
-        String tag = "send_otp_tag";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK
-                + "sendsms/" + phoneNo + "/" + otp + "?token=" + token
-                , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-
-            }
-        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 

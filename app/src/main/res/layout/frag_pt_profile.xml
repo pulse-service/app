@@ -9,7 +9,7 @@
 
 
         <Button
-            android:id="@+id/btn_symptom_submit"
+            android:id="@+id/btn_PtPersonalInfoSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -17,7 +17,7 @@
             android:text="@string/save" />
 
         <EditText
-            android:id="@+id/edtFatherName"
+            android:id="@+id/edtPtFatherName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -27,40 +27,63 @@
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/edtMotherName"
+            android:id="@+id/edtPtMotherName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/edtFatherName"
+            android:layout_below="@+id/edtPtFatherName"
             android:ems="10"
             android:hint="@string/mother_name"
             android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/editText8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/edtMotherName"
-            android:ems="10"
-            android:hint="DOB"
-            android:inputType="date" />
+        <!--  <EditText
+              android:id="@+id/edtPtDeathOfBirth"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_alignParentEnd="true"
+
+              android:ems="10"
+              android:hint="DOB"
+              android:inputType="date" />-->
+        <RelativeLayout
+            android:id="@+id/rl"
+            style="@style/date_picker_container_style"
+
+
+            android:layout_below="@+id/edtPtMotherName"
+
+            >
+
+
+            <TextView
+                android:id="@+id/tvPatientDOB"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:hint="@string/death_of_birth"
+
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/input_label_hint"
+                android:textSize="14sp" />
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/tvBloodLbl"
+            android:id="@+id/tvPtAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/editText8"
+            android:layout_below="@+id/rl"
             android:layout_marginTop="17dp"
             android:text="Age" />
 
         <EditText
-            android:id="@+id/edtPresentAddress"
+            android:id="@+id/edtPtPresentAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvBloodLbl"
+            android:layout_below="@+id/tvPtAge"
 
             android:layout_marginTop="24dp"
             android:ems="10"

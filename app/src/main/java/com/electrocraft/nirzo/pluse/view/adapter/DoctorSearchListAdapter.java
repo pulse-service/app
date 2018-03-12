@@ -68,7 +68,7 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
     public void onBindViewHolder(ViewHolder holder, int position) {
         DoctorSearch doctor = doctorList.get(position);
         holder.docName.setText(doctor.getName());
-        holder.docInstitution.setText(doctor.getInstitution());
+        holder.docInstitution.setText(doctor.getExpertise());
         holder.docConsultPrice.setText("Consult online for "+doctor.getAmount()+" BDT");
         if (doctor.isAvailableFlag())
             holder.docAvailable.setImageResource(R.drawable.ic_online);

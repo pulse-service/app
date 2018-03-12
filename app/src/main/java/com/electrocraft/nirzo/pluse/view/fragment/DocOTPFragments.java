@@ -88,20 +88,26 @@ public class DocOTPFragments extends Fragment implements View.OnFocusChangeListe
 
     @OnClick(R.id.btn_otp_verify)
     public void onOTPVerifyClick(View view) {
+        if (!AppConfig.SMS_OTP_OFF) {
+            String inputOTP = editTextToString(mPinFirstDigitEdt) +
+                    editTextToString(mPinSecondDigitEditText) +
+                    editTextToString(mPinThirdDigitEditText) +
+                    editTextToString(mPinForthDigitEditText);
 
-        String inputOTP = editTextToString(mPinFirstDigitEdt) +
-                editTextToString(mPinSecondDigitEditText) +
-                editTextToString(mPinThirdDigitEditText) +
-                editTextToString(mPinForthDigitEditText);
-
-        Timber.e("Otp :" + inputOTP);
-        if (otpCode.equals(inputOTP)) {
+            Timber.e("Otp :" + inputOTP);
+            if (otpCode.equals(inputOTP)) {
+                Fragment frag = new DocProfileFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.docFrame, frag);
+                ft.commit();
+            } else {
+                AlertDialogManager.showErrorDialog(getActivity(), "Wrong OTP");
+            }
+        } else {
             Fragment frag = new DocProfileFragment();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.docFrame, frag);
             ft.commit();
-        } else {
-            AlertDialogManager.showErrorDialog(getActivity(), "Wrong OTP");
         }
 
     }
@@ -131,8 +137,9 @@ public class DocOTPFragments extends Fragment implements View.OnFocusChangeListe
         Bundle bundle = this.getArguments();
         if (bundle != null)
             mPhoneNo = bundle.getString(Key.KEY_PHONE_NO);
-
-        generateFourDigitOTP(mPhoneNo);
+        if (!AppConfig.SMS_OTP_OFF)
+            if (mPhoneNo.length() > 0)
+                generateFourDigitOTP(mPhoneNo);
 
         setPINListeners();
         return view;
@@ -144,65 +151,23 @@ public class DocOTPFragments extends Fragment implements View.OnFocusChangeListe
         Random random = new Random();
         otpCode = String.format("%04d", random.nextInt(10000));
 
-        getToken(phoneNo, otpCode);
+        sendOTP(phoneNo, otpCode);
     }
 
-    private void getToken(final String phoneNo, final String otp) {
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login",
-                new Response.Listener<String>() {
-
-                    @Override
-                    public void onResponse(String response) {
-
-                        AppController.getInstance().getRequestQueue().getCache().clear();
-                        Log.d("MOR", response);
-                        try {
-
-                            JSONObject jsonObject = new JSONObject(response);
-                            String mToken = jsonObject.getString("token");
-
-                            if (mToken.length() > 20)
-                                sendOTP(phoneNo, otp, mToken);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Timber.d("Error: " + error.getMessage());
-
-                Toast.makeText(getActivity(), "Error:" + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", "user@user.com");
-                params.put("password", "123456");
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, "hello");
-    }
-
-    private void sendOTP(final String phoneNo, final String otp, final String token) {
+    private void sendOTP(final String phoneNo, final String otp) {
         String tag = "send_otp_tag";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK
-                + "sendsms/" + phoneNo + "/" + otp + "?token=" + token
-                , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
+                + "sendsms/" + phoneNo + "/" + otp,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
 
-            }
-        }, new Response.ErrorListener() {
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 

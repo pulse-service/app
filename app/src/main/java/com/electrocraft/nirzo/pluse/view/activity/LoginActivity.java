@@ -11,12 +11,10 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,11 +24,13 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.network.ConnectionDetector;
+import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DocRegistrationActivity;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
+import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -141,12 +141,15 @@ public class LoginActivity extends AppCompatActivity {
         if (cd.isConnectingToInternet()) {
 
             if (phone.length() != 0 && password.length() != 0) {
+                if (!docLogin) {
+                    loginPatient(phone, password);
+                } else {
+                    // todo api needed doctor login
+                }
 
-
-                getToken();
 
             } else {
-                AlertDialogManager.showErrorDialog(mContext, "Insert phone no & password");
+                AlertDialogManager.showErrorDialog(mContext, "Insert phone Number & password");
             }
 
         } else {
@@ -188,7 +191,75 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void loginPatient(final String phoneNo, final String token) {
+    private void loginPatient(final String phoneNo, final String password) {
+        String patient_login_tag = "patient_log_in_tag";
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "patientregistration_login",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("MAL", response);
+
+
+                        String id = "";
+
+                        closeDialog();
+                        try {
+                            JSONObject object = new JSONObject(response);
+
+                            if (object.getString("status").equals("success")) {
+                                if (!object.isNull("data")) {
+                                    JSONObject obj = object.getJSONObject("data");
+                                    id = obj.getString("id");
+                                    SharePref.savePatientID(mContext, id);
+                                    Intent intent = new Intent(LoginActivity.this, PatientHomeActivity.class);
+                                    intent.putExtra(Key.KEY_PATIENT_ID, id);
+                                    startActivity(intent);
+
+                                }
+                            } else
+                                AlertDialogManager.showErrorDialog(LoginActivity.this, "Invalid User or password");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                // hide the progress dialog
+                closeDialog();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("phone_number", phoneNo);
+                params.put("password", password);
+
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest, patient_login_tag);
+
+    }
+
+    private void closeDialog() {
+        if (pDialog != null && pDialog.isShowing())
+            pDialog.hide();
+    }
+   /* private void localLoginPatient(final String phoneNo, final String token) {
         String patient_login_tag = "patient_log_in_tag";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "checkpatientlogin/" + phoneNo + "?token=" + token, new Response.Listener<String>() {
@@ -258,9 +329,9 @@ public class LoginActivity extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(stringRequest, patient_login_tag);
 
-    }
+    }*/
 
-    private void getToken() {
+ /*   private void getToken() {
 
 
         pDialog = new ProgressDialog(this);
@@ -275,7 +346,7 @@ public class LoginActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     mToken = jsonObject.getString("token");
                     if (mToken.length() > 20)
-                        loginPatient(edtPhone.getText().toString(), mToken);
+                        localLoginPatient(edtPhone.getText().toString(), mToken);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -300,7 +371,7 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         AppController.getInstance().addToRequestQueue(stringRequest, "hello");
-    }
+    }*/
 
 /*    private void heatStoke() {
         // Tag used to cancel the request

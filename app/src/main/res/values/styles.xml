@@ -143,4 +143,25 @@
 
         <!-- <item name="android:inputType">textPassword</item>-->
     </style>
+
+    <!--Date Picker  container  style-->
+    <style name="date_picker_container_style">
+        <item name="android:layout_height">@dimen/date_picker_height</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:padding">@dimen/padding_def</item>
+    </style>
+
+    <style name="date_picker_view_style">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">@color/input_label_hint</item>
+        <item name="android:textSize">@dimen/date_picker_text_size</item>
+    </style>
+
 </resources>

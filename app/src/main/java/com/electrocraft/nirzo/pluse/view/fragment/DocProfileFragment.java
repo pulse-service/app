@@ -128,12 +128,12 @@ public class DocProfileFragment extends Fragment {
 
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
+        getBloodGroup();
+        getNationality();
+        getLanguage();
 
-        getToken("load_blood");
-        getToken("load_national");
-        getToken("load_language");
-//        loadNationality();
-//        loadLanguage();
+
+
         return view;
     }
 
@@ -160,108 +160,54 @@ public class DocProfileFragment extends Fragment {
     };
 
 
-    private void getToken(final String request) {
 
 
 
-        pDialog.show();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("MOR", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    mToken = jsonObject.getString("token");
-                    if (mToken.length() > 20) {
-                        switch (request) {
-                            case "load_blood":
-                                getBloodGroup(mToken);
-                                break;
-                            case "load_national":
-                                getNationality(mToken);
-                                break;
-
-                            case "load_language":
-                                getLanguage(mToken);
-                                break;
-                        }
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Timber.d("Error: " + error.getMessage());
-
-
-                closeDialog();
-                Toast.makeText(getActivity(), "Error:" + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", "user@user.com");
-                params.put("password", "123456");
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, "hello");
-    }
-
-
-    private void getBloodGroup(final String token) {
+    private void getBloodGroup() {
         String blood_group_tag = "blood_group_tag";
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getbloodgroup",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Timber.d(response);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "getbloodgroup" + "?token=" + token, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                Timber.d(response);
-
-                String BGCode = "";
-                String BGName = "";
+                        String BGCode = "";
+                        String BGName = "";
 
 
-                closeDialog();
-                try {
-                    JSONObject object = new JSONObject(response);
-                    List<SpinnerHelper> bloodGroupList = new ArrayList<>();
-                    if (!object.isNull("result")) {
+                        closeDialog();
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            List<SpinnerHelper> bloodGroupList = new ArrayList<>();
+                            if (!object.isNull("data")) {
 
-                        JSONArray array = object.getJSONArray("result");
+                                JSONArray array = object.getJSONArray("data");
 
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject jsonObject = array.getJSONObject(i);
-                            BGCode = jsonObject.getString("BGCode");
-                            BGName = jsonObject.getString("BGName");
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject jsonObject = array.getJSONObject(i);
+                                    BGCode = jsonObject.getString("BGCode");
+                                    BGName = jsonObject.getString("BGName");
 
-                            SpinnerHelper helper = new SpinnerHelper(i, BGCode, BGName);
-                            bloodGroupList.add(helper);
+                                    SpinnerHelper helper = new SpinnerHelper(i, BGCode, BGName);
+                                    bloodGroupList.add(helper);
 
+                                }
+                                loadBloodGroup(bloodGroupList);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        loadBloodGroup(bloodGroupList);
+
 
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Timber.d("Error: " + error.getMessage());
-                pDialog.hide();                                                                           // hide the progress dialog
+                closeDialog();                                                                          // hide the progress dialog
             }
         });
 
@@ -273,49 +219,50 @@ public class DocProfileFragment extends Fragment {
      * hide the progress dialog
      */
     private void closeDialog() {
-        if (pDialog.isShowing())
+        if (pDialog != null && pDialog.isShowing())
             pDialog.hide();
     }
 
-    private void getNationality(final String token) {
+    private void getNationality() {
         String blood_group_tag = "blood_group_tag";
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getnationality",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Timber.d(response);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "getnationality" + "?token=" + token, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                Timber.d(response);
+                        String nCode = "";
+                        String nName = "";
 
-                String nCode = "";
-                String nName = "";
+                        closeDialog();
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            List<SpinnerHelper> list = new ArrayList<>();
+                            if (!object.isNull("data")) {
 
-                closeDialog();
-                try {
-                    JSONObject object = new JSONObject(response);
-                    List<SpinnerHelper> list = new ArrayList<>();
-                    if (!object.isNull("result")) {
+                                JSONArray array = object.getJSONArray("data");
 
-                        JSONArray array = object.getJSONArray("result");
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject jsonObject = array.getJSONObject(i);
+                                    nCode = jsonObject.getString("nCode");
+                                    nName = jsonObject.getString("nName");
 
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject jsonObject = array.getJSONObject(i);
-                            nCode = jsonObject.getString("nCode");
-                            nName = jsonObject.getString("nName");
+                                    SpinnerHelper helper = new SpinnerHelper(i, nCode, nName);
+                                    list.add(helper);
 
-                            SpinnerHelper helper = new SpinnerHelper(i, nCode, nName);
-                            list.add(helper);
+                                }
+                                loadNationality(list);
 
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        loadNationality(list);
+
 
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Timber.d("Error: " + error.getMessage());
@@ -328,45 +275,46 @@ public class DocProfileFragment extends Fragment {
     }
 
 
-    private void getLanguage(final String token) {
+    private void getLanguage() {
         String blood_group_tag = "language_tag";
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getlanguagelist",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Timber.d(response);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "getlanguagelist" + "?token=" + token, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                Timber.d(response);
+                        String lanCode = "";
+                        String lanName = "";
 
-                String lanCode = "";
-                String lanName = "";
+                        closeDialog();
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            List<SpinnerHelper> list = new ArrayList<>();
+                            if (!object.isNull("data")) {
 
-                closeDialog();
-                try {
-                    JSONObject object = new JSONObject(response);
-                    List<SpinnerHelper> list = new ArrayList<>();
-                    if (!object.isNull("result")) {
+                                JSONArray array = object.getJSONArray("data");
 
-                        JSONArray array = object.getJSONArray("result");
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject jsonObject = array.getJSONObject(i);
+                                    lanCode = jsonObject.getString("lanCode");
+                                    lanName = jsonObject.getString("lanName");
 
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject jsonObject = array.getJSONObject(i);
-                            lanCode = jsonObject.getString("lanCode");
-                            lanName = jsonObject.getString("lanName");
+                                    SpinnerHelper helper = new SpinnerHelper(i, lanCode, lanName);
+                                    list.add(helper);
 
-                            SpinnerHelper helper = new SpinnerHelper(i, lanCode, lanName);
-                            list.add(helper);
+                                }
+                                loadLanguage(list);
 
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        loadLanguage(list);
+
 
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Timber.d("Error: " + error.getMessage());

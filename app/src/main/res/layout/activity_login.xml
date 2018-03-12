@@ -349,9 +349,7 @@ android:background="@color/white"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_below="@+id/linearLayout"
-
-                android:layout_marginTop="0dp"
-                android:layout_toStartOf="@+id/linearLayout"
+                android:layout_centerHorizontal="true"
                 app:srcCompat="@drawable/splash_logo" />
 
         </RelativeLayout>

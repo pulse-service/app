@@ -57,7 +57,7 @@
                          android:inputType="date" />-->
 
 
-            <!-- Registration Date -->
+            <!-- date of Birth Date -->
             <RelativeLayout
                 android:id="@+id/rl"
                 android:layout_width="fill_parent"
@@ -197,13 +197,14 @@
                 android:id="@+id/border2"
                 style="@style/line_border_style"
                 android:layout_below="@+id/iv_doc_image_thumbel" />
+
             <TextView
                 android:id="@+id/tet_pass"
-                android:gravity="center"
-                android:layout_below="@+id/border2"
-                android:text="Passport"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/border2"
+                android:gravity="center"
+                android:text="Passport" />
 
             <ImageView
                 android:id="@+id/iv_doc_passport_thumbel"
@@ -242,13 +243,14 @@
                 android:id="@+id/border3"
                 style="@style/line_border_style"
                 android:layout_below="@+id/iv_doc_passport_thumbel" />
+
             <TextView
                 android:id="@+id/tet_nid"
-                android:gravity="center"
-                android:layout_below="@+id/border3"
-                android:text="NID"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/border3"
+                android:gravity="center"
+                android:text="NID" />
 
             <ImageView
                 android:id="@+id/iv_doc_nid_thumbel"

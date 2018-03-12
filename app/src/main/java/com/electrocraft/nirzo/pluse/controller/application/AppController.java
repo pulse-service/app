@@ -39,6 +39,7 @@ public class AppController extends com.activeandroid.app.Application {
         mInstance = this;
         Timber.plant(new Timber.DebugTree());
 
+        // todo: eta ke single class e ante hobe
         SharedPreferences preferences = getSharedPreferences(Key.APP_PREFERENCE, MODE_PRIVATE);
         boolean isFirstRun = preferences.getBoolean(Key.KEY_IS_FIRST_TIME, false);
 

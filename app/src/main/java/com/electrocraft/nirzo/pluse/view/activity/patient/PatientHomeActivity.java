@@ -18,12 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.view.adapter.ViewPagerAdapter;
 import com.electrocraft.nirzo.pluse.view.fragment.PtDescribeProblemFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtLocationBaseFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment;
+import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +47,8 @@ public class PatientHomeActivity extends AppCompatActivity
     @BindView(R.id.pt_nav_view)
     NavigationView navigationView;
 
+    String mPatientId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +56,14 @@ public class PatientHomeActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        Intent intent= getIntent();
+        /*
+        * work in late
+         */
+        Intent intent = getIntent();
+
+        mPatientId = SharePref.getPatientID(this);
 
         // toolbar
-
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null)                                                          // safety block
@@ -119,6 +127,9 @@ public class PatientHomeActivity extends AppCompatActivity
         Fragment fragment = null;
         String title = getString(R.string.app_name);
 
+        Bundle arg = new Bundle();
+        arg.putString(Key.KEY_PATIENT_ID, mPatientId);
+
         switch (item.getItemId()) {
 
             case R.id.nav_profile:
@@ -144,6 +155,9 @@ public class PatientHomeActivity extends AppCompatActivity
 
         // this if block the null point Exception if Fragment is null
         if (fragment != null) {
+
+            //set Bundle
+            fragment.setArguments(arg);
             viewPager.setVisibility(View.GONE);
             tabLayout.setVisibility(View.GONE);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

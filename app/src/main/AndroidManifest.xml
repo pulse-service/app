@@ -38,8 +38,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".view.activity.LoginActivity" />
+        <activity android:name=".view.activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".view.activity.patient.PatientHomeActivity"
             android:label="@string/title_activity_home"

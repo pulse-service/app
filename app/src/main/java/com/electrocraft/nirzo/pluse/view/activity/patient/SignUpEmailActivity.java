@@ -21,6 +21,7 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.AssetUtils;
+import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
@@ -167,7 +168,7 @@ public class SignUpEmailActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "patientregistration", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-               AppController.getInstance().getRequestQueue().getCache().clear();
+                AppController.getInstance().getRequestQueue().getCache().clear();
                 String id = "";
                 String msg = "";
                 closeDialog();
@@ -181,7 +182,11 @@ public class SignUpEmailActivity extends AppCompatActivity {
 
                             Intent patientOTP = new Intent(SignUpEmailActivity.this, PatientOtpActivity.class);
                             patientOTP.putExtra(Key.KEY_PATIENT_ID, id);
-                            patientOTP.putExtra(Key.KEY_PHONE_NO, valueCountryCode+phoneNo);
+                            /*
+                             save patient id
+                             */
+                            SharePref.savePatientID(mContext, id);
+                            patientOTP.putExtra(Key.KEY_PHONE_NO, valueCountryCode + phoneNo);
 
                             startActivity(patientOTP);
                         }
