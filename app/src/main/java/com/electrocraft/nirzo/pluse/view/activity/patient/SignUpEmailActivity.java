@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,6 +23,7 @@ import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.AssetUtils;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
+import com.electrocraft.nirzo.pluse.view.util.Key;
 import com.electrocraft.nirzo.pluse.view.util.Util;
 
 import org.json.JSONArray;
@@ -53,6 +56,10 @@ public class SignUpEmailActivity extends AppCompatActivity {
     @BindView(R.id.spCountryCode)
     Spinner spCountryCode;
     private ProgressDialog pDialog;
+    private String strCountry;
+    private String valueCountryCode;
+
+    private Context mContext;
 
 
     @Override
@@ -61,6 +68,7 @@ public class SignUpEmailActivity extends AppCompatActivity {
         setContentView(R.layout.frag_sign_up_email);
         ButterKnife.bind(this);
         loadCountryCodes();
+        mContext = this;
 
     }
 
@@ -96,6 +104,19 @@ public class SignUpEmailActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
 
         spCountryCode.setAdapter(adapter);
+
+        spCountryCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                strCountry = ((SpinnerHelper) spCountryCode.getSelectedItem()).getDatabaseValue();
+                valueCountryCode = ((SpinnerHelper) spCountryCode.getSelectedItem()).getDatabaseId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @OnClick(R.id.btnSignUpContinue)
@@ -129,57 +150,84 @@ public class SignUpEmailActivity extends AppCompatActivity {
             AlertDialogManager.showErrorDialog(context, "Password must be 6 digit");
         else {
 
-            registerPatient(patientName, email, phoneNo, password);
+            registerPatient(patientName, email, phoneNo, password, valueCountryCode);
 
 //            finish();
         }
 
     }
 
-    private void registerPatient(final String name, final String email, final String phoneNo, final String password) {
+    private void registerPatient(final String name, final String email, final String phoneNo,
+                                 final String password, final String countryCode) {
 
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/register", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "patientregistration", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-//                AppController.getInstance().getRequestQueue().getCache().clear();
+               AppController.getInstance().getRequestQueue().getCache().clear();
+                String id = "";
+                String msg = "";
+                closeDialog();
                 try {
                     JSONObject jos = new JSONObject(response);
-                    /*if (!jos.isNull("token")) {
-                        token = jos.getString("token");
-                        if (token.length() > 6)
-                            heatStoke(token);
-                    }*/
+
+                    if (jos.getString("status").equals("success")) {
+                        if (!jos.isNull("data")) {
+                            JSONObject object = jos.getJSONObject("data");
+                            id = object.getString("id");
+
+                            Intent patientOTP = new Intent(SignUpEmailActivity.this, PatientOtpActivity.class);
+                            patientOTP.putExtra(Key.KEY_PATIENT_ID, id);
+                            patientOTP.putExtra(Key.KEY_PHONE_NO, valueCountryCode+phoneNo);
+
+                            startActivity(patientOTP);
+                        }
+                    } else {
+                        msg = jos.getString("msg");
+                        AlertDialogManager.showErrorDialog(mContext, msg);
+
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 Log.d("More", response);
-                pDialog.hide();
 
-                startActivity(new Intent(SignUpEmailActivity.this, OTP_Activity.class));
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Timber.d("Error: " + error.getMessage());
-                // hide the progress dialog
-                pDialog.hide();
+                //
+                closeDialog();
             }
         }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", name);
-                params.put("email", email);
-                params.put("phoneNo", phoneNo);
-                params.put("password", password);
+                params.put("PRI_name", name);
+                params.put("PRI_password", password);
+                params.put("PRI_countryCode", countryCode);
+                params.put("PRI_phone", phoneNo);
+                params.put("PRI_email", email);
+
+
                 return params;
             }
         };
 
         AppController.getInstance().addToRequestQueue(stringRequest, "token");
+    }
+
+    /**
+     * hide the progress dialog
+     */
+    private void closeDialog() {
+        if (pDialog != null && pDialog.isShowing())
+            pDialog.hide();
     }
 }

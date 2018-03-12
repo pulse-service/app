@@ -45,7 +45,7 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme" />
         <activity android:name=".view.activity.patient.SignUpEmailActivity" />
-        <activity android:name=".view.activity.patient.OTP_Activity" />
+        <activity android:name=".view.activity.patient.PatientOtpActivity" />
         <activity android:name=".view.activity.patient.SexNDobRegActivity" />
         <activity android:name=".view.activity.doctor.DocRegistrationActivity" />
         <activity android:name=".view.activity.patient.PtDoctorProfileActivity" />

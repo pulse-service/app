@@ -1,8 +1,11 @@
 package com.electrocraft.nirzo.pluse.view.activity.patient;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,6 +24,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.view.fragment.DocProfileFragment;
+import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
+import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class OTP_Activity extends AppCompatActivity implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher {
+public class PatientOtpActivity extends AppCompatActivity implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher {
 
     @BindView(R.id.login_pin_first_edittext)
     EditText mPinFirstDigitEditText;
@@ -52,7 +58,9 @@ public class OTP_Activity extends AppCompatActivity implements View.OnFocusChang
     @BindView(R.id.login_pin_hidden_edittext)
     EditText mPinHiddenEditText;
     private String otpCode;
+    private String mPhone = "";
 
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,34 @@ public class OTP_Activity extends AppCompatActivity implements View.OnFocusChang
         setContentView(R.layout.frag_otp);
         ButterKnife.bind(this);
         setPINListeners();
+
+        Intent intent = getIntent();
+        mPhone = intent.getStringExtra(Key.KEY_PHONE_NO);
+
+        mContext = this;
+        if (mPhone.length() > 0)
+            generateFourDigitOTP(mPhone);
+    }
+
+    private String editTextToString(EditText editText) {
+        return editText.getText().toString();
+    }
+
+    @OnClick(R.id.btn_otp_verify)
+    public void onOTPVerifyClick(View view) {
+
+        String inputOTP = editTextToString(mPinFirstDigitEditText) +
+                editTextToString(mPinSecondDigitEditText) +
+                editTextToString(mPinThirdDigitEditText) +
+                editTextToString(mPinForthDigitEditText);
+
+        Timber.e("Otp :" + inputOTP);
+        if (otpCode.equals(inputOTP)) {
+            startActivity(new Intent(PatientOtpActivity.this, PatientHomeActivity.class));
+        } else {
+            AlertDialogManager.showErrorDialog(mContext, "Wrong OTP");
+        }
+
     }
 
     private void generateFourDigitOTP(final String phoneNo) {
@@ -98,7 +134,7 @@ public class OTP_Activity extends AppCompatActivity implements View.OnFocusChang
             public void onErrorResponse(VolleyError error) {
                 Timber.d("Error: " + error.getMessage());
 
-                Toast.makeText(getActivity(), "Error:" + error.getMessage(), Toast.LENGTH_LONG).show();
+
             }
         }) {
             @Override
@@ -135,10 +171,6 @@ public class OTP_Activity extends AppCompatActivity implements View.OnFocusChang
 
     }
 
-    @OnClick(R.id.btn_otp_verify)
-    public void onOTPVerifyClick(View view) {
-        startActivity(new Intent(OTP_Activity.this, PatientHomeActivity.class));
-    }
 
     private void setDefaultPinBackground(EditText editText) {
         setViewBackground(editText, getResources().getDrawable(R.drawable.general_border_box));
@@ -225,6 +257,7 @@ public class OTP_Activity extends AppCompatActivity implements View.OnFocusChang
             ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(editText.getWindowToken(), 0);
         }
     }
+
     @Override
     public void afterTextChanged(Editable s) {
 
