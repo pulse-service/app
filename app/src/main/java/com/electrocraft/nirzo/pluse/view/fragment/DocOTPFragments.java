@@ -17,15 +17,16 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
@@ -40,7 +41,6 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -72,10 +72,16 @@ public class DocOTPFragments extends Fragment implements View.OnFocusChangeListe
     @BindView(R.id.login_pin_third_edittext)
     EditText mPinThirdDigitEditText;
 
-    /*    EditText mPinSixthDigitEditText;*/
+
     @BindView(R.id.login_pin_hidden_edittext)
     EditText mPinHiddenEditText;
     private ProgressDialog pDialog;
+
+    //    private String mPhone = "";
+    private String mDoctorName = "";
+    private String mEmail = "";
+    private String mPassword = "";
+    private String mCountryCode = "";
 
 
     public DocOTPFragments() {
@@ -94,20 +100,19 @@ public class DocOTPFragments extends Fragment implements View.OnFocusChangeListe
                     editTextToString(mPinThirdDigitEditText) +
                     editTextToString(mPinForthDigitEditText);
 
-            Timber.e("Otp :" + inputOTP);
+//            Timber.e("Otp :" + inputOTP);
             if (otpCode.equals(inputOTP)) {
-                Fragment frag = new DocProfileFragment();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.docFrame, frag);
-                ft.commit();
+                registerADoctor(mDoctorName, mEmail, mPhoneNo, mPassword, mCountryCode);
+
             } else {
                 AlertDialogManager.showErrorDialog(getActivity(), "Wrong OTP");
             }
         } else {
-            Fragment frag = new DocProfileFragment();
+            registerADoctor(mDoctorName, mEmail, mPhoneNo, mPassword, mCountryCode);
+      /*      Fragment frag = new DocProfileFragment();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.docFrame, frag);
-            ft.commit();
+            ft.commit();*/
         }
 
     }
@@ -135,11 +140,18 @@ public class DocOTPFragments extends Fragment implements View.OnFocusChangeListe
 //        ButterKnife.apply(btnOtpVerify, BKViewController.DISABLE);
 
         Bundle bundle = this.getArguments();
-        if (bundle != null)
+        if (bundle != null) {
             mPhoneNo = bundle.getString(Key.KEY_PHONE_NO);
+            mCountryCode = bundle.getString(Key.KEY_COUNTRY_CODE);
+            mDoctorName = bundle.getString(Key.KEY_DOCTOR_NAME);
+            mEmail = bundle.getString(Key.KEY_EMAIL);
+            mPassword = bundle.getString(Key.KEY_PASSWORD);
+
+        }
+
         if (!AppConfig.SMS_OTP_OFF)
-            if (mPhoneNo.length() > 0)
-                generateFourDigitOTP(mPhoneNo);
+            if (mPhoneNo != null && mPhoneNo.length() > 0)
+                generateFourDigitOTP(mCountryCode + mPhoneNo);
 
         setPINListeners();
         return view;
@@ -155,11 +167,10 @@ public class DocOTPFragments extends Fragment implements View.OnFocusChangeListe
     }
 
 
-
     private void sendOTP(final String phoneNo, final String otp) {
         String tag = "send_otp_tag";
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK
                 + "sendsms/" + phoneNo + "/" + otp,
                 new Response.Listener<String>() {
                     @Override
@@ -317,5 +328,105 @@ public class DocOTPFragments extends Fragment implements View.OnFocusChangeListe
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         return false;
+    }
+
+    /**
+     * this is volley method to post verified Doctor's info for registration
+     * if process is successful than user will Go home Page
+     *
+     * @param name        patient Name
+     * @param email       patient  email
+     * @param phoneNo     patient phone number
+     * @param password    password
+     * @param countryCode country Code
+     */
+    private void registerADoctor(final String name, final String email, final String phoneNo,
+                                 final String password, final String countryCode) {
+        String tag = "doc_log_in_tag";
+
+
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "doctorregistration",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("BORODIM", response);
+
+                        String id = "";
+                        String msg = "";
+                        closeDialog();
+                        try {
+                            JSONObject jos = new JSONObject(response);
+
+                            if (jos.getString("status").equals("success")) {
+                                if (!jos.isNull("data")) {
+                                    JSONObject object = jos.getJSONObject("data");
+                                    id = object.getString("id");
+
+                           /*  save patient id*/
+                                    SharePref.saveDoctorID(getActivity(), id);
+
+                                    Fragment frag = new DocProfileFragment();
+                                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                    ft.replace(R.id.docFrame, frag);
+                                    ft.commit();
+
+//                                    startActivity(new Intent(PatientOtpActivity.this, PatientHomeActivity.class));
+                                }
+                            } else {
+                                msg = jos.getString("msg");
+                                AlertDialogManager.showErrorDialog(getActivity(), msg);
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("MOR", "Error: " + error.getMessage());
+                // hide the progress dialog
+                closeDialog();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("dname", name);
+                params.put("demail", email);
+                params.put("dpassword", password);
+                params.put("dcountryCode", countryCode);
+                params.put("dcontactNumber", phoneNo);
+                params.put("dspecializat", "SP001");
+
+            /*    :Ahsan
+                :habib.cse51@gmail.com
+                :123456
+                :0001
+                :018400403734
+                :SP001
+*/
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest, tag);
+
+    }
+
+    /**
+     * hide the progress dialog
+     */
+    private void closeDialog() {
+        if (pDialog != null && pDialog.isShowing())
+            pDialog.hide();
     }
 }

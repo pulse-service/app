@@ -56,7 +56,7 @@ public class SignUpEmailActivity extends AppCompatActivity {
 
     @BindView(R.id.spCountryCode)
     Spinner spCountryCode;
-    private ProgressDialog pDialog;
+
     private String strCountry;
     private String valueCountryCode;
 
@@ -151,88 +151,27 @@ public class SignUpEmailActivity extends AppCompatActivity {
             AlertDialogManager.showErrorDialog(context, "Password must be 6 digit");
         else {
 
-            registerPatient(patientName, email, phoneNo, password, valueCountryCode);
+            gotoOtpPage(patientName, email, phoneNo, password, valueCountryCode);
 
-//            finish();
+
         }
 
+
     }
 
-    private void registerPatient(final String name, final String email, final String phoneNo,
-                                 final String password, final String countryCode) {
+    private void gotoOtpPage(String patientName, String email, String phoneNo, String password, String valueCountryCode) {
 
+        Intent patientOTP = new Intent(SignUpEmailActivity.this, PatientOtpActivity.class);
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "patientregistration", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                String id = "";
-                String msg = "";
-                closeDialog();
-                try {
-                    JSONObject jos = new JSONObject(response);
+        patientOTP.putExtra(Key.KEY_PHONE_NO, phoneNo);
+        patientOTP.putExtra(Key.KEY_COUNTRY_CODE, valueCountryCode);
+        patientOTP.putExtra(Key.KEY_PATIENT_NAME, patientName);
+        patientOTP.putExtra(Key.KEY_EMAIL, email);
+        patientOTP.putExtra(Key.KEY_PASSWORD, password);
 
-                    if (jos.getString("status").equals("success")) {
-                        if (!jos.isNull("data")) {
-                            JSONObject object = jos.getJSONObject("data");
-                            id = object.getString("id");
-
-                            Intent patientOTP = new Intent(SignUpEmailActivity.this, PatientOtpActivity.class);
-                            patientOTP.putExtra(Key.KEY_PATIENT_ID, id);
-                            /*
-                             save patient id
-                             */
-                            SharePref.savePatientID(mContext, id);
-                            patientOTP.putExtra(Key.KEY_PHONE_NO, valueCountryCode + phoneNo);
-
-                            startActivity(patientOTP);
-                        }
-                    } else {
-                        msg = jos.getString("msg");
-                        AlertDialogManager.showErrorDialog(mContext, msg);
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.d("More", response);
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Timber.d("Error: " + error.getMessage());
-                //
-                closeDialog();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("PRI_name", name);
-                params.put("PRI_password", password);
-                params.put("PRI_countryCode", countryCode);
-                params.put("PRI_phone", phoneNo);
-                params.put("PRI_email", email);
-
-
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, "token");
+        startActivity(patientOTP);
+        //            finish();
     }
 
-    /**
-     * hide the progress dialog
-     */
-    private void closeDialog() {
-        if (pDialog != null && pDialog.isShowing())
-            pDialog.hide();
-    }
+
 }

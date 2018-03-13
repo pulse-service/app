@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 public class SharePref {
     private static final String FILE_NAME = "pulse_raw_data";
     private static final String KEY_PATIENT_ID = "p_id";
+    private static final String KEY_DOCTOR_ID = "d_id";
 
     private static void saveString(Context context, String key, String value) {
         SharedPreferences sharedPref = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
@@ -23,7 +24,15 @@ public class SharePref {
         saveString(context, KEY_PATIENT_ID, value);
 
     }
+    public static void saveDoctorID(Context context, String value) {
+        saveString(context, KEY_DOCTOR_ID, value);
 
+    }
+
+    public static String getDoctorID(Context context) {
+        return getString(context, KEY_DOCTOR_ID);
+
+    }
     public static String getPatientID(Context context) {
         return getString(context, KEY_PATIENT_ID);
 

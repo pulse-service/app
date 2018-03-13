@@ -15,5 +15,10 @@ public class Key {
     public static final String KEY_IS_FIRST_TIME="KEY_IS_FIRST_TIME";
 
     public static final String KEY_PHONE_NO="KeyPhoneNo";
+    public static final String KEY_PATIENT_NAME="KeyPatientName";
+    public static final String KEY_DOCTOR_NAME="KeyDoctorName";
+    public static final String KEY_EMAIL="KeyEmail";
+    public static final String KEY_PASSWORD="KeyPassword";
+    public static final String KEY_COUNTRY_CODE="KeyCountryCode";
     public static final String KEY_PATIENT_ID="KeyPatientId";
 }

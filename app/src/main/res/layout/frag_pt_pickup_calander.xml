@@ -8,29 +8,72 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/appbar_layout" />
+
         <CalendarView
             android:id="@+id/calendarView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp" />
+            android:layout_below="@+id/toolbar"
+            android:layout_marginTop="5dp" />
 
-
-
-        <Button
-            style="@style/general_button_style"
-            android:id="@+id/btn_5"
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/btnLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/recyVLocationSearch"
+            android:layout_below="@+id/calendarView">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="07:00 pm"
+                    android:background="@drawable/shape_round_button"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="07:30 pm"
+                    android:background="@drawable/shape_round_button"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="08:00 pm"
+                    android:background="@drawable/shape_round_button"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="08:30 pm"
+                    android:background="@drawable/shape_round_button"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_5"
+            style="@style/general_button_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnLayout"
             android:text="dim" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyVLocationSearch"
-            android:layout_below="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <!--    <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyVLocationSearch"
+                android:layout_below="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>-->
     </RelativeLayout>
 
 </ScrollView>

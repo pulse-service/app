@@ -1,5 +1,6 @@
 package com.electrocraft.nirzo.pluse.view.activity.patient;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.view.fragment.DocProfileFragment;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
@@ -59,8 +62,13 @@ public class PatientOtpActivity extends AppCompatActivity implements View.OnFocu
     EditText mPinHiddenEditText;
     private String otpCode;
     private String mPhone = "";
+    private String mPatientName = "";
+    private String mEmail = "";
+    private String mPasssword = "";
+    private String mCountryCode = "";
 
     private Context mContext;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +80,18 @@ public class PatientOtpActivity extends AppCompatActivity implements View.OnFocu
         Intent intent = getIntent();
         mPhone = intent.getStringExtra(Key.KEY_PHONE_NO);
 
+
+        mPatientName = intent.getStringExtra(Key.KEY_PATIENT_NAME);
+        mEmail = intent.getStringExtra(Key.KEY_EMAIL);
+        mPasssword = intent.getStringExtra(Key.KEY_PASSWORD);
+        mCountryCode = intent.getStringExtra(Key.KEY_COUNTRY_CODE);
+//        String string = intent.getStringExtra(Key.KEY_PHONE_NO);
+
+
         mContext = this;
         if (!AppConfig.SMS_OTP_OFF)
             if (mPhone.length() > 0)
-                generateFourDigitOTP(mPhone);
+                generateFourDigitOTP(mCountryCode + mPhone);
     }
 
     private String editTextToString(EditText editText) {
@@ -90,9 +106,12 @@ public class PatientOtpActivity extends AppCompatActivity implements View.OnFocu
                     editTextToString(mPinThirdDigitEditText) +
                     editTextToString(mPinForthDigitEditText);
 
-            Timber.e("Otp :" + inputOTP);
+//            Timber.d("Otp :" + inputOTP);
             if (otpCode.equals(inputOTP)) {
-                startActivity(new Intent(PatientOtpActivity.this, PatientHomeActivity.class));
+
+
+                registerPatient(mPatientName, mEmail, mPhone, mPasssword, mCountryCode);
+
             } else {
                 AlertDialogManager.showErrorDialog(mContext, "Wrong OTP");
             }
@@ -108,7 +127,6 @@ public class PatientOtpActivity extends AppCompatActivity implements View.OnFocu
 
         sendOTP(phoneNo, otpCode);
     }
-
 
 
     private void sendOTP(final String phoneNo, final String otp) {
@@ -271,6 +289,89 @@ public class PatientOtpActivity extends AppCompatActivity implements View.OnFocu
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         return false;
+    }
+
+    /**
+     * this is volley method to post verified patient's info for registration
+     * if process is successful than user will Go home Page
+     *
+     * @param name        patient Name
+     * @param email       patient  email
+     * @param phoneNo     patient phone number
+     * @param password    password
+     * @param countryCode country Code
+     */
+    private void registerPatient(final String name, final String email, final String phoneNo,
+                                 final String password, final String countryCode) {
+
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "patientregistration", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                AppController.getInstance().getRequestQueue().getCache().clear();
+                String id = "";
+                String msg = "";
+                closeDialog();
+                try {
+                    JSONObject jos = new JSONObject(response);
+
+                    if (jos.getString("status").equals("success")) {
+                        if (!jos.isNull("data")) {
+                            JSONObject object = jos.getJSONObject("data");
+                            id = object.getString("id");
+
+                           /*  save patient id*/
+                            SharePref.savePatientID(mContext, id);
+
+                            startActivity(new Intent(PatientOtpActivity.this, PatientHomeActivity.class));
+                        }
+                    } else {
+                        msg = jos.getString("msg");
+                        AlertDialogManager.showErrorDialog(mContext, msg);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("More", response);
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Timber.d("Error: " + error.getMessage());
+                //
+                closeDialog();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("PRI_name", name);
+                params.put("PRI_password", password);
+                params.put("PRI_countryCode", countryCode);
+                params.put("PRI_phone", phoneNo);
+                params.put("PRI_email", email);
+
+
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest, "token");
+    }
+
+    /**
+     * hide the progress dialog
+     */
+    private void closeDialog() {
+        if (pDialog != null && pDialog.isShowing())
+            pDialog.hide();
     }
 
 }

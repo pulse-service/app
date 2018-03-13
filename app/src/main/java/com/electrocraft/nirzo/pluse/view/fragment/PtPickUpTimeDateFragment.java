@@ -33,15 +33,15 @@ import butterknife.ButterKnife;
 
 public class PtPickUpTimeDateFragment extends Fragment {
 
-    @BindView(R.id.recyVLocationSearch)
-    RecyclerView rvLocationSearch;
+/*    @BindView(R.id.recyVLocationSearch)
+    RecyclerView rvLocationSearch;*/
     List<String> autoCtvHelper = new ArrayList<>();
 
     @BindView(R.id.calendarView)
     CalendarView calendarView;
 
-    private List<GeoLayR4Location> mList = new ArrayList<>();
-    private LocationSearchListAdapter mAdapter;
+  /*  private List<GeoLayR4Location> mList = new ArrayList<>();
+    private LocationSearchListAdapter mAdapter;*/
 
     public PtPickUpTimeDateFragment() {
     }
@@ -89,16 +89,16 @@ public class PtPickUpTimeDateFragment extends Fragment {
         calendarView.setMaxDate(febLast.getTimeInMillis());
         calendarView.setDate(febFirst.getTimeInMillis());
 
-        mAdapter = new LocationSearchListAdapter(mList);
+  /*      mAdapter = new LocationSearchListAdapter(mList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rvLocationSearch.setLayoutManager(mLayoutManager);
         rvLocationSearch.setItemAnimator(new DefaultItemAnimator());
         rvLocationSearch.setAdapter(mAdapter);
-        prepareData();
+        prepareData();*/
         return view;
     }
 
-    private void prepareData() {
+  /*  private void prepareData() {
         GeoLayR4Location loc = new GeoLayR4Location("004", "Mohammadpur");
         mList.add(loc);
 
@@ -134,6 +134,6 @@ public class PtPickUpTimeDateFragment extends Fragment {
         }
 
         mAdapter.notifyDataSetChanged();
-    }
+    }*/
 
 }

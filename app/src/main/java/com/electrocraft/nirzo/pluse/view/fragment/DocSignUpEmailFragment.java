@@ -136,15 +136,18 @@ public class DocSignUpEmailFragment extends Fragment {
     @OnClick(R.id.btnSignUpContinue)
     public void onSignContinueClick(View view) {
         Context context = getActivity();
-        String phoneNo=edtDoctorPhone.getText().toString();
+        String phoneNo = edtDoctorPhone.getText().toString();
+        String doctorName = edtDoctorName.getText().toString();
+        String email = edtDoctorEmail.getText().toString();
+        String password = edtDoctorPassword.getText().toString();
 
-        if (edtDoctorName.getText().toString().length() == 0) {
+        if (doctorName.length() == 0) {
 
             AlertDialogManager.showMissingDialog(getActivity(), "Name Missing");
-        } else if (edtDoctorEmail.getText().toString().length() == 0)
+        } else if (email.length() == 0)
             AlertDialogManager.showMissingDialog(context, "Email Missing");
 
-        else if (!Util.isValidEmail(edtDoctorEmail.getText().toString()))
+        else if (!Util.isValidEmail(email))
             AlertDialogManager.showMissingDialog(context, "Invalid Email");
 
         else if (phoneNo.length() == 0)
@@ -153,85 +156,20 @@ public class DocSignUpEmailFragment extends Fragment {
         else if (!Util.isValidPhoneNo(phoneNo) || phoneNo.length() != 10)
             AlertDialogManager.showMissingDialog(context, "Invalid Phone Number");
 
-        else if (edtDoctorPassword.getText().toString().length() == 0)
+        else if (password.length() == 0)
             AlertDialogManager.showErrorDialog(context, "Insert Password");
 
-        else if (edtDoctorPassword.getText().toString().length() < 6)
+        else if (password.length() < 6)
             AlertDialogManager.showErrorDialog(context, "Password must be 6 digit");
         else {
 
-            getToken();
+
+            gotoDoctorOTPPage(doctorName, email, phoneNo, password, valueCountryCode);
 
 
-//            Timber.d("Go to next  Fragment");
-        }
+//                          Send data (mPhoneNo no) fragment to fragment
 
-    }
-
-
-    private void getToken() {
-
-
-        pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("MOR", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String mToken = jsonObject.getString("token");
-                    if (mToken.length() > 20)
-                        registerADoctor(mToken);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                // hide the progress dialog
-                pDialog.hide();
-                Toast.makeText(getActivity(), "Error:" + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", "user@user.com");
-                params.put("password", "123456");
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, "hello");
-    }
-
-
-    private void registerADoctor(final String token) {
-        String patient_login_tag = "patient_log_in_tag";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "doctorregistration" + "?token=" + token, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-//                Log.d("BORODIM", response);
-
-
-                pDialog.hide();
-                try {
-                    JSONObject object = new JSONObject(response);
-
-                    if (object.getBoolean("flag")) {
-
-                        /*
-                         * Send data (mPhoneNo no) fragment to fragment
-                         */
-                        String phoneNo=valueCountryCode+edtDoctorPhone.getText().toString();
+                        /*String phoneNo=valueCountryCode+edtDoctorPhone.getText().toString();
                         Bundle bundle = new Bundle();
                         bundle.putString(Key.KEY_PHONE_NO,phoneNo);
 
@@ -239,38 +177,30 @@ public class DocSignUpEmailFragment extends Fragment {
                         frag.setArguments(bundle);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.replace(R.id.docFrame, frag);
-                        ft.commit();
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                        ft.commit();*/
 
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                // hide the progress dialog
-                pDialog.hide();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("dname", edtDoctorName.getText().toString());
-                params.put("demail", edtDoctorEmail.getText().toString());
-                params.put("dpassword", edtDoctorPassword.getText().toString());
-                params.put("dcountryCode", valueCountryCode);
-                params.put("dcontactNumber", edtDoctorPhone.getText().toString());
-
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, patient_login_tag);
+//            Timber.d("Go to next  Fragment");
+        }
 
     }
+
+    private void gotoDoctorOTPPage(String name, String email, String phoneNo, String password, String valueCountryCode) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Key.KEY_PHONE_NO, phoneNo);
+        bundle.putString(Key.KEY_COUNTRY_CODE, valueCountryCode);
+        bundle.putString(Key.KEY_DOCTOR_NAME, name);
+        bundle.putString(Key.KEY_EMAIL, email);
+        bundle.putString(Key.KEY_PASSWORD, password);
+
+
+
+        Fragment frag = new DocOTPFragments();
+        frag.setArguments(bundle);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.docFrame, frag);
+        ft.commit();
+    }
+
 
 }

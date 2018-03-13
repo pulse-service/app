@@ -79,7 +79,8 @@
     <string name="pin_label_text">PIN</string>
     <string name="login_using_facebook">Login using FaceBook</string>
     <string name="login_registration_as">Login / Registration As</string>
-    <string name="death_of_birth">Death of Birth</string>
+    <string name="death_of_birth">Date of Birth</string>
     <string name="consultation_charge">Consultation Charge</string>
     <string name="doc_otp_msg">Pulse verification code :</string>
+    <string name="reasonLabel">Reason For the Appointment</string>
 </resources>

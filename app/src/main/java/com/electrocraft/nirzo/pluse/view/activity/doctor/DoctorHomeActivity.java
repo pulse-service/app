@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.view.fragment.DocChamberFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocTodayAppointFragment;
@@ -68,6 +69,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
     }*/
 
     String token = "";
+    private String mDoctorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,8 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
                 R.string.navigation_drawer_close);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        mDoctorId = SharePref.getPatientID(this);
         timeConsume();
 //        getDoctorImageRequest();
 
