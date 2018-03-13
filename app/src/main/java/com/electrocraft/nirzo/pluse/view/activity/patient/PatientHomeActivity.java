@@ -66,8 +66,11 @@ public class PatientHomeActivity extends AppCompatActivity
         // toolbar
         setSupportActionBar(toolbar);
 
-        if (getSupportActionBar() != null)                                                          // safety block
+        if (getSupportActionBar() != null) {                                    // safety block
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
 
 
         setupViewPager(viewPager);
@@ -134,12 +137,12 @@ public class PatientHomeActivity extends AppCompatActivity
 
             case R.id.nav_profile:
                 fragment = new PtProfileFragment();
-                title = "Profile";
+                title = "";
                 break;
 
             case R.id.nav_health:
                 fragment = new PtHealthProfileFragment();
-                title = "Health";
+                title = "";
                 break;
 
             case R.id.nav_logout:

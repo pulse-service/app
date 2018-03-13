@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
         <!--android:layout_height="?attr/actionBarSize"-->
         <android.support.v7.widget.Toolbar
+            app:logo="@drawable/app_bar_logo"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar_height"

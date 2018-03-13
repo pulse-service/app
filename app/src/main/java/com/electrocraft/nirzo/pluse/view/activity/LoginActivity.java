@@ -3,17 +3,22 @@ package com.electrocraft.nirzo.pluse.view.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,30 +30,31 @@ import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.network.ConnectionDetector;
 import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DocRegistrationActivity;
-import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
+import com.electrocraft.nirzo.pluse.view.viewhelper.BKViewController;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-    private boolean docLogin = false;
+    private boolean isDoctorLogin = false;
 
     private ProgressDialog pDialog;
     private static final String TAG = "LoginActivity";
@@ -57,10 +63,10 @@ public class LoginActivity extends AppCompatActivity {
     public RelativeLayout rl_sub;
 
     @BindView(R.id.rly_login)
-    public RelativeLayout rly_login;
+    public RelativeLayout loginLayout;
 
     @BindView(R.id.ll_sub)
-    public LinearLayout sub;
+    public LinearLayout subLoginNRegLayout;
 
     private Context mContext = null;
 
@@ -70,19 +76,22 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.edtPassword)
     public EditText edtPassword;
 
+    @BindView(R.id.ivLogo)
+    ImageView ivLogo;
+
+    @BindView(R.id.spLoginOrRegAs)
+    Spinner spLoginOrRegAs;
 
     private ConnectionDetector cd;
+    private String strLoginORegAs;
+    private String codeLoginORegAsCode;
 
-    @OnClick(R.id.btn_sub_login_doc)
-    public void docLoginClick(View view) {
-        viewVisibilityController();
-        docLogin = true;
-    }
 
-    String mToken;
 
-    @BindView(R.id.rbGroupLogin)
-    RadioGroup rbGroupLogin;
+
+
+/*    @BindView(R.id.rbGroupLogin)
+    RadioGroup rbGroupLogin;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +105,8 @@ public class LoginActivity extends AppCompatActivity {
 
         cd = new ConnectionDetector(this);
 
+        loadLoginAsSpinner();
+
         /*rbGroupLogin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -103,30 +114,35 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 if (rb.getText().equals("doctor"))
-                    docLogin = true;
+                    isDoctorLogin = true;
                 else
-                    docLogin = false;
+                    isDoctorLogin = false;
             }
         });*/
     }
 
-
-    @OnCheckedChanged({R.id.rbPatient, R.id.rbDoctor})
-    public void onRadioButtonCheckChanged(CompoundButton button, boolean checked) {
-        if (checked) {
-            switch (button.getId()) {
-                case R.id.rbPatient:
-                    // do stuff
-                    docLogin = false;
-                    break;
-                case R.id.rbDoctor:
-                    // do stuff
-                    docLogin = true;
-                    break;
-            }
-        }
+    @OnClick(R.id.btn_sub_login_doc)
+    public void docLoginClick(View view) {
+        viewVisibilityController();
+        isDoctorLogin = true;
     }
 
+    /* @OnCheckedChanged({R.id.rbPatient, R.id.rbDoctor})
+     public void onRadioButtonCheckChanged(CompoundButton button, boolean checked) {
+         if (checked) {
+             switch (button.getId()) {
+                 case R.id.rbPatient:
+                     // do stuff
+                     isDoctorLogin = false;
+                     break;
+                 case R.id.rbDoctor:
+                     // do stuff
+                     isDoctorLogin = true;
+                     break;
+             }
+         }
+     }
+ */
     @OnClick(R.id.btn_sub_reg_doc)
     public void onDoctorRegistrationButton() {
         startActivity(new Intent(mContext, DocRegistrationActivity.class));
@@ -141,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
         if (cd.isConnectingToInternet()) {
 
             if (phone.length() != 0 && password.length() != 0) {
-                if (!docLogin) {
+                if (!isDoctorLogin) {
                     loginPatient(phone, password);
                 } else {
                     // todo api needed doctor login
@@ -159,35 +175,105 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onRegistrationClick(View view) {
-        if (!docLogin) {
+        if (!isDoctorLogin) {
             startActivity(new Intent(LoginActivity.this, SignUpEmailActivity.class));
         } else
             onDoctorRegistrationButton();
     }
 
-    public void onTextViewClick(View view) {
-        if (sub.getVisibility() == View.GONE)
-            sub.setVisibility(View.VISIBLE);
+    @OnClick(R.id.labelLLayout)
+    public void onTextViewClick() {
+        if (subLoginNRegLayout.getVisibility() == View.GONE)
+            subLoginNRegLayout.setVisibility(View.VISIBLE);
         else
-            sub.setVisibility(View.GONE);
+            subLoginNRegLayout.setVisibility(View.GONE);
 
-        if (rl_sub.getVisibility() == View.VISIBLE)
-            rly_login.setVisibility(View.GONE);
+        if (rl_sub.getVisibility() == View.VISIBLE) {
+            viewGone(loginLayout);
+            viewGone(ivLogo);
+
+        }
+
     }
+
+
+    private void loadLoginAsSpinner() {
+
+        String[] msg = {"Patient", "Doctor", "Login / Registration As"};
+        List<SpinnerHelper> list = new ArrayList<>();
+        for (int i = 0; i < msg.length; i++) {
+            SpinnerHelper helper = new SpinnerHelper(i, "0" + String.valueOf(i), msg[i]);
+            list.add(helper);
+        }
+
+
+        ArrayAdapter<SpinnerHelper> adapter = new ArrayAdapter<SpinnerHelper>(mContext, R.layout.rsc_spinner_text, list) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                if (position == getCount()) {
+                    ((TextView) v.findViewById(android.R.id.text1)).setText("");
+                    ((TextView) v.findViewById(android.R.id.text1)).setHint((String) getItem(getCount()).getDatabaseValue()); //"Hint to be displayed"
+                }
+
+                return v;
+            }
+
+            @Override
+            public int getCount() {
+                return super.getCount() - 1;      // you don't display last item. It is used as hint.
+            }
+        };
+
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+
+        spLoginOrRegAs.setAdapter(adapter);
+        spLoginOrRegAs.setSelection(adapter.getCount());                                            //display hint
+        spLoginOrRegAs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                strLoginORegAs = ((SpinnerHelper) spLoginOrRegAs.getSelectedItem()).getDatabaseValue();
+                codeLoginORegAsCode = ((SpinnerHelper) spLoginOrRegAs.getSelectedItem()).getDatabaseId();
+
+                if (strLoginORegAs.equals("Doctor"))
+                    isDoctorLogin = true;
+                else
+                    isDoctorLogin = false;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void viewGone(View view) {
+        ButterKnife.apply(view, BKViewController.GONE);
+    }
+
+    private void viewVisible(View view) {
+        ButterKnife.apply(view, BKViewController.VISIBLE);
+    }
+
 
     public void onSubLoginClick(View view) {
         viewVisibilityController();
 
-        docLogin = false;
+        isDoctorLogin = false;
     }
 
 
     private void viewVisibilityController() {
-        if (rly_login.getVisibility() == View.GONE) {
-            rly_login.setVisibility(View.VISIBLE);
-            sub.setVisibility(View.GONE);
+        if (loginLayout.getVisibility() == View.GONE) {
+
+            viewVisible(ivLogo);
+            viewVisible(loginLayout);
+
+            viewGone(subLoginNRegLayout);
         } else
-            rly_login.setVisibility(View.GONE);
+            loginLayout.setVisibility(View.GONE);
     }
 
 
@@ -259,159 +345,5 @@ public class LoginActivity extends AppCompatActivity {
         if (pDialog != null && pDialog.isShowing())
             pDialog.hide();
     }
-   /* private void localLoginPatient(final String phoneNo, final String token) {
-        String patient_login_tag = "patient_log_in_tag";
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_LINK + "checkpatientlogin/" + phoneNo + "?token=" + token, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-//                AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("MAL", response);
-
-                String PRI_PTID = "";
-                String PRI_PTName = "";
-                String ACS_CountryCode = "";
-                String PRI_Phone = "";
-                String PRI_Email = "";
-
-                pDialog.hide();
-                try {
-                    JSONObject object = new JSONObject(response);
-
-                    if (!object.isNull("result")) {
-
-                        JSONArray array = object.getJSONArray("result");
-
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject jsonObject = array.getJSONObject(i);
-                            PRI_PTID = jsonObject.getString("PRI_PTID");
-                            PRI_PTName = jsonObject.getString("PRI_PTName");
-                            ACS_CountryCode = jsonObject.getString("ACS_CountryCode");
-                            PRI_Phone = jsonObject.getString("PRI_Phone");
-                            PRI_Email = jsonObject.getString("PRI_Email");
-                        }
-
-                        if (PRI_PTName.length() > 0) {
-                            if (!docLogin) {
-                                Intent intent = new Intent(LoginActivity.this, PatientHomeActivity.class);
-                                intent.putExtra("PTID", PRI_PTID);
-                                intent.putExtra("PTName", PRI_PTName);
-                                startActivity(intent);
-                            } else
-                                startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));
-                        } else {
-                            AlertDialogManager.showErrorDialog(LoginActivity.this, "Invalid User");
-                        }
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                // hide the progress dialog
-                pDialog.hide();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-
-
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, patient_login_tag);
-
-    }*/
-
- /*   private void getToken() {
-
-
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("MOR", response);
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    mToken = jsonObject.getString("token");
-                    if (mToken.length() > 20)
-                        localLoginPatient(edtPhone.getText().toString(), mToken);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-//                pDialog.hide();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                // hide the progress dialog
-                pDialog.hide();
-                Toast.makeText(LoginActivity.this, "Error:" + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", "user@user.com");
-                params.put("password", "123456");
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, "hello");
-    }*/
-
-/*    private void heatStoke() {
-        // Tag used to cancel the request
-        String tag_json_obj = "json_obj_req";
-
-        String url = AppConfig.API_LINK + "user_list";
-
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("DAM", response);
-                pDialog.hide();
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                // hide the progress dialog
-                pDialog.hide();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuNy9lbGNfYXBpL3B1YmxpYy9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTUyMDE3MTA3NCwiZXhwIjoxNTIwMTc0Njc0LCJuYmYiOjE1MjAxNzEwNzQsImp0aSI6ImRsemlZRHoya29rckhKeXgifQ.nBicqrL3zYmxkCs0E2C-Y0IOaSdYunUqqZM4vWiVMP4");
-                return params;
-            }
-        };
-
-
-// Adding request to request queue
-        AppController.getInstance().addToRequestQueue(stringRequest, tag_json_obj);
-    }*/
 }

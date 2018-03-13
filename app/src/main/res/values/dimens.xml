@@ -21,6 +21,7 @@
     <dimen name="corner_rad">5dp</dimen>
 
     <!--for Doctor search list-->
+    <dimen name="doc_name_size_1">18sp</dimen>
     <dimen name="doc_name_size">22sp</dimen>
     <dimen name="doc_availableStatus_height">20dp</dimen>
     <dimen name="doc_availableStatus_width">20dp</dimen>
@@ -59,4 +60,9 @@
     <!--date picker container height-->
     <dimen name="date_picker_height">40dp</dimen>
     <dimen name="date_picker_text_size">14sp</dimen>
+    <!--logo height and width -->
+    <dimen name="logo_layout_width">80dp</dimen>
+    <dimen name="logo_layout_height">80dp</dimen>
+
+    <dimen name="spinner_height">30dp</dimen>
 </resources>

@@ -154,6 +154,7 @@
         <item name="android:padding">@dimen/padding_def</item>
     </style>
 
+  <!--  Date Style picker-->
     <style name="date_picker_view_style">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
@@ -162,6 +163,14 @@
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@color/input_label_hint</item>
         <item name="android:textSize">@dimen/date_picker_text_size</item>
+    </style>
+
+    <!--Logo style -->
+    <style name="simple_logo_style_1">
+        <item name="android:layout_width">@dimen/logo_layout_width</item>
+        <item name="android:layout_height">@dimen/logo_layout_height</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:src">@drawable/splash_logo</item>
     </style>
 
 </resources>

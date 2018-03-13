@@ -32,7 +32,7 @@ public class BKViewController {
         }
     };
 
-    public static ButterKnife.Action<View> VISIABLE=new ButterKnife.Action<View>() {
+    public static ButterKnife.Action<View> VISIBLE =new ButterKnife.Action<View>() {
         @Override
         public void apply(@NonNull View view, int index) {
             view.setVisibility(View.VISIBLE);
