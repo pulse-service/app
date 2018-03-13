@@ -66,24 +66,28 @@
         android:orientation="horizontal">
 
         <Button
+            style="@style/general_button_style"
             android:id="@+id/btnDocS_7_00pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="07:00 pm" />
 
         <Button
+            style="@style/general_button_style"
             android:id="@+id/btnDocS_7_30pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="07:30 pm" />
 
         <Button
+            style="@style/general_button_style"
             android:id="@+id/btnDocS_8_00pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="08:00 pm" />
 
         <Button
+            style="@style/general_button_style"
             android:id="@+id/btnDocS_8_30pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,24 +103,28 @@
         android:orientation="horizontal">
 
         <Button
+            style="@style/general_button_style"
             android:id="@+id/btnDocS_9_00pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="09:00 pm" />
 
         <Button
+            style="@style/general_button_style"
             android:id="@+id/btnDocS_9_30pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="09:30 pm" />
 
         <Button
+            style="@style/general_button_style"
             android:id="@+id/btnDocS_10_00pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10:00 pm" />
 
         <Button
+            style="@style/general_button_style"
             android:id="@+id/btnDocS_10_30pm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

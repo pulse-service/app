@@ -74,6 +74,7 @@
         android:inputType="date" />
 
     <Button
+        style="@style/general_button_style"
         android:id="@+id/btn_pt_reg_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
