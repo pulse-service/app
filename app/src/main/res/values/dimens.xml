@@ -50,6 +50,7 @@
 
     <!--Margin top Default-->
     <dimen name="margin_top_def">10dp</dimen>
+    <dimen name="margin_def">10dp</dimen>
 
     <!--Line border height-->
     <dimen name="line_border_height">2dp</dimen>

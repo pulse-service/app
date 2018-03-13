@@ -98,6 +98,7 @@ public class PtProfileFragment extends Fragment {
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             updateDate();
+            tvPtAge.setText(getAge(year, monthOfYear, dayOfMonth));
         }
     };
 
@@ -121,12 +122,38 @@ public class PtProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_pt_profile, container, false);
         ButterKnife.bind(this, view);
         mPatient = getArguments().getString(Key.KEY_PATIENT_ID, "");
+
+        tvPtAge.setText("0");
         return view;
     }
 
     @OnClick(R.id.btn_PtPersonalInfoSave)
     public void onProfileSave(View view) {
+       String fatherName= edtPtFatherName.getText().toString();
+       String motherName= edtPtMotherName.getText().toString();
+       String presentAddress= edtPtPresentAddress.getText().toString();
+       String patientDateOfBirth= reDOB.getText().toString();
+       String age= tvPtAge.getText().toString();
 
+        savePatientPersonalInfo(mPatient,fatherName,motherName,patientDateOfBirth,age,presentAddress);
+    }
+
+    private String getAge(int year, int month, int day) {
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        dob.set(year, month, day);
+
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
+
+        Integer ageInt = new Integer(age);
+        String ageS = ageInt.toString();
+
+        return ageS;
     }
 
     private void savePatientPersonalInfo(final String patientId, final String fatherName, final String motherName,
@@ -147,26 +174,11 @@ public class PtProfileFragment extends Fragment {
                         try {
                             JSONObject jos = new JSONObject(response);
 
-                          /*  if (jos.getString("status").equals("success")) {
-                                if (!jos.isNull("data")) {
-                                    JSONObject object = jos.getJSONObject("data");
-                                    id = object.getString("id");
+                            msg=jos.getString("msg");
 
-//                                    Intent patientOTP = new Intent(SignUpEmailActivity.this, PatientOtpActivity.class);
-//                                    patientOTP.putExtra(Key.KEY_PATIENT_ID, id);
-                            *//*
-                             save session id
-                             *//*
-//                                    SharePref.savePatientID(mContext, id);
-//                                    patientOTP.putExtra(Key.KEY_PHONE_NO, valueCountryCode + phoneNo);
-//
-//                                    startActivity(patientOTP);
-                                }
-                            } else {
-                                msg = jos.getString("msg");
-                                AlertDialogManager.showErrorDialog(mContext, msg);
+                            AlertDialogManager.showErrorDialog(getActivity(),msg);
 
-                            }*/
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
