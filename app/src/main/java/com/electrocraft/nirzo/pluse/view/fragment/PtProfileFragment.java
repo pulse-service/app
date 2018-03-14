@@ -84,13 +84,13 @@ public class PtProfileFragment extends Fragment {
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private Calendar calendar = Calendar.getInstance();
     @BindView(R.id.tvPatientDOB)
-    public TextView patientDOB;
+    public TextView tvPatientDOB;
 
     /**
      * DatePicker code Start
      **/
     public void updateDate() {
-        patientDOB.setText(format.format(calendar.getTime()));
+        tvPatientDOB.setText(format.format(calendar.getTime()));
     }
 
     public void setDate() {
@@ -137,14 +137,25 @@ public class PtProfileFragment extends Fragment {
         return view;
     }
 
+    private void setDataToView(String str, EditText view) {
+        if (str.length() > 0)
+            view.setText(str);
+        else
+            view.setText("");
+    }
+
     private void setPatientProfileInfo() {
-        if (mfatherName.length() > 0) {
-            edtPtFatherName.setText(mfatherName);
+
+        setDataToView(mfatherName, edtPtFatherName);
+        setDataToView(mMotherName, edtPtMotherName);
+        setDataToView(mPresentAddress, edtPtPresentAddress);
+
+
+           /* edtPtFatherName.setText(mfatherName);
             edtPtMotherName.setText(mMotherName);
-            edtPtPresentAddress.setText(mPresentAddress);
-            patientDOB.setText(mPatientDateOfBirth);
-            tvPtAge.setText(mAge);
-        }
+            edtPtPresentAddress.setText(mPresentAddress);*/
+        tvPatientDOB.setText(mPatientDateOfBirth);
+        tvPtAge.setText(mAge);
 
 
     }
@@ -154,12 +165,18 @@ public class PtProfileFragment extends Fragment {
         String fatherName = edtPtFatherName.getText().toString();
         String motherName = edtPtMotherName.getText().toString();
         String presentAddress = edtPtPresentAddress.getText().toString();
-        String patientDateOfBirth = patientDOB.getText().toString();
+        String patientDateOfBirth = tvPatientDOB.getText().toString();
         String age = tvPtAge.getText().toString();
 
         savePatientPersonalInfo(mPatientId, fatherName, motherName, patientDateOfBirth, age, presentAddress);
     }
 
+    /**
+     * @param year  patient's year of Birth
+     * @param month patient's month of Birth
+     * @param day   patient's day of Birth
+     * @return age in year
+     */
     private String getAge(int year, int month, int day) {
         Calendar dob = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
@@ -173,9 +190,9 @@ public class PtProfileFragment extends Fragment {
         }
 
         Integer ageInt = new Integer(age);
-        String ageS = ageInt.toString();
+        return ageInt.toString();
 
-        return ageS;
+
     }
 
     private void getPatientPersonalInfo(final String patientId) {
