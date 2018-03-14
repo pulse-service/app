@@ -35,8 +35,12 @@
     <color name="yellow">#FF0</color>
     <color name="line_border_color_white_gray">#c0c0c0</color>
     <color name="fb_color">#416BC1</color>
-    <color name="btn_green_">#00897B</color>
-    <color name="btn_green_border">#00695C</color>
+ <!--   previous button color
+  <color name="btn_green_">#00897B</color>
+    <color name="btn_green_border">#00695C</color>-->
+
+    <color name="btn_green_">#489352</color>
+    <color name="btn_green_border">#489352</color>
 
     <color name="input_label_hint">#999999</color>
 </resources>

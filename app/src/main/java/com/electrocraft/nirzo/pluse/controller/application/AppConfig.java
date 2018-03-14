@@ -21,6 +21,8 @@ public class AppConfig {
      ***********************************************************************************/
     public static final String LIVE_API_LINK = "http://180.148.210.139:8081/pulse_api/api/";
 
+    public static final String API_NOT_AVALIBLE = "wtf";
+
 
     public static final String IMAGE_UPLOAD_API_LINK = "http://192.168.1.110:82/pic_up/upload.php";
 

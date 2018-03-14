@@ -22,6 +22,7 @@ public class AlertDialogManager {
     private static final int ERROR = 0;
     private static final int WARNING = 1;
     private static final int MISSING = 2;
+    private static final int SUCCESS = 3;
 
 //    showWarningDialog
 
@@ -34,6 +35,12 @@ public class AlertDialogManager {
     public static void showMissingDialog(Context context, String message) {
 
         showAcknowledgementDialog(context, "Missing", message, "ok", MISSING);
+
+    }
+
+    public static void showSuccessDialog(Context context, String message) {
+
+        showAcknowledgementDialog(context, "Success", message, "ok", SUCCESS);
 
     }
 
@@ -63,6 +70,10 @@ public class AlertDialogManager {
                 break;
             case MISSING:
                 alertDialog.setIcon(R.drawable.ic_missing_32);
+                break;
+
+            case SUCCESS:
+                alertDialog.setIcon(R.drawable.ic_checkmark);
                 break;
         }
 

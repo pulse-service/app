@@ -137,6 +137,11 @@ public class PtProfileFragment extends Fragment {
         return view;
     }
 
+    /**
+     * set data to the View
+     * @param str data
+     * @param view editText
+     */
     private void setDataToView(String str, EditText view) {
         if (str.length() > 0)
             view.setText(str);
@@ -150,10 +155,6 @@ public class PtProfileFragment extends Fragment {
         setDataToView(mMotherName, edtPtMotherName);
         setDataToView(mPresentAddress, edtPtPresentAddress);
 
-
-           /* edtPtFatherName.setText(mfatherName);
-            edtPtMotherName.setText(mMotherName);
-            edtPtPresentAddress.setText(mPresentAddress);*/
         tvPatientDOB.setText(mPatientDateOfBirth);
         tvPtAge.setText(mAge);
 
@@ -201,9 +202,7 @@ public class PtProfileFragment extends Fragment {
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
-        /*
-        http://180.148.210.139:8081/pulse_api/api/patientprofilepersonalinfo/ECL-00000001
-         */
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "patientprofilepersonalinfo/" + patientId,
                 new Response.Listener<String>() {
                     @Override
@@ -289,7 +288,8 @@ public class PtProfileFragment extends Fragment {
 
                             msg = jos.getString("msg");
 
-                            AlertDialogManager.showErrorDialog(getActivity(), msg);
+
+                            AlertDialogManager.showSuccessDialog(getActivity(), msg);
 
 
                         } catch (JSONException e) {

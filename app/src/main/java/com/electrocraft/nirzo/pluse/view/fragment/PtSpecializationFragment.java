@@ -138,13 +138,14 @@ public class PtSpecializationFragment extends Fragment {
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "doctor_list",
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getdoctorslist",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         AppController.getInstance().getRequestQueue().getCache().clear();
                         Log.d("DIM", response);
 
+                        String DRI_ID = "";
                         String DRI_DrName = "";
                         String DCharge = "";
                         String Expertise = "";
@@ -156,18 +157,25 @@ public class PtSpecializationFragment extends Fragment {
                             JSONObject object = new JSONObject(response);
 
 
-                            if (!object.isNull("data")) {
+                            if (!object.isNull("DoctorsLists")) {
 
-                                JSONArray array = object.getJSONArray("data");
+                                JSONArray array = object.getJSONArray("DoctorsLists");
 
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject jsonObject = array.getJSONObject(i);
+                                    /*
+                                    "DRI_ID": "DR000000001",
+            "name": "Dr. Faisal Mohammad",
+            "SPName": "Cardiology",
+            "Expertise": "FCPS, FRCS, MD (MED)",
+            "amount": 1200
+                                     */
 
-                                    DRI_DrName = jsonObject.getString("DRI_DrName");
+                                    DRI_ID = jsonObject.getString("DRI_ID");
+                                    DRI_DrName = jsonObject.getString("name");
                                     Expertise = jsonObject.getString("Expertise");
                                     SPName = jsonObject.getString("SPName");
-
-                                    DCharge = jsonObject.getString("DCharge");
+                                    DCharge = jsonObject.getString("amount");
 
                                     DoctorSearch doctor = new DoctorSearch(DRI_DrName, Expertise, SPName, DCharge, true);
                                     mList.add(doctor);
