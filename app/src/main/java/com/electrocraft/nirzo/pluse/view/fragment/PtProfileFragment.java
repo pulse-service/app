@@ -2,7 +2,6 @@ package com.electrocraft.nirzo.pluse.view.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,12 +21,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
-import com.electrocraft.nirzo.pluse.view.activity.patient.PatientOtpActivity;
-import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,7 +48,19 @@ import timber.log.Timber;
 
 public class PtProfileFragment extends Fragment {
 
-    private String mPatient;
+    /**
+     * the patient id
+     */
+    private String mPatientId;
+
+    private String mfatherName = "";
+    private String mMotherName = "";
+    private String mPresentAddress = "";
+    private String mPatientDateOfBirth = "";
+    private String mAge = "";
+    /**
+     * save button
+     */
     @BindView(R.id.btn_PtPersonalInfoSave)
     Button btn_PtPersonalInfoSave;
 
@@ -62,8 +71,6 @@ public class PtProfileFragment extends Fragment {
     @BindView(R.id.edtPtMotherName)
     EditText edtPtMotherName;
 
-  /*  @BindView(R.id.edtPtDeathOfBirth)
-    EditText edtPtDeathOfBirth;*/
 
     @BindView(R.id.edtPtPresentAddress)
     EditText edtPtPresentAddress;
@@ -77,13 +84,13 @@ public class PtProfileFragment extends Fragment {
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private Calendar calendar = Calendar.getInstance();
     @BindView(R.id.tvPatientDOB)
-    public TextView reDOB;
+    public TextView patientDOB;
 
     /**
      * DatePicker code Start
      **/
     public void updateDate() {
-        reDOB.setText(format.format(calendar.getTime()));
+        patientDOB.setText(format.format(calendar.getTime()));
     }
 
     public void setDate() {
@@ -121,21 +128,36 @@ public class PtProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_pt_profile, container, false);
         ButterKnife.bind(this, view);
-        mPatient = getArguments().getString(Key.KEY_PATIENT_ID, "");
+        mPatientId = getArguments().getString(Key.KEY_PATIENT_ID, "");
 
         tvPtAge.setText("0");
+        getPatientPersonalInfo(mPatientId);
+
+
         return view;
+    }
+
+    private void setPatientProfileInfo() {
+        if (mfatherName.length() > 0) {
+            edtPtFatherName.setText(mfatherName);
+            edtPtMotherName.setText(mMotherName);
+            edtPtPresentAddress.setText(mPresentAddress);
+            patientDOB.setText(mPatientDateOfBirth);
+            tvPtAge.setText(mAge);
+        }
+
+
     }
 
     @OnClick(R.id.btn_PtPersonalInfoSave)
     public void onProfileSave(View view) {
-       String fatherName= edtPtFatherName.getText().toString();
-       String motherName= edtPtMotherName.getText().toString();
-       String presentAddress= edtPtPresentAddress.getText().toString();
-       String patientDateOfBirth= reDOB.getText().toString();
-       String age= tvPtAge.getText().toString();
+        String fatherName = edtPtFatherName.getText().toString();
+        String motherName = edtPtMotherName.getText().toString();
+        String presentAddress = edtPtPresentAddress.getText().toString();
+        String patientDateOfBirth = patientDOB.getText().toString();
+        String age = tvPtAge.getText().toString();
 
-        savePatientPersonalInfo(mPatient,fatherName,motherName,patientDateOfBirth,age,presentAddress);
+        savePatientPersonalInfo(mPatientId, fatherName, motherName, patientDateOfBirth, age, presentAddress);
     }
 
     private String getAge(int year, int month, int day) {
@@ -156,6 +178,80 @@ public class PtProfileFragment extends Fragment {
         return ageS;
     }
 
+    private void getPatientPersonalInfo(final String patientId) {
+        String tag = "get_patient_personal_info";
+
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        /*
+        http://180.148.210.139:8081/pulse_api/api/patientprofilepersonalinfo/ECL-00000001
+         */
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "patientprofilepersonalinfo/" + patientId,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+
+                        String PPPI_PTPersonalInfoCode = "";
+                        String PRI_PTID = "";
+                        String PPPI_FatherName = "";
+                        String PPPI_MotherName = "";
+                        String DOB = "";
+                        String PPPI_Age = "";
+                        String PPPI_PresentAddress = "";
+                        String PPPI_Photo = "";
+                        closeDialog();
+                        try {
+                            JSONObject jos = new JSONObject(response);
+
+                            if (jos.getString("status").equals("success")) {
+                                if (!jos.isNull("data")) {
+                                    JSONArray daArray = jos.getJSONArray("data");
+                                    for (int i = 0; i < daArray.length(); i++) {
+                                        JSONObject object = daArray.getJSONObject(i);
+                                        PPPI_PTPersonalInfoCode = object.getString("PPPI_PTPersonalInfoCode");
+                                        PRI_PTID = object.getString("PRI_PTID");
+                                        PPPI_FatherName = object.getString("PPPI_FatherName");
+                                        PPPI_MotherName = object.getString("PPPI_MotherName");
+                                        DOB = object.getString("DOB");
+                                        PPPI_Age = object.getString("PPPI_Age");
+                                        PPPI_PresentAddress = object.getString("PPPI_PresentAddress");
+                                        PPPI_Photo = object.getString("PPPI_Photo");
+
+                                    }
+                                }
+
+                            }
+
+
+                            mfatherName = PPPI_FatherName;
+                            mMotherName = PPPI_MotherName;
+                            mPresentAddress = PPPI_PresentAddress;
+                            mPatientDateOfBirth = DOB;
+                            mAge = PPPI_Age;
+                            setPatientProfileInfo();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("PatientPersonal", response);
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Timber.d("Error: " + error.getMessage());
+
+                closeDialog();
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(stringRequest, tag);
+    }
+
+
     private void savePatientPersonalInfo(final String patientId, final String fatherName, final String motherName,
                                          final String patientDOB, final String patientAge, final String patientPresentAdd) {
         String tag = "patient_personal_info_save";
@@ -174,10 +270,9 @@ public class PtProfileFragment extends Fragment {
                         try {
                             JSONObject jos = new JSONObject(response);
 
-                            msg=jos.getString("msg");
+                            msg = jos.getString("msg");
 
-                            AlertDialogManager.showErrorDialog(getActivity(),msg);
-
+                            AlertDialogManager.showErrorDialog(getActivity(), msg);
 
 
                         } catch (JSONException e) {

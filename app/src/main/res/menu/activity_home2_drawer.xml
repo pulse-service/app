@@ -12,6 +12,11 @@
             android:id="@+id/nav_health"
             android:icon="@drawable/ic_menu_heartbeat"
             android:title="@string/health" />
+<!-- for future work
+        <item
+            android:id="@+id/nav_family_member_prof"
+            android:icon="@drawable/ic_menu_family_group"
+            android:title="@string/family_member_profile" />-->
 
         <item
             android:id="@+id/nav_logout"
