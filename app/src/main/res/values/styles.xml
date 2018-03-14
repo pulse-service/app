@@ -27,6 +27,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark_1</item>
         <item name="colorAccent">@color/colorAccent_1</item>
     </style>
+    <!--Root container style-->
+    <style name="root_container_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/white</item>
+    </style>
 
     <!--A style for Container layout ie: LinerLayout or RelativeLayout-->
 
@@ -48,6 +54,7 @@
         <item name="android:paddingEnd">@dimen/container_margin</item>
         <item name="android:paddingRight">@dimen/container_margin</item>
         <item name="android:paddingTop">@dimen/container_margin</item>
+        <item name="android:background">@color/white</item>
 
 
     </style>
@@ -56,11 +63,13 @@
 
     <style name="edit_text_style_1">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
         <!--    <item name="android:background">@drawable/border_edt_text</item>    -->
+            <item name="android:background">@drawable/border_general_edit_text</item>
         <item name="android:ems">10</item>
-        <item name="android:padding">@dimen/edit_text_padding</item>
+        <item name="android:padding">2dp</item>
     </style>
+
 
     <!--spinner item style-->
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">

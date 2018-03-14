@@ -4,8 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/new_splash_logo"
+    android:background="@color/colorPrimary"
     tools:context="com.electrocraft.nirzo.pluse.view.activity.SplashScreen">
 
 
+    <ImageView
+        android:contentDescription="@string/app_logo"
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/app_water_logo" />
 </RelativeLayout>

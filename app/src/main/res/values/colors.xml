@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary_2">#32BD12</color>
-    <color name="colorPrimary">#2C38A3</color>
+    <!--<color name="colorPrimary">#2C38A3</color>-->
+ <!--   <color name="colorPrimaryDark">#1A237E</color>-->
+    <color name="colorPrimary">#489352</color>
+    <color name="colorPrimaryDark">#136428</color>
     <color name="colorPrimaryDark_2">#29A829</color>
-    <color name="colorPrimaryDark">#1A237E</color>
+
     <color name="colorAccent">#00D4FF</color>
     <color name="color_white">#FFF</color>
 
@@ -41,6 +44,8 @@
 
     <color name="btn_green_">#489352</color>
     <color name="btn_green_border">#489352</color>
+
+    <color name="edit_text_border_color">#B8B8B8</color>
 
     <color name="input_label_hint">#999999</color>
 </resources>

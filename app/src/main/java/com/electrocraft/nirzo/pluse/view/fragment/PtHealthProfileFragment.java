@@ -48,6 +48,11 @@ import timber.log.Timber;
 public class PtHealthProfileFragment extends Fragment {
 
     private String mCodeBloodGroup;
+    private String mWeight;
+    private String mBloodPressure;
+    private String mHeight;
+    private String mFamilyDiseaseHistory;
+    private String mExistingMedicalReport;
 
     @BindView(R.id.edtWeight)
     EditText edtWeight;
@@ -57,10 +62,13 @@ public class PtHealthProfileFragment extends Fragment {
     EditText edtFamilyDiseaseHistory;
     @BindView(R.id.edtExistingMedicalReport)
     EditText edtExistingMedicalReport;
+
+    @BindView(R.id.edtHeight)
+    EditText edtHeight;
     @BindView(R.id.spBloodGroup)
     Spinner spBloodGroup;
     private ProgressDialog pDialog;
-    private String mPatientId="";
+    private String mPatientId = "";
 
 
     public PtHealthProfileFragment() {
@@ -76,9 +84,11 @@ public class PtHealthProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_pt_health_profile, container, false);
         ButterKnife.bind(this, view);
-        getBloodGroup();
         mPatientId = getArguments().getString(Key.KEY_PATIENT_ID, "");
+
+
         getPatientHealthInfo(mPatientId);
+
         return view;
     }
 
@@ -88,9 +98,11 @@ public class PtHealthProfileFragment extends Fragment {
 
         String weight = edtWeight.getText().toString();
         String bloodPressure = edtBloodPressure.getText().toString();
+        String height = edtHeight.getText().toString();
         String familyDiseaseHistory = edtFamilyDiseaseHistory.getText().toString();
         String existingMedicalReport = edtExistingMedicalReport.getText().toString();
-        savePatientHealthInfo(mPatientId, weight, bloodPressure, existingMedicalReport,  familyDiseaseHistory,mCodeBloodGroup);
+        String pulseRate = "";
+        savePatientHealthInfo(mPatientId, weight, height, bloodPressure, existingMedicalReport, familyDiseaseHistory, mCodeBloodGroup, pulseRate);
 
     }
 
@@ -99,8 +111,8 @@ public class PtHealthProfileFragment extends Fragment {
      */
     private void getBloodGroup() {
         String blood_group_tag = "blood_group_tag";
-        pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Loading...");
+        /*pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");*/
         pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getbloodgroup",
                 new Response.Listener<String>() {
@@ -165,16 +177,25 @@ public class PtHealthProfileFragment extends Fragment {
 
         spBloodGroup.setAdapter(adapter);
 
+        if (mCodeBloodGroup != null) {
+            int position = 0;
+            for (int i = 0; i < spBloodGroup.getCount(); i++) {
+                String group = spBloodGroup.getItemAtPosition(i).toString();
+                String value = list.get(i).getDatabaseId();
+                if (value.equals(mCodeBloodGroup)) {
+                    position = i;
+                }
+            }
+            spBloodGroup.setSelection(position);
+        }
+
         spBloodGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String strBloodGroup = ((SpinnerHelper) spBloodGroup.getSelectedItem()).getDatabaseValue();
                 mCodeBloodGroup = ((SpinnerHelper) spBloodGroup.getSelectedItem()).getDatabaseId();
 
-                /*if (strLoginORegAs.equals("Doctor"))
-                    isDoctorLogin = true;
-                else
-                    isDoctorLogin = false;*/
+
             }
 
             @Override
@@ -192,15 +213,17 @@ public class PtHealthProfileFragment extends Fragment {
             pDialog.hide();
     }
 
-    private void savePatientHealthInfo(final String patientId, final String weight, final String bloodPressure,
-                                       final String existingMedicalReport, final String familyDiseaseHistory, final String bloodGroup) {
+    private void savePatientHealthInfo(final String patientId, final String weight, final String height, final String bloodPressure,
+                                       final String existingMedicalReport,
+                                       final String familyDiseaseHistory, final String bloodGroup,
+                                       final String pulseRate) {
         String tag = "patient_health_info_save";
 
 
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_NOT_AVALIBLE + " ",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "getPatientHealthInfo",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -237,12 +260,14 @@ public class PtHealthProfileFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
 
 
-             /*   params.put("father_name", fatherName);
-                params.put("mother_name", motherName);
-                params.put("dob", patientDOB);
-                params.put("age", patientAge);
-                params.put("presentAddress", patientPresentAdd);
-                params.put("pri_prid", patientId);*/
+                params.put("patient_bp", bloodPressure);
+                params.put("patient_weight", weight);
+                params.put("patient_height", height);
+                params.put("patient_blood_group_code", bloodGroup);
+                params.put("family_disease_history", familyDiseaseHistory);
+                params.put("patient_pluse_rate", pulseRate);
+                params.put("pri_prid", patientId);
+                params.put("existing_medical_report", existingMedicalReport);
                 // api param active but not integrated
                 // params.put("image", image);
 
@@ -255,56 +280,61 @@ public class PtHealthProfileFragment extends Fragment {
     }
 
     private void getPatientHealthInfo(final String patientId) {
-        String tag = "get_patient_personal_info";
+        String tag = "get_patient_helth_info";
 
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.API_NOT_AVALIBLE + "/" + patientId,
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getPatientHealthInfo/" + patientId,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         AppController.getInstance().getRequestQueue().getCache().clear();
 
-                        String PPPI_PTPersonalInfoCode = "";
-                        String PRI_PTID = "";
-                        String PPPI_FatherName = "";
-                        String PPPI_MotherName = "";
-                        String DOB = "";
-                        String PPPI_Age = "";
-                        String PPPI_PresentAddress = "";
-                        String PPPI_Photo = "";
                         closeDialog();
+                        String PPHI_BP = "";
+                        String PPHI_PluseRate = "";
+                        String PPHI_Weight = "";
+                        String PPHI_Height = "";
+                        String BG_BloodGroupCode = "";
+                        String PPHI_FamilyDiseaseHistory = "";
+                        String PPHI_ExistingMedicalReport = "";
+                    /*    String PPPI_Photo = "";*/
+
                         try {
                             JSONObject jos = new JSONObject(response);
 
-                           /* if (jos.getString("status").equals("success")) {
+                            if (jos.getString("status").equals("success")) {
                                 if (!jos.isNull("data")) {
                                     JSONArray daArray = jos.getJSONArray("data");
                                     for (int i = 0; i < daArray.length(); i++) {
                                         JSONObject object = daArray.getJSONObject(i);
-                                        PPPI_PTPersonalInfoCode = object.getString("PPPI_PTPersonalInfoCode");
-                                        PRI_PTID = object.getString("PRI_PTID");
-                                        PPPI_FatherName = object.getString("PPPI_FatherName");
-                                        PPPI_MotherName = object.getString("PPPI_MotherName");
-                                        DOB = object.getString("DOB");
-                                        PPPI_Age = object.getString("PPPI_Age");
-                                        PPPI_PresentAddress = object.getString("PPPI_PresentAddress");
-                                        PPPI_Photo = object.getString("PPPI_Photo");
+
+                                        PPHI_BP = object.getString("PPHI_BP");
+                                        PPHI_PluseRate = object.getString("PPHI_PluseRate");
+                                        PPHI_Weight = object.getString("PPHI_Weight");
+                                        PPHI_Height = object.getString("PPHI_Height");
+                                        BG_BloodGroupCode = object.getString("BG_BloodGroupCode");
+                                        PPHI_FamilyDiseaseHistory = object.getString("PPHI_FamilyDiseaseHistory");
+                                        PPHI_ExistingMedicalReport = object.getString("PPHI_ExistingMedicalReport");
+                                    /*    PPPI_Photo = object.getString("PPPI_Photo");*/
 
                                     }
                                 }
 
                             }
-*/
 
-                       /*     mfatherName = PPPI_FatherName;
-                            mMotherName = PPPI_MotherName;
-                            mPresentAddress = PPPI_PresentAddress;
-                            mPatientDateOfBirth = DOB;
-                            mAge = PPPI_Age;*/
-                            setPatientProfileInfo();
+
+                            mWeight = PPHI_Weight;
+                            mBloodPressure = PPHI_BP;
+                            mHeight = PPHI_Height;
+                            mFamilyDiseaseHistory = PPHI_FamilyDiseaseHistory;
+                            mExistingMedicalReport = PPHI_ExistingMedicalReport;
+                            mCodeBloodGroup = BG_BloodGroupCode;
+
+                            setPatientHealthInfo();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -325,20 +355,20 @@ public class PtHealthProfileFragment extends Fragment {
         AppController.getInstance().addToRequestQueue(stringRequest, tag);
     }
 
-    private void setPatientProfileInfo() {
+    private void setPatientHealthInfo() {
+        setDataToView(mWeight, edtWeight);
+        setDataToView(mBloodPressure, edtBloodPressure);
+        setDataToView(mHeight, edtHeight);
+        setDataToView(mFamilyDiseaseHistory, edtFamilyDiseaseHistory);
+        setDataToView(mExistingMedicalReport, edtExistingMedicalReport);
 
-     /*   setDataToView(mfatherName, edtPtFatherName);
-        setDataToView(mMotherName, edtPtMotherName);
-        setDataToView(mPresentAddress, edtPtPresentAddress);
-
-        tvPatientDOB.setText(mPatientDateOfBirth);
-        tvPtAge.setText(mAge);*/
-
-
+        getBloodGroup();
     }
+
     /**
      * set data to the View
-     * @param str data
+     *
+     * @param str  data
      * @param view editText
      */
     private void setDataToView(String str, EditText view) {

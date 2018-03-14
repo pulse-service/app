@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -78,6 +80,12 @@ public class DocSignUpEmailFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
 
     @Nullable
     @Override
@@ -85,6 +93,10 @@ public class DocSignUpEmailFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_doc_sign_up_email, container, false);
         ButterKnife.bind(this, view);
         loadCountryCodes();
+
+        // hide the soft input
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         return view;
     }
 

@@ -72,7 +72,7 @@
     <string name="female">Female</string>
     <string name="terms_N_condition"><![CDATA[Terms & Condition]]></string>
     <string name="privacyNpolicy">Privacy Policy</string>
-    <string name="otp_info">The system will send you an one time access code as   SMS message to verify provided phone number</string>
+    <string name="otp_info">The system will send you an one time password to verify provided phone number</string>
     <string name="lable">By continuing you confirm that you accept our</string>
 
     <string name="pin_content_desc">PIN input field</string>
@@ -84,4 +84,8 @@
     <string name="doc_otp_msg">Pulse verification code :</string>
     <string name="reasonLabel">Reason For the Appointment</string>
     <string name="family_member_profile">Family members Profile</string>
+    <string name="full_name">* Full Name</string>
+    <string name="already_have_an_account_login">Already have an account ! Login</string>
+    <string name="app_logo">app_logo</string>
+    <string name="height">* Height</string>
 </resources>

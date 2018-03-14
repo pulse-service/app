@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/root_container_style"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activity.patient.SignUpEmailActivity">
 
-    <include
+<!--    <include
         android:id="@+id/my_toolbar"
-        layout="@layout/appbar_layout" />
-
+        layout="@layout/appbar_layout" />-->
+   <!-- android:layout_below="@+id/my_toolbar"-->
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/my_toolbar">
+        android:layout_height="match_parent"
+     >
 
-        <RelativeLayout style="@style/container_style_1">
+        <RelativeLayout
+
+            style="@style/container_style_1">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:src="@drawable/pulse_logo"
+                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="90dp" />
 
             <EditText
+                android:layout_below="@+id/logo"
                 android:id="@+id/edit_name"
                 style="@style/edit_text_style_1"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="36dp"
-                android:hint="@string/name"
+                android:layout_marginTop="@dimen/margin_def"
+                android:hint="@string/full_name"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -68,7 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edt_password"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
                 android:text="@string/otp_info" />
 
 
@@ -92,19 +103,23 @@
                     android:id="@+id/tv_labe3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-
                     android:text="@string/terms_N_condition"
-                    android:textColor="@color/red"
+                    android:textColor="@color/btn_green_"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_labe5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" and "
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_labe4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:text="@string/privacyNpolicy"
-                    android:textColor="@color/red"
+                    android:textColor="@color/btn_green_"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -119,6 +134,17 @@
                 android:background="@drawable/ripple_effect_reg"
                 android:text="@string/continu"
                 android:textColor="@color/color_white" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:layout_below="@+id/btnSignUpContinue"
+                android:id="@+id/tv_labe8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/already_have_an_account_login"
+                android:textColor="@color/btn_green_"
+                android:textSize="12sp" />
 
         </RelativeLayout>
     </ScrollView>
