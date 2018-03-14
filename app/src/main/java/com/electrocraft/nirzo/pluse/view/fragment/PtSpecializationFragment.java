@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,13 +28,8 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.model.DoctorSearch;
-import com.electrocraft.nirzo.pluse.view.activity.LoginActivity;
-import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
-import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
-import com.electrocraft.nirzo.pluse.view.activity.patient.PtDoctorProfileActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorSearchListAdapter;
 import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
-import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import org.json.JSONArray;
@@ -41,9 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,28 +88,8 @@ public class PtSpecializationFragment extends Fragment {
 
 //        loadCategories();
 
-        mAdapter = new DoctorSearchListAdapter(mList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        rvDocSearch.setLayoutManager(mLayoutManager);
-        rvDocSearch.setItemAnimator(new DefaultItemAnimator());
-        rvDocSearch.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        rvDocSearch.setAdapter(mAdapter);
-        rvDocSearch.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rvDocSearch, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                DoctorSearch doctorSearch = mList.get(position);
-                //  Timber.d("hello Doc");
-                Intent intent = new Intent(getActivity(), PtDoctorProfileActivity.class);
-                intent.putExtra(Key.DOCTOR_NAME_KEY, doctorSearch.getName());
-                startActivity(intent);
+        setUpAdapter();
 
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
 
         getDoctorList();
 //        prepareData();
@@ -130,6 +104,42 @@ public class PtSpecializationFragment extends Fragment {
         actvLocationSearch.setTextColor(Color.RED);
         return view;
 
+    }
+
+    private void setUpAdapter() {
+        mAdapter = new DoctorSearchListAdapter(mList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        rvDocSearch.setLayoutManager(mLayoutManager);
+        rvDocSearch.setItemAnimator(new DefaultItemAnimator());
+        rvDocSearch.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        rvDocSearch.setAdapter(mAdapter);
+        rvDocSearch.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rvDocSearch, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                DoctorSearch doctor = mList.get(position);
+
+          /*      Toast.makeText(getActivity(),"Hello",Toast.LENGTH_SHORT).show();
+
+                Fragment fragment = new DocProfileFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content_frame, fragment);
+                ft.commit();*/
+                //  Timber.d("hello Doc");
+              Intent intent = new Intent(getActivity(), PtSeeDoctorProfileActivity.class);
+                intent.putExtra(Key.DOCTOR_NAME_KEY, doctor.getName());
+                intent.putExtra(Key.KEY_DOCTOR_ID, doctor.getDrID());
+                intent.putExtra(Key.KEY_DOCTOR_EXPERTISE, doctor.getExpertise());
+                intent.putExtra(Key.KEY_DOCTOR_SPECIALIZATION, doctor.getSpecialization());
+                intent.putExtra(Key.KEY_DOCTOR_AMOUNT, doctor.getAmount());
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
 
@@ -177,7 +187,7 @@ public class PtSpecializationFragment extends Fragment {
                                     SPName = jsonObject.getString("SPName");
                                     DCharge = jsonObject.getString("amount");
 
-                                    DoctorSearch doctor = new DoctorSearch(DRI_DrName, Expertise, SPName, DCharge, true);
+                                    DoctorSearch doctor = new DoctorSearch(DRI_ID,DRI_DrName, Expertise, SPName, DCharge, true);
                                     mList.add(doctor);
                                 }
 

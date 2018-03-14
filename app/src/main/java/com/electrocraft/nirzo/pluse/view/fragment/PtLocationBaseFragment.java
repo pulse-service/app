@@ -18,9 +18,7 @@ import android.widget.AutoCompleteTextView;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.model.DoctorSearch;
 import com.electrocraft.nirzo.pluse.model.GeoLayR4Location;
-import com.electrocraft.nirzo.pluse.view.activity.patient.PtDoctorProfileActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorSearchListAdapter;
-import com.electrocraft.nirzo.pluse.view.adapter.LocationSearchListAdapter;
 import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
@@ -79,9 +77,9 @@ public class PtLocationBaseFragment extends Fragment {
             public void onClick(View view, int position) {
                 DoctorSearch doctorSearch = mList.get(position);
                 //  Timber.d("hello Doc");
-                Intent intent = new Intent(getActivity(), PtDoctorProfileActivity.class);
+     /*           Intent intent = new Intent(getActivity(), PtSeeDoctorProfileActivity.class);
                 intent.putExtra(Key.DOCTOR_NAME_KEY, doctorSearch.getName());
-                startActivity(intent);
+                startActivity(intent);*/
 
             }
 

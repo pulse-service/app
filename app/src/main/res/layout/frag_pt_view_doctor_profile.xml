@@ -3,16 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.electrocraft.nirzo.pluse.view.activity.patient.PtDoctorProfileActivity">
+    android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/appbar_layout" />
 
     <ImageView
+
         android:id="@+id/ivDoctorCoverPic"
         android:layout_width="match_parent"
         android:layout_height="@dimen/doc_cover_pic_height"
+        android:layout_below="@+id/toolbar"
         android:background="@color/dark_gray" />
 
+    <!--for the time being hide this view-->
     <TextView
         android:id="@+id/tv_docRatting"
         android:layout_width="wrap_content"
@@ -22,7 +27,8 @@
         android:text="45%"
         android:textColor="@color/yellow"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,18 +59,22 @@
         app:tabMode="fixed" />
 
     <Button
-        style="@style/general_button_style"
         android:id="@+id/btn_appointBook"
+        style="@style/general_button_style"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_def"
+        android:layout_marginEnd="@dimen/margin_def"
+        android:layout_marginStart="@dimen/margin_def"
         android:text="Appointment" />
 
     <android.support.v4.view.ViewPager
-        android:layout_above="@+id/btn_appointBook"
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/btn_appointBook"
         android:layout_below="@+id/tabs"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

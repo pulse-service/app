@@ -20,6 +20,7 @@ public class AppConfig {
      *--------------------------  LIVE Server ------------------------------------------
      ***********************************************************************************/
     public static final String LIVE_API_LINK = "http://180.148.210.139:8081/pulse_api/api/";
+    public static final String LIVE_IMAGE_DOCTOR_API_LINK = "http://180.148.210.139:8081/pulse_api/public/Doctor_profile_photo/";
 
     public static final String API_NOT_AVALIBLE = "wtf";
 

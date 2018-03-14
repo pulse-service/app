@@ -6,6 +6,14 @@ package com.electrocraft.nirzo.pluse.view.util;
 
 public class Key {
     public static final String DOCTOR_NAME_KEY="doctor_name";
+    public static final String KEY_DOCTOR_ID="keyDoctor_id";
+    public static final String KEY_DOCTOR_EXPERTISE="keyDoctor_expertise";
+    public static final String KEY_DOCTOR_SPECIALIZATION="keyDoctor_specialization";
+    public static final String KEY_DOCTOR_LANGUAGE="keyDoctor_language";
+    /**
+     * consultation prise
+     */
+    public static final String KEY_DOCTOR_AMOUNT="keyDoctor_amount";
 
     /**
      * Shared Preferences  file name

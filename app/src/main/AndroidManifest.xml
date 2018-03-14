@@ -50,7 +50,7 @@
         <activity android:name=".view.activity.patient.PatientOtpActivity" />
         <activity android:name=".view.activity.patient.SexNDobRegActivity" />
         <activity android:name=".view.activity.doctor.DocRegistrationActivity" />
-        <activity android:name=".view.activity.patient.PtDoctorProfileActivity" />
+        <activity android:name=".view.fragment.PtSeeDoctorProfileActivity" />
         <activity android:name=".view.activity.patient.PtAppointBookActivity" />
         <activity android:name=".view.activity.doctor.DoctorHomeActivity"/>
     </application>

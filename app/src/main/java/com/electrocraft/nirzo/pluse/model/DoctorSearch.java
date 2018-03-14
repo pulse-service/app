@@ -6,11 +6,20 @@ package com.electrocraft.nirzo.pluse.model;
  */
 
 public class DoctorSearch {
+    private String drID;
     private String name;
     private String expertise;
     private String specialization;
     private String amount;
     private boolean availableFlag;
+
+    public String getDrID() {
+        return drID;
+    }
+
+    public void setDrID(String drID) {
+        this.drID = drID;
+    }
 
     public String getSpecialization() {
         return specialization;
@@ -40,7 +49,8 @@ public class DoctorSearch {
         this.amount = amount;
     }
 
-    public DoctorSearch(String name, String expertise, String specialization, String amount, boolean availableFlag) {
+    public DoctorSearch(String drID ,String name, String expertise, String specialization, String amount, boolean availableFlag) {
+        this.drID = drID;
         this.name = name;
         this.specialization = specialization;
        /* "Expertise": "FCPS, FRCS, MD (MED)",

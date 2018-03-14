@@ -1,21 +1,63 @@
 package com.electrocraft.nirzo.pluse.view.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
+import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.view.util.Key;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by nirzo on 2/26/2018.
  */
 
 public class PtDoctorDetailsFragment extends Fragment {
+
+    private String mDoctorId;
+
+    @BindView(R.id.tv_specialTag)
+    TextView tvSpecialTag;
+
+    @BindView(R.id.tv_Language)
+    TextView tvLanguage;
+
+    @BindView(R.id.tvCallCharges)
+    TextView tvCallCharges;
+
+    @BindView(R.id.tvAvailableTime)
+    TextView tvAvailableTime;
+    private ProgressDialog pDialog;
+
+    private String mAvalibaleDateString;
+
+//    public static PtDoctorDetailsFragment newInstance(String parameter) {
+//
+//        Bundle args = new Bundle();
+//        args.putString(Key.KEY_DOCTOR_SPECIALIZATION, parameter);
+//        PtDoctorDetailsFragment fragment = new PtDoctorDetailsFragment();
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     public PtDoctorDetailsFragment() {
     }
@@ -30,7 +72,88 @@ public class PtDoctorDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_pt_doc_details, container, false);
         ButterKnife.bind(this, view);
+        mAvalibaleDateString = "";
+        Bundle arg = getArguments();
 
+        String special = arg.getString(Key.KEY_DOCTOR_SPECIALIZATION, "");
+        String amount = arg.getString(Key.KEY_DOCTOR_AMOUNT, "");
+        String language = arg.getString(Key.KEY_DOCTOR_LANGUAGE, "");
+        mDoctorId = arg.getString(Key.KEY_DOCTOR_ID, "");
+        getAvaliableTime(mDoctorId);
+        tvSpecialTag.setText(special);
+        tvLanguage.setText(language);
+        tvCallCharges.setText(amount + " BDT");
         return view;
     }
+
+
+    private void getAvaliableTime(final String doctorId) {
+        String tag = "get_doc_profile_info";
+
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getDoctorAvailableTime/" + doctorId,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("MOR", response);
+                        closeDialog();
+
+                        try {
+                            JSONObject jos = new JSONObject(response);
+
+                            if (jos.getString("status").equals("success")) {
+                                if (!jos.isNull("data")) {
+                                    JSONArray daArray = jos.getJSONArray("data");
+                                    for (int i = 0; i < daArray.length(); i++) {
+                                        JSONObject object = daArray.getJSONObject(i);
+
+                                        String Day = object.getString("Day");
+                                        String InTime = object.getString("InTime");
+                                        String InTime_AMOrPM = object.getString("InTime_AMOrPM");
+                                        String OutTime = object.getString("OutTime");
+                                        String OutTime_AMOrPM = object.getString("OutTime_AMOrPM");
+                                        String tem = " "+Day + "    " + InTime + " " + InTime_AMOrPM + "  to  " + OutTime +" "+ OutTime_AMOrPM + "\n";
+                                        mAvalibaleDateString = mAvalibaleDateString + tem;
+                                    }
+                                    //                                   setupViewPager(viewPager);
+//                                    getLanguage();
+                                    tvAvailableTime.setText(mAvalibaleDateString);
+                                }
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("PatientPersonal", response);
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Timber.d("Error: " + error.getMessage());
+
+                closeDialog();
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(stringRequest, tag);
+    }
+
+    /**
+     * hide the progress dialog
+     */
+    private void closeDialog() {
+        if (pDialog != null && pDialog.isShowing())
+            pDialog.hide();
+    }
+
+
 }

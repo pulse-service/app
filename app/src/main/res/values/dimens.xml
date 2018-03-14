@@ -43,7 +43,7 @@
     <dimen name="spinner_image_height">30dp</dimen>
 
     <!--for Doctor Cover pic -->
-    <dimen name="doc_cover_pic_height">200dp</dimen>
+    <dimen name="doc_cover_pic_height">120dp</dimen>
 
     <!--padding Default-->
     <dimen name="padding_def">10dp</dimen>
