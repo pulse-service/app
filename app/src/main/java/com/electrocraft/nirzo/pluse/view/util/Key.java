@@ -29,4 +29,5 @@ public class Key {
     public static final String KEY_PASSWORD="KeyPassword";
     public static final String KEY_COUNTRY_CODE="KeyCountryCode";
     public static final String KEY_PATIENT_ID="KeyPatientId";
+    public static final String KEY_PATIENT_PROBLEM_SHORT_DES="KeyPatientProbShortDescription";
 }

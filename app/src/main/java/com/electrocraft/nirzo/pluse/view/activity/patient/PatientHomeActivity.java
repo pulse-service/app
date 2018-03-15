@@ -33,8 +33,7 @@ import butterknife.ButterKnife;
 public class PatientHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+
 
     @BindView(R.id.tabs)
     TabLayout tabLayout;
@@ -42,6 +41,8 @@ public class PatientHomeActivity extends AppCompatActivity
     @BindView(R.id.viewpager)
     ViewPager viewPager;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.pt_drawer_layout)
     DrawerLayout drawer;
     @BindView(R.id.pt_nav_view)
@@ -59,7 +60,7 @@ public class PatientHomeActivity extends AppCompatActivity
         /*
         * work in late
          */
-        Intent intent = getIntent();
+        Intent intent = getIntent();          // work in late
 
         mPatientId = SharePref.getPatientID(this);
 
@@ -82,7 +83,7 @@ public class PatientHomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.pt_nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
 
         if (navigationView != null) {

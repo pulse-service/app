@@ -11,13 +11,23 @@ public class DoctorAvailableTime {
    private String inTime_AMOrPM ;
    private String outTime;
    private String outTime_AMOrPM ;
+   private String oat_code ;                // online available  time
 
-    public DoctorAvailableTime(String day, String inTime, String inTime_AMOrPM, String outTime, String outTime_AMOrPM) {
+    public DoctorAvailableTime(String day, String inTime, String inTime_AMOrPM, String outTime, String outTime_AMOrPM,String oat_code) {
         this.day = day;
         this.inTime = inTime;
         this.inTime_AMOrPM = inTime_AMOrPM;
         this.outTime = outTime;
         this.outTime_AMOrPM = outTime_AMOrPM;
+        this.oat_code = oat_code;
+    }
+
+    public String getOat_code() {
+        return oat_code;
+    }
+
+    public void setOat_code(String oat_code) {
+        this.oat_code = oat_code;
     }
 
     public String getDay() {

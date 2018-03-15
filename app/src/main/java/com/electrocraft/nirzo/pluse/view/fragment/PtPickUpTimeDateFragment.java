@@ -1,6 +1,8 @@
 package com.electrocraft.nirzo.pluse.view.fragment;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,7 +20,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.model.DoctorAvailableTime;
+import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 import com.electrocraft.nirzo.pluse.view.viewhelper.BKViewController;
 
@@ -26,11 +30,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Optional;
 import timber.log.Timber;
 
 /**
@@ -49,6 +59,15 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
     @BindView(R.id.calendarView)
     CalendarView calendarView;
+
+    @BindView(R.id.btn_pt_doc_PicTime_7)
+    Button btn_pt_doc_PicTime_7;
+
+    @BindView(R.id.btn_pt_doc_PicTime_8)
+    Button btn_pt_doc_PicTime_8;
+
+    @BindView(R.id.btn_pt_doc_PicTime_9)
+    Button btn_pt_doc_PicTime_9;
 
     @BindView(R.id.btn_pt_doc_PicTime_6)
     Button btn_pt_doc_PicTime_6;
@@ -73,9 +92,10 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
     private ProgressDialog pDialog;
     private String mDoctorId;
+    private String mOAT_code;
+    private String mPatientId;
+    private String mShortDescriptionOfProblem;
 
-  /*  private List<GeoLayR4Location> mList = new ArrayList<>();
-    private LocationSearchListAdapter mAdapter;*/
 
     public PtPickUpTimeDateFragment() {
     }
@@ -95,8 +115,17 @@ public class PtPickUpTimeDateFragment extends Fragment {
         disableAllButton();
 
         Bundle arg = getArguments();
-        if (arg != null)
+        if (arg != null) {
             mDoctorId = arg.getString(Key.KEY_DOCTOR_ID, "");
+            mShortDescriptionOfProblem = arg.getString(Key.KEY_PATIENT_PROBLEM_SHORT_DES, "");
+
+        }
+
+
+        /**
+         * get patient ID
+         */
+        mPatientId = SharePref.getPatientID(getActivity());
 
         getAvailableTime(mDoctorId);
     /*    if (mDoctorId!=null && mDoctorId.length()>0)
@@ -139,12 +168,15 @@ public class PtPickUpTimeDateFragment extends Fragment {
         goneButton(btn_pt_doc_PicTime_4);
         goneButton(btn_pt_doc_PicTime_5);
         goneButton(btn_pt_doc_PicTime_6);
+        goneButton(btn_pt_doc_PicTime_7);
+        goneButton(btn_pt_doc_PicTime_8);
+        goneButton(btn_pt_doc_PicTime_9);
 
     }
 
     private void goneButton(View view) {
 
-        ButterKnife.apply(view, BKViewController.DISABLE);
+        ButterKnife.apply(view, BKViewController.GONE);
     }
 
 
@@ -161,8 +193,8 @@ public class PtPickUpTimeDateFragment extends Fragment {
     private void getCurrentDate() {
         String tag = "get_current_date_month_year";
 
-        pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Loading...");
+   /*     pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");*/
         pDialog.show();
 
 
@@ -233,7 +265,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
     }
 
     private void getAvailableTime(final String doctorId) {
-        String tag = "get_doc_profile_info";
+        String tag = "get_doc_available_time";
 
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
@@ -262,9 +294,9 @@ public class PtPickUpTimeDateFragment extends Fragment {
                                         String InTime_AMOrPM = object.getString("InTime_AMOrPM");
                                         String OutTime = object.getString("OutTime");
                                         String OutTime_AMOrPM = object.getString("OutTime_AMOrPM");
-                                        String tem = " " + Day + "    " + InTime + " " + InTime_AMOrPM + "  to  " + OutTime + " " + OutTime_AMOrPM + "\n";
-//                                        mAvailableDateString = mAvailableDateString + tem;
-                                        DoctorAvailableTime availableTime = new DoctorAvailableTime(Day, InTime, InTime_AMOrPM, OutTime, OutTime_AMOrPM);
+                                        String OAT_COD = object.getString("OAT_COD");
+
+                                        DoctorAvailableTime availableTime = new DoctorAvailableTime(Day, InTime, InTime_AMOrPM, OutTime, OutTime_AMOrPM, OAT_COD);
                                         mList.add(availableTime);
                                     }
 
@@ -295,32 +327,199 @@ public class PtPickUpTimeDateFragment extends Fragment {
     }
 
     private void setUpButton() {
+        int i = 0;
         for (DoctorAvailableTime time : mList) {
-            switch (time.getInTime()) {
-                case "07:00:00":
+
+            String inTime = time.getInTime().substring(0, 5) + " " + time.getInTime_AMOrPM();
+            switch (i) {
+                case 0:
+                    btn_pt_doc_PicTime_1.setTag(0);
+                    btn_pt_doc_PicTime_1.setText(inTime);
                     visibleButton(btn_pt_doc_PicTime_1);
                     break;
-                case "07:30:00":
+                case 1:
+                    btn_pt_doc_PicTime_2.setTag(1);
+                    btn_pt_doc_PicTime_2.setText(inTime);
                     visibleButton(btn_pt_doc_PicTime_2);
                     break;
-                case "08:00:00":
+                case 2:
+                    btn_pt_doc_PicTime_3.setTag(2);
+                    btn_pt_doc_PicTime_3.setText(inTime);
                     visibleButton(btn_pt_doc_PicTime_3);
                     break;
-                case "08:30:00":
-//                    visibleButton(btn_pt_doc_PicTime_08_30);  //work in late
-                    break;
-                case "09:00:00":
+                case 3:
+                    btn_pt_doc_PicTime_4.setTag(3);
+                    btn_pt_doc_PicTime_4.setText(inTime);
                     visibleButton(btn_pt_doc_PicTime_4);
                     break;
-                case "09:30:00":
+                case 4:
+                    btn_pt_doc_PicTime_5.setTag(4);
+                    btn_pt_doc_PicTime_5.setText(inTime);
                     visibleButton(btn_pt_doc_PicTime_5);
                     break;
-                case "10:00:00":
+                case 5:
+                    btn_pt_doc_PicTime_6.setTag(5);
+                    btn_pt_doc_PicTime_6.setText(inTime);
                     visibleButton(btn_pt_doc_PicTime_6);
                     break;
+
+                case 6:
+                    btn_pt_doc_PicTime_7.setTag(6);
+                    btn_pt_doc_PicTime_7.setText(inTime);
+                    visibleButton(btn_pt_doc_PicTime_7);
+                    break;
+                case 7:
+                    btn_pt_doc_PicTime_8.setTag(7);
+                    btn_pt_doc_PicTime_8.setText(inTime);
+                    visibleButton(btn_pt_doc_PicTime_8);
+                    break;
+                case 8:
+                    btn_pt_doc_PicTime_9.setTag(8);
+                    btn_pt_doc_PicTime_9.setText(inTime);
+                    visibleButton(btn_pt_doc_PicTime_9);
+                    break;
+
             }
+            i++;
         }
 
+
+    }
+
+    @Optional
+    @OnClick({R.id.btn_pt_doc_PicTime_1, R.id.btn_pt_doc_PicTime_2, R.id.btn_pt_doc_PicTime_3,
+            R.id.btn_pt_doc_PicTime_4, R.id.btn_pt_doc_PicTime_5, R.id.btn_pt_doc_PicTime_6,
+            R.id.btn_pt_doc_PicTime_7, R.id.btn_pt_doc_PicTime_8, R.id.btn_pt_doc_PicTime_9})
+    public void confirmAppointment(View view) {
+
+        Button button = (Button) view;
+        mOAT_code = mList.get((int) button.getTag()).getOat_code();
+        String ti = (String) button.getText();
+        showConfirmMessage(ti);
+    }
+
+    private void showConfirmMessage(String time) {
+        AlertDialog ad = new AlertDialog.Builder(getActivity())
+                .create();
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        final String selectedDate = sdf.format(new Date(calendarView.getDate()));
+        ad.setCancelable(false);
+        ad.setTitle("You have Selected");
+        ad.setMessage("Your Date :" + selectedDate + "\n time : " + time /*+ " OAT Code" + mOAT_code*/);
+        ad.setButton("Confirm", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                dialog.dismiss();
+
+                saveDoctorAppointmentTime(mPatientId, mDoctorId, selectedDate, mOAT_code, "", "",
+                        "0", mShortDescriptionOfProblem, "0",
+                        "", "", "", "", "");
+            }
+        });
+        ad.show();
+    }
+
+    private void saveDoctorAppointmentTime(final String patient_id
+            , final String doctor_id, final String APPT_AppointmentDate
+            , final String oat_cod, final String PPFI_Code
+            , final String rel_Code, final String DrChargePaymentComplete
+            , final String APPT_ShortDescriptionOfProblem, final String hasDiabetics
+            , final String hasHighBloodPressure, final String hasAllergies
+            , final String hasAnyMedication, final String curMedicineList
+            , final String APPT_Comments) {
+
+
+        String tag = "save_appointment";
+
+      /*  pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Saving...");*/
+        if (pDialog != null)
+            pDialog.show();
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "saveDoctorAppointmentinfo",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("SAVE_MOR", response);
+                        closeDialog();
+                        /**
+                         * {
+                         "status": "success",
+                         "data": {
+                         "id": "APPT-00000002"
+                         },
+                         "msg": "AppointmentCode Information  successfully Save"
+                         }
+
+
+                         */
+
+                        String id = "";
+                        String msg = "";
+
+                        try {
+                            JSONObject jos = new JSONObject(response);
+
+                            msg = jos.getString("msg");
+                            if (jos.getString("status").equals("success")) {
+                                JSONObject data = jos.getJSONObject("data");
+                                id = data.getString("id");
+                                SharePref.saveAppointmentID(getActivity(), id);
+
+
+                                AlertDialogManager.showSuccessDialog(getActivity(), msg);
+
+                            } else {
+                                AlertDialogManager.showSuccessDialog(getActivity(), msg);
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("PatientPersonal", response);
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Timber.d("Error: " + error.getMessage());
+
+                closeDialog();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("patient_id", patient_id);
+                params.put("doctor_id", doctor_id);
+                params.put("APPT_AppointmentDate", APPT_AppointmentDate);
+                params.put("oat_cod", oat_cod);
+                params.put("PPFI_Code", PPFI_Code);
+                params.put("rel_Code", rel_Code);
+                params.put("DrChargePaymentComplete", DrChargePaymentComplete);
+                params.put("APPT_ShortDescriptionOfProblem", APPT_ShortDescriptionOfProblem);
+                params.put("hasDiabetics", hasDiabetics);
+                params.put("hasHighBloodPressure", hasHighBloodPressure);
+                params.put("hasAllergies", hasAllergies);
+                params.put("hasAnyMedication", hasAnyMedication);
+                params.put("curMedicineList", curMedicineList);
+                params.put("APPT_Comments", APPT_Comments);
+
+
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest, tag);
     }
 
     private void closeDialog() {

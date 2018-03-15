@@ -74,7 +74,7 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_row_doctor_search, parent, false);
         // set the Context here
-        mContext=parent.getContext();
+        mContext = parent.getContext();
         return new ViewHolder(itemView);
 //         holder;
     }
@@ -84,9 +84,9 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
         DoctorSearch doctor = doctorList.get(position);
         holder.docName.setText(doctor.getName());
         holder.docInstitution.setText(doctor.getExpertise());
-        holder.docConsultPrice.setText("Consult online for "+doctor.getAmount()+" BDT");
-
-        getDoctorImageRequest(doctor.getPhoto(),holder);
+        holder.docConsultPrice.setText("Consult online for " + doctor.getAmount() + " BDT");
+//        if (doctor.getPhoto() != null)
+            getDoctorImageRequest(doctor.getPhoto(), holder);
         if (doctor.isAvailableFlag())
             holder.docAvailable.setImageResource(R.drawable.ic_online);
 
@@ -97,7 +97,7 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
         return doctorList.size();
     }
 
-    private void getDoctorImageRequest(String imageLink,final ViewHolder holder) {
+    private void getDoctorImageRequest(String imageLink, final ViewHolder holder) {
 
 /*    pDialog = new ProgressDialog(mContext);
         pDialog.setMessage("Loading...");

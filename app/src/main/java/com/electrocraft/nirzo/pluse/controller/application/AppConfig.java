@@ -31,5 +31,5 @@ public class AppConfig {
      *  jodi otp sms bondh korte chai taile SMS_OTP_OFF ta true kore dite hobe
      *  sms deactivate  korte chaile
      */
-    public static final boolean SMS_OTP_OFF = true;
+    public static final boolean SMS_OTP_OFF = false;
 }

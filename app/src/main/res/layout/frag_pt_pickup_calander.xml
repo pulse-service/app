@@ -20,7 +20,7 @@
             android:layout_marginTop="5dp" />
 
         <LinearLayout
-
+            android:gravity="center_horizontal"
             android:id="@+id/btnLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:gravity="center"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -63,7 +63,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:gravity="center"
+
                 android:layout_marginTop="@dimen/margin_def"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:gravity="center"
+
                 android:layout_marginTop="@dimen/margin_def"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
 
             </LinearLayout>
         </LinearLayout>
-
+<!--
         <Button
             android:layout_marginTop="@dimen/margin_def"
             android:id="@+id/btn_5"
@@ -142,7 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btnLayout"
-            android:text="Save" />
+            android:text="Save" />-->
 
         <!--    <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyVLocationSearch"

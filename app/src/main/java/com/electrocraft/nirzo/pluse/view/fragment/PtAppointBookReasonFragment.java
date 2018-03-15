@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.view.util.Key;
@@ -28,6 +29,9 @@ public class PtAppointBookReasonFragment extends Fragment {
 
     @BindView(R.id.btn_pickTime)
     Button btnPickTime;
+
+    @BindView(R.id.edtPatientDoctorAppointmentReason)
+    EditText edtShortDescribtion;
 
     private String mDoctorId;
 
@@ -67,10 +71,12 @@ public class PtAppointBookReasonFragment extends Fragment {
     @OnClick(R.id.btn_pickTime)
     public void onPickTimeClick() {
         Fragment fragment = new PtPickUpTimeDateFragment();
+        String shortDescribtion=edtShortDescribtion.getText().toString();
 
       if (mDoctorId!=null &&mDoctorId.length()>0){
           Bundle arg= new Bundle();
           arg.putString(Key.KEY_DOCTOR_ID,mDoctorId);
+          arg.putString(Key.KEY_PATIENT_PROBLEM_SHORT_DES,shortDescribtion);
           fragment.setArguments(arg);
       }
         FragmentTransaction ft = getFragmentManager().beginTransaction();
