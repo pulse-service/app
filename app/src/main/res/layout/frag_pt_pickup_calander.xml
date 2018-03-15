@@ -8,66 +8,141 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-      <!--  <include
-            android:id="@+id/toolbar"
-            layout="@layout/appbar_layout" />-->
+        <!--  <include
+              android:id="@+id/toolbar"
+              layout="@layout/appbar_layout" />-->
 
         <CalendarView
             android:id="@+id/calendarView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/toolbar"
             android:layout_marginTop="5dp" />
 
         <LinearLayout
-            android:orientation="vertical"
+
             android:id="@+id/btnLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/calendarView">
+            android:layout_below="@+id/calendarView"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <Button
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
+                    android:id="@+id/btn_pt_doc_PicTime_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:background="@drawable/shape_round_button_nirate"
                     android:text="07:00 pm"
-                    android:background="@drawable/shape_round_button_solid"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content" />
+                    android:textStyle="bold" />
+
                 <Button
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
+                    android:id="@+id/btn_pt_doc_PicTime_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:background="@drawable/shape_round_button_nirate"
                     android:text="07:30 pm"
-                    android:background="@drawable/shape_round_button_solid"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content" />
+                    android:textStyle="bold" />
+
                 <Button
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
+                    android:id="@+id/btn_pt_doc_PicTime_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:background="@drawable/shape_round_button_nirate"
                     android:text="08:00 pm"
-                    android:background="@drawable/shape_round_button_solid"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content" />
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_def"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <Button
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="08:30 pm"
-                    android:background="@drawable/shape_round_button_solid"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/btn_pt_doc_PicTime_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:background="@drawable/shape_round_button_nirate"
+                    android:text="09:00 pm"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_pt_doc_PicTime_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:background="@drawable/shape_round_button_nirate"
+                    android:text="09:30 pm"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_pt_doc_PicTime_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:background="@drawable/shape_round_button_nirate"
+                    android:text="10:00 pm"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_def"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_pt_doc_PicTime_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:background="@drawable/shape_round_button_nirate"
+                    android:text="09:00 pm"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_pt_doc_PicTime_8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:background="@drawable/shape_round_button_nirate"
+                    android:text="09:30 pm"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_pt_doc_PicTime_9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:background="@drawable/shape_round_button_nirate"
+                    android:text="10:00 pm"
+                    android:textStyle="bold" />
+
             </LinearLayout>
         </LinearLayout>
 
         <Button
+            android:layout_marginTop="@dimen/margin_def"
             android:id="@+id/btn_5"
             style="@style/general_button_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btnLayout"
-            android:text="dim" />
+            android:text="Save" />
 
         <!--    <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyVLocationSearch"

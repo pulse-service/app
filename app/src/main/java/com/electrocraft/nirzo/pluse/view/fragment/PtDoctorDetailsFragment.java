@@ -48,7 +48,7 @@ public class PtDoctorDetailsFragment extends Fragment {
     TextView tvAvailableTime;
     private ProgressDialog pDialog;
 
-    private String mAvalibaleDateString;
+    private String mAvailableDateString;
 
 //    public static PtDoctorDetailsFragment newInstance(String parameter) {
 //
@@ -72,14 +72,14 @@ public class PtDoctorDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_pt_doc_details, container, false);
         ButterKnife.bind(this, view);
-        mAvalibaleDateString = "";
+        mAvailableDateString = "";
         Bundle arg = getArguments();
 
         String special = arg.getString(Key.KEY_DOCTOR_SPECIALIZATION, "");
         String amount = arg.getString(Key.KEY_DOCTOR_AMOUNT, "");
         String language = arg.getString(Key.KEY_DOCTOR_LANGUAGE, "");
         mDoctorId = arg.getString(Key.KEY_DOCTOR_ID, "");
-        getAvaliableTime(mDoctorId);
+        getAvailableTime(mDoctorId);
         tvSpecialTag.setText(special);
         tvLanguage.setText(language);
         tvCallCharges.setText(amount + " BDT");
@@ -87,7 +87,7 @@ public class PtDoctorDetailsFragment extends Fragment {
     }
 
 
-    private void getAvaliableTime(final String doctorId) {
+    private void getAvailableTime(final String doctorId) {
         String tag = "get_doc_profile_info";
 
         pDialog = new ProgressDialog(getActivity());
@@ -118,11 +118,11 @@ public class PtDoctorDetailsFragment extends Fragment {
                                         String OutTime = object.getString("OutTime");
                                         String OutTime_AMOrPM = object.getString("OutTime_AMOrPM");
                                         String tem = " "+Day + "    " + InTime + " " + InTime_AMOrPM + "  to  " + OutTime +" "+ OutTime_AMOrPM + "\n";
-                                        mAvalibaleDateString = mAvalibaleDateString + tem;
+                                        mAvailableDateString = mAvailableDateString + tem;
                                     }
                                     //                                   setupViewPager(viewPager);
 //                                    getLanguage();
-                                    tvAvailableTime.setText(mAvalibaleDateString);
+                                    tvAvailableTime.setText(mAvailableDateString);
                                 }
 
                             }

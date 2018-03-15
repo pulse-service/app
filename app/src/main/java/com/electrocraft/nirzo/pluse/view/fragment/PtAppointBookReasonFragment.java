@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +28,8 @@ public class PtAppointBookReasonFragment extends Fragment {
 
     @BindView(R.id.btn_pickTime)
     Button btnPickTime;
+
+    private String mDoctorId;
 
     public PtAppointBookReasonFragment() {
     }
@@ -51,6 +54,10 @@ public class PtAppointBookReasonFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_pt_appoint_book_reason, container, false);
         ButterKnife.bind(this, view);
 
+        Bundle agr=getArguments();
+        if (agr!=null)
+            mDoctorId=agr.getString(Key.KEY_DOCTOR_ID,"");
+
         // hide the soft input
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -60,6 +67,12 @@ public class PtAppointBookReasonFragment extends Fragment {
     @OnClick(R.id.btn_pickTime)
     public void onPickTimeClick() {
         Fragment fragment = new PtPickUpTimeDateFragment();
+
+      if (mDoctorId!=null &&mDoctorId.length()>0){
+          Bundle arg= new Bundle();
+          arg.putString(Key.KEY_DOCTOR_ID,mDoctorId);
+          fragment.setArguments(arg);
+      }
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame, fragment);
         ft.commit();

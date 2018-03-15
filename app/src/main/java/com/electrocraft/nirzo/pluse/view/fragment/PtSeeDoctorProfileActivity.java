@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,7 +59,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
 
     private OnAboutDataRecivelistener mDataRecivelistener;
     private ProgressDialog pDialog;
-    private String SLI_LanguageCode;
+    private String SLI_LanguageName;
     private String Photo;
 
     public interface OnAboutDataRecivelistener {
@@ -88,7 +87,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
     @BindView(R.id.ivDoctorCoverPic)
     ImageView ivDocCoverPic;
 
-    private boolean reDirEnable = false;
+    //    private boolean reDirEnable = false;
     List<SpinnerHelper> languageList = new ArrayList<>();
 
     @Override
@@ -108,7 +107,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(viewPager);
 
-        reDirEnable = false;
+//        reDirEnable = false;
 
 
         tvDocName.setText(doctorName);
@@ -122,7 +121,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
         arg.putString(Key.KEY_DOCTOR_SPECIALIZATION, docSpecialization);
         arg.putString(Key.KEY_DOCTOR_AMOUNT, docAmount);
         arg.putString(Key.KEY_DOCTOR_ID, doctorId);
-        arg.putString(Key.KEY_DOCTOR_LANGUAGE, SLI_LanguageCode);
+        arg.putString(Key.KEY_DOCTOR_LANGUAGE, SLI_LanguageName);
 
 //        Fragment fragment = PtDoctorDetailsFragment.newInstance(docSpecialization);
         Fragment fragment = new PtDoctorDetailsFragment();
@@ -151,8 +150,11 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_appointBook)
     public void onAppointmentBookClick() {
-        reDirEnable = true;
-        startActivity(new Intent(this, PtAppointBookActivity.class));
+//        reDirEnable = true;
+
+        Intent intent = new Intent(this, PtAppointBookActivity.class);
+        intent.putExtra(Key.KEY_DOCTOR_ID, doctorId);
+        startActivity(intent);
     }
 
 
@@ -172,34 +174,48 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
         pDialog.show();
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getDoctorProfilePersonalinfo/" + doctorId,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getdoctorProfileView/" + doctorId,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         AppController.getInstance().getRequestQueue().getCache().clear();
                         Log.d("MOR", response);
                         closeDialog();
-                       /* "DrProfilePersonalInfoCode": "DPPI-00000008",
-                                "DRI_DrID": "DR-000000052",
-                                "FirstName": "ahsan",
-                                "LastName": "habib",
-                                "DOB": "2018-03-14 00:00:00",
-                                "Age": 24,
-                                "NI_NationalityCode": "NL001",
-                                "BG_BloodGroupCode": "BG001",
-                                "SLI_LanguageCode": "L002",
-                                "Photo": "DR-0000000521521025768.png",
-                                "Signature": "DR-0000000521521025768.PNG",
-                                "BMDCNo": "12345",
-                                "DrPassport": "DR-0000000521521025769.PNG",
-                                "DrNID": "DR-0000000521521025769.PNG",
-                                "DrMedicalLisence": "DR-0000000521521025769.PNG",
-                                "NoOfVote": 2,
-                                "PercentOfRateForVote": 0,
-                                "RegularConsultationCharge": 1000,
-                                "DaysLimitForAppointment": 1200,
-                                "DaysLimitFor2ndAppointment": 600,
-                                "DiscountRatioOfRegConsulCharge": "20",*/
+                       /* {
+    "status": "success",
+    "data": [
+        [
+            {
+                "DrProfilePersonalInfoCode": "DPPI_005",
+                "DRI_DrID": "DR-00000005",
+                "FirstName": "Ahsan",
+                "LastName": "Ahmed",
+                "DOB": "2078-03-12 00:00:00",
+                "Age": null,
+                "NI_NationalityCode": "NL001",
+                "BG_BloodGroupCode": "BG002",
+                "SLI_LanguageName": "L002",
+                "Photo": "DR-0000000521521025768.png",
+                "Signature": null,
+                "BMDCNo": null,
+                "DrPassport": null,
+                "DrNID": null,
+                "DrMedicalLisence": null,
+                "NoOfVote": null,
+                "PercentOfRateForVote": null,
+                "RegularConsultationCharge": 1000,
+                "DaysLimitForAppointment": 7,
+                "DaysLimitFor2ndAppointment": 2,
+                "DiscountRatioOfRegConsulCharge": "30",
+                "DRI_EntryBy": "Admin",
+                "DRI_EntryDate": "2018-03-13 00:00:00",
+                "DRI_ModifyBy": null,
+                "DRI_ModifyDate": null
+            }
+        ]
+    ],
+    "msg": "Patien Health Information"
+}*/
 
                         try {
                             JSONObject jos = new JSONObject(response);
@@ -210,7 +226,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
                                     for (int i = 0; i < daArray.length(); i++) {
                                         JSONObject object = daArray.getJSONObject(i);
 
-                                        SLI_LanguageCode = object.getString("SLI_LanguageCode");
+                                        SLI_LanguageName = object.getString("SLI_LanguageName");
                                         Photo = object.getString("Photo");
 
 
