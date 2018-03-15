@@ -70,4 +70,8 @@
     <dimen name="spinner_height">30dp</dimen>
 
     <dimen name="round_shape_button_corner_rad">30dp</dimen>
+
+    <!--doctor thumbnail height and width-->
+    <dimen name="doctor_thumbnail_height">50dp</dimen>
+    <dimen name="doctor_thumbnail_width">50dp</dimen>
 </resources>

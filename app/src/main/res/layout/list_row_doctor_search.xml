@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/lr_iv_DocImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/doctor_thumbnail_width"
+        android:layout_height="@dimen/doctor_thumbnail_height"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="8dp"

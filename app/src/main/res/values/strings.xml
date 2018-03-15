@@ -88,4 +88,5 @@
     <string name="already_have_an_account_login">Already have an account ! Login</string>
     <string name="app_logo">app_logo</string>
     <string name="height">* Height</string>
+    <string name="home">Home</string>
 </resources>

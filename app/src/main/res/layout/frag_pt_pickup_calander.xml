@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
+      <!--  <include
             android:id="@+id/toolbar"
-            layout="@layout/appbar_layout" />
+            layout="@layout/appbar_layout" />-->
 
         <CalendarView
             android:id="@+id/calendarView"
@@ -34,28 +34,28 @@
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:text="07:00 pm"
-                    android:background="@drawable/shape_round_button"
+                    android:background="@drawable/shape_round_button_solid"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
                 <Button
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:text="07:30 pm"
-                    android:background="@drawable/shape_round_button"
+                    android:background="@drawable/shape_round_button_solid"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
                 <Button
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:text="08:00 pm"
-                    android:background="@drawable/shape_round_button"
+                    android:background="@drawable/shape_round_button_solid"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
                 <Button
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:text="08:30 pm"
-                    android:background="@drawable/shape_round_button"
+                    android:background="@drawable/shape_round_button_solid"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>

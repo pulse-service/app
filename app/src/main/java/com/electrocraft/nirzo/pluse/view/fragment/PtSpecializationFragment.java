@@ -160,6 +160,7 @@ public class PtSpecializationFragment extends Fragment {
                         String DCharge = "";
                         String Expertise = "";
                         String SPName = "";
+                        String Photo = "";
 
 
                         closeDialog();
@@ -186,8 +187,9 @@ public class PtSpecializationFragment extends Fragment {
                                     Expertise = jsonObject.getString("Expertise");
                                     SPName = jsonObject.getString("SPName");
                                     DCharge = jsonObject.getString("amount");
+                                    Photo = jsonObject.getString("Photo");
 
-                                    DoctorSearch doctor = new DoctorSearch(DRI_ID,DRI_DrName, Expertise, SPName, DCharge, true);
+                                    DoctorSearch doctor = new DoctorSearch(DRI_ID,DRI_DrName, Expertise, SPName, DCharge, true,Photo);
                                     mList.add(doctor);
                                 }
 

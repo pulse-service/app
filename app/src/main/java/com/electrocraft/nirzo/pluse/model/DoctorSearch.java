@@ -11,7 +11,16 @@ public class DoctorSearch {
     private String expertise;
     private String specialization;
     private String amount;
+    private String photo;
     private boolean availableFlag;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public String getDrID() {
         return drID;
@@ -49,7 +58,7 @@ public class DoctorSearch {
         this.amount = amount;
     }
 
-    public DoctorSearch(String drID ,String name, String expertise, String specialization, String amount, boolean availableFlag) {
+    public DoctorSearch(String drID ,String name, String expertise, String specialization, String amount, boolean availableFlag,String photo) {
         this.drID = drID;
         this.name = name;
         this.specialization = specialization;
@@ -58,6 +67,7 @@ public class DoctorSearch {
         this.expertise = expertise;
         this.amount = amount;
         this.availableFlag = availableFlag;
+        this.photo = photo;
     }
 
     public void setExpertise(String expertise) {

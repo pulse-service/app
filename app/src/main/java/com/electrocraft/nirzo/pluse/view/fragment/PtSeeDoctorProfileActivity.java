@@ -1,6 +1,7 @@
 package com.electrocraft.nirzo.pluse.view.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
+import com.electrocraft.nirzo.pluse.view.activity.patient.PtAppointBookActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.ViewPagerAdapter;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
@@ -148,9 +150,9 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
 
 
     @OnClick(R.id.btn_appointBook)
-    public void onAppointmentBookClick(View view) {
+    public void onAppointmentBookClick() {
         reDirEnable = true;
-//        startActivity(new Intent(PtSeeDoctorProfileActivity.this, PtAppointBookActivity.class));
+        startActivity(new Intent(this, PtAppointBookActivity.class));
     }
 
 
@@ -241,17 +243,17 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(stringRequest, tag);
     }
 
-    private void getDoctorImageRequest(String link) {
+    private void getDoctorImageRequest(String imageLink) {
 
        /* pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");*/
         pDialog.show();
 
-        String url = "http://180.148.210.139:8081/pulse_api/public/Doctor_profile_photo/";
+//        String url = "http://180.148.210.139:8081/pulse_api/public/Doctor_profile_photo/";
 
 
 // Retrieves an image specified by the URL, displays it in the UI.
-        ImageRequest request = new ImageRequest(AppConfig.LIVE_IMAGE_DOCTOR_API_LINK + link,
+        ImageRequest request = new ImageRequest(AppConfig.LIVE_IMAGE_DOCTOR_API_LINK + imageLink,
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {

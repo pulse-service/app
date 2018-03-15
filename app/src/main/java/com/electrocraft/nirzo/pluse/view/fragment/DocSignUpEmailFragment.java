@@ -84,7 +84,8 @@ public class DocSignUpEmailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        if (imm != null && getView() != null)
+            imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
     @Nullable
@@ -204,7 +205,6 @@ public class DocSignUpEmailFragment extends Fragment {
         bundle.putString(Key.KEY_DOCTOR_NAME, name);
         bundle.putString(Key.KEY_EMAIL, email);
         bundle.putString(Key.KEY_PASSWORD, password);
-
 
 
         Fragment frag = new DocOTPFragments();

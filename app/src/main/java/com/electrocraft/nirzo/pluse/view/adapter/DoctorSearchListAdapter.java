@@ -1,5 +1,8 @@
 package com.electrocraft.nirzo.pluse.view.adapter;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +11,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
+import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.model.DoctorSearch;
 
 import java.util.List;
@@ -28,6 +36,8 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
 
 
     private List<DoctorSearch> doctorList;
+
+    private Context mContext;
 
     public DoctorSearchListAdapter(List<DoctorSearch> doctorList) {
         this.doctorList = doctorList;
@@ -57,11 +67,16 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
         }
     }
 
+//    ViewHolder holder;
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_row_doctor_search, parent, false);
+        // set the Context here
+        mContext=parent.getContext();
         return new ViewHolder(itemView);
+//         holder;
     }
 
     @Override
@@ -70,6 +85,8 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
         holder.docName.setText(doctor.getName());
         holder.docInstitution.setText(doctor.getExpertise());
         holder.docConsultPrice.setText("Consult online for "+doctor.getAmount()+" BDT");
+
+        getDoctorImageRequest(doctor.getPhoto(),holder);
         if (doctor.isAvailableFlag())
             holder.docAvailable.setImageResource(R.drawable.ic_online);
 
@@ -79,4 +96,33 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
     public int getItemCount() {
         return doctorList.size();
     }
+
+    private void getDoctorImageRequest(String imageLink,final ViewHolder holder) {
+
+/*    pDialog = new ProgressDialog(mContext);
+        pDialog.setMessage("Loading...");
+        pDialog.show();*/
+
+//        String url = "http://180.148.210.139:8081/pulse_api/public/Doctor_profile_photo/";
+
+
+// Retrieves an image specified by the URL, displays it in the UI.
+        ImageRequest request = new ImageRequest(AppConfig.LIVE_IMAGE_DOCTOR_API_LINK + imageLink,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        holder.docImage.setImageBitmap(bitmap);
+//                        pDialog.hide();
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        holder.docImage.setImageResource(R.drawable.ic_doctor);
+//                        pDialog.hide();
+                    }
+                });
+        // Access the RequestQueue through your singleton class.
+        AppController.getInstance().addToRequestQueue(request);
+    }
+
 }

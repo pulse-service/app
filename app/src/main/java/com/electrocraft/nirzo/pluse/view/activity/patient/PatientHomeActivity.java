@@ -135,6 +135,9 @@ public class PatientHomeActivity extends AppCompatActivity
 
         switch (item.getItemId()) {
 
+            case R.id.nav_home:
+                startActivity(new Intent(this,PatientHomeActivity.class));
+                break;
             case R.id.nav_profile:
                 fragment = new PtProfileFragment();
                 title = "";

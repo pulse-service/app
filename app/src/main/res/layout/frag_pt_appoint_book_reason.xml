@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
+<!--    <include
         android:id="@+id/toolbar"
-        layout="@layout/appbar_layout" />
+        layout="@layout/appbar_layout" />-->
 
 
     <!--  <RelativeLayout
@@ -24,8 +24,10 @@
       </RelativeLayout>-->
 
     <TextView
+        android:textStyle="bold"
+        android:gravity="center"
         android:id="@+id/tvLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/reasonLabel"
