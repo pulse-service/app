@@ -34,6 +34,8 @@ public class PtAppointBookReasonFragment extends Fragment {
     EditText edtShortDescribtion;
 
     private String mDoctorId;
+    private String mDocExpertise;
+    private String mDocAmount;
 
     public PtAppointBookReasonFragment() {
     }
@@ -59,8 +61,14 @@ public class PtAppointBookReasonFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         Bundle agr=getArguments();
-        if (agr!=null)
+        if (agr!=null){
+
             mDoctorId=agr.getString(Key.KEY_DOCTOR_ID,"");
+            mDocExpertise=agr.getString(Key.KEY_DOCTOR_EXPERTISE,"");
+            mDocAmount=agr.getString(Key.KEY_DOCTOR_AMOUNT,"");
+
+
+        }
 
         // hide the soft input
         getActivity().getWindow().setSoftInputMode(
@@ -77,6 +85,8 @@ public class PtAppointBookReasonFragment extends Fragment {
           Bundle arg= new Bundle();
           arg.putString(Key.KEY_DOCTOR_ID,mDoctorId);
           arg.putString(Key.KEY_PATIENT_PROBLEM_SHORT_DES,shortDescribtion);
+          arg.putString(Key.KEY_DOCTOR_EXPERTISE,mDocExpertise);
+          arg.putString(Key.KEY_DOCTOR_AMOUNT,mDocAmount);
           fragment.setArguments(arg);
       }
         FragmentTransaction ft = getFragmentManager().beginTransaction();

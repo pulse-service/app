@@ -48,4 +48,7 @@
     <color name="edit_text_border_color">#B8B8B8</color>
 
     <color name="input_label_hint">#999999</color>
+
+    <!--off white color -->
+    <color name="off_white">#F5F5F5</color>
 </resources>

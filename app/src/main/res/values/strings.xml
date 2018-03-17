@@ -89,4 +89,7 @@
     <string name="app_logo">app_logo</string>
     <string name="height">* Height</string>
     <string name="home">Home</string>
+    <string name="appointment">Appointment</string>
+    <string name="total_amount_payable">Total Amount Payable :</string>
+    <string name="proceed_to_pay">Proceed to Pay</string>
 </resources>

@@ -36,6 +36,8 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
     DrawerLayout drawer;
     @BindView(R.id.pt_nav_view)
     NavigationView navigationView;
+    private String mDocExpertise;
+    private String mDocAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,14 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
         setContentView(R.layout.activity_pt_appoint_book);
         ButterKnife.bind(this);
 
-        if (getIntent().getExtras() != null)
+        if (getIntent().getExtras() != null) {
+
+
             mDoctorId = getIntent().getExtras().getString(Key.KEY_DOCTOR_ID, "");
+            mDocExpertise = getIntent().getExtras().getString(Key.KEY_DOCTOR_EXPERTISE, "");
+            mDocAmount = getIntent().getExtras().getString(Key.KEY_DOCTOR_AMOUNT, "");
+//            intent.putExtra(Key.KEY_DOCTOR_EXPERTISE, mDocExpertise);
+        }
 
         showFragment();
         mPatientId = SharePref.getPatientID(this);
@@ -79,6 +87,9 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
     private void showFragment() {
         Bundle arg = new Bundle();
         arg.putString(Key.KEY_DOCTOR_ID, mDoctorId);
+        arg.putString(Key.KEY_DOCTOR_EXPERTISE, mDocExpertise);
+        arg.putString(Key.KEY_DOCTOR_AMOUNT, mDocAmount);
+
 
         Fragment faFragment = new PtAppointBookReasonFragment();
         faFragment.setArguments(arg);
@@ -111,7 +122,7 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
         switch (item.getItemId()) {
 
             case R.id.nav_home:
-                startActivity(new Intent(this,PatientHomeActivity.class));
+                startActivity(new Intent(this, PatientHomeActivity.class));
                 break;
             case R.id.nav_profile:
                 fragment = new PtProfileFragment();

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white">
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_def"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            android:id="@+id/civ_doc_profile_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_doctor"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/tvDocName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/civ_doc_profile_image"
+            android:paddingEnd="@dimen/no_padding"
+            android:paddingStart="@dimen/padding_def"
+            android:text="Doc tor Name "
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!--   android:textColor="@color/black"-->
+        <TextView
+
+            android:id="@+id/tvDocDegree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tvDocName"
+            android:layout_below="@+id/tvDocName"
+            android:paddingStart="@dimen/padding_def"
+            android:text="FFF dfdf" />
+
+        <TextView
+            android:id="@+id/tvLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tvDocName"
+            android:layout_below="@+id/tvDocDegree"
+            android:paddingEnd="@dimen/no_padding"
+            android:paddingStart="@dimen/padding_def"
+            android:text="Appointment Date" />
+
+        <TextView
+            android:id="@+id/tvAppointDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tvDocName"
+            android:layout_below="@+id/tvLabel"
+            android:paddingEnd="@dimen/no_padding"
+            android:paddingStart="@dimen/padding_def"
+            android:text="Appointment Date"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tvTotalAmount"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_total_amount_height"
+            android:layout_below="@+id/tvAppointDate"
+            android:layout_marginTop="@dimen/margin_def"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/total_amount_payable"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <Spinner
+        android:id="@+id/spMobilePaymentWay"
+        android:layout_width="304dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2" />
+
+    <Button
+        android:id="@+id/btnProcessToPayment"
+        style="@style/general_button_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/proceed_to_pay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>

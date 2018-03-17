@@ -4,4 +4,4 @@ sl       name                    meaning
 03-      rsc                     resource
 04-      ic-                     icon
 05       lr-                     list row use for id the view
-06
+06       civ-                    CircleImageView

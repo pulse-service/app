@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.view.adapter.ViewPagerAdapter;
+import com.electrocraft.nirzo.pluse.view.fragment.PtAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtDescribeProblemFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtLocationBaseFragment;
@@ -32,7 +33,6 @@ import butterknife.ButterKnife;
 
 public class PatientHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
 
 
     @BindView(R.id.tabs)
@@ -71,7 +71,6 @@ public class PatientHomeActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
 
 
         setupViewPager(viewPager);
@@ -136,8 +135,13 @@ public class PatientHomeActivity extends AppCompatActivity
 
         switch (item.getItemId()) {
 
+
             case R.id.nav_home:
-                startActivity(new Intent(this,PatientHomeActivity.class));
+                startActivity(new Intent(this, PatientHomeActivity.class));
+                break;
+            case R.id.nav_appointment:
+                fragment = new PtAppointmentFragment();
+                title = "";
                 break;
             case R.id.nav_profile:
                 fragment = new PtProfileFragment();

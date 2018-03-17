@@ -61,6 +61,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private String SLI_LanguageName;
     private String Photo;
+    private String mDoctorName;
 
     public interface OnAboutDataRecivelistener {
         void onDataRecived(String string);
@@ -71,9 +72,9 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
     }
 
     private String doctorId;
-    private String docExpertise;
+    private String mDocExpertise;
     private String docSpecialization;
-    private String docAmount;
+    private String mDocAmount;
 
     @BindView(R.id.tabs)
     public TabLayout tabLayout;
@@ -98,11 +99,11 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
         doctorId = getIntent().getStringExtra(Key.KEY_DOCTOR_ID);
         getDoctorProfile(doctorId);
 
-        String doctorName = getIntent().getStringExtra(Key.DOCTOR_NAME_KEY);
+         mDoctorName = getIntent().getStringExtra(Key.DOCTOR_NAME_KEY);
 
-        docExpertise = getIntent().getStringExtra(Key.KEY_DOCTOR_EXPERTISE);
+        mDocExpertise = getIntent().getStringExtra(Key.KEY_DOCTOR_EXPERTISE);
         docSpecialization = getIntent().getStringExtra(Key.KEY_DOCTOR_SPECIALIZATION);
-        docAmount = getIntent().getStringExtra(Key.KEY_DOCTOR_AMOUNT);
+        mDocAmount = getIntent().getStringExtra(Key.KEY_DOCTOR_AMOUNT);
 
 
         tabLayout.setupWithViewPager(viewPager);
@@ -110,7 +111,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
 //        reDirEnable = false;
 
 
-        tvDocName.setText(doctorName);
+        tvDocName.setText(mDoctorName);
     }
 
 
@@ -119,9 +120,11 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         Bundle arg = new Bundle();
         arg.putString(Key.KEY_DOCTOR_SPECIALIZATION, docSpecialization);
-        arg.putString(Key.KEY_DOCTOR_AMOUNT, docAmount);
+        arg.putString(Key.KEY_DOCTOR_AMOUNT, mDocAmount);
         arg.putString(Key.KEY_DOCTOR_ID, doctorId);
         arg.putString(Key.KEY_DOCTOR_LANGUAGE, SLI_LanguageName);
+        arg.putString(Key.DOCTOR_NAME_KEY, mDoctorName);
+        arg.putString(Key.KEY_DOCTOR_EXPERTISE, mDocExpertise);
 
 //        Fragment fragment = PtDoctorDetailsFragment.newInstance(docSpecialization);
         Fragment fragment = new PtDoctorDetailsFragment();
@@ -150,10 +153,13 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_appointBook)
     public void onAppointmentBookClick() {
-//        reDirEnable = true;
+
 
         Intent intent = new Intent(this, PtAppointBookActivity.class);
         intent.putExtra(Key.KEY_DOCTOR_ID, doctorId);
+        intent.putExtra(Key.KEY_DOCTOR_EXPERTISE, mDocExpertise);
+        intent.putExtra(Key.KEY_DOCTOR_AMOUNT, mDocAmount);
+
         startActivity(intent);
     }
 
@@ -288,7 +294,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
     }
 
 
-    private void getLanguage() {
+   /* private void getLanguage() {
         String blood_group_tag = "language_tag";
         pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getlanguagelist",
@@ -337,5 +343,5 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(stringRequest, blood_group_tag);
 
-    }
+    }*/
 }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,6 +96,8 @@ public class PtPickUpTimeDateFragment extends Fragment {
     private String mOAT_code;
     private String mPatientId;
     private String mShortDescriptionOfProblem;
+    private String mDocExpertise;
+    private String mDocAmount;
 
 
     public PtPickUpTimeDateFragment() {
@@ -118,6 +121,9 @@ public class PtPickUpTimeDateFragment extends Fragment {
         if (arg != null) {
             mDoctorId = arg.getString(Key.KEY_DOCTOR_ID, "");
             mShortDescriptionOfProblem = arg.getString(Key.KEY_PATIENT_PROBLEM_SHORT_DES, "");
+            mDocExpertise = arg.getString(Key.KEY_DOCTOR_EXPERTISE, "");
+            mDocAmount = arg.getString(Key.KEY_DOCTOR_AMOUNT, "");
+
 
         }
 
@@ -398,7 +404,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
         showConfirmMessage(ti);
     }
 
-    private void showConfirmMessage(String time) {
+    private void showConfirmMessage(final String time) {
         AlertDialog ad = new AlertDialog.Builder(getActivity())
                 .create();
 
@@ -407,7 +413,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
         final String selectedDate = sdf.format(new Date(calendarView.getDate()));
         ad.setCancelable(false);
         ad.setTitle("You have Selected");
-        ad.setMessage("Your Date :" + selectedDate + "\n time : " + time /*+ " OAT Code" + mOAT_code*/);
+        ad.setMessage("Your Date :" + selectedDate + "\n time : " + time);
         ad.setButton("Confirm", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
@@ -415,112 +421,37 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
                 dialog.dismiss();
 
-                saveDoctorAppointmentTime(mPatientId, mDoctorId, selectedDate, mOAT_code, "", "",
+
+                Fragment fragment = new PtPaymentModuleFragment();
+                Bundle arg = new Bundle();
+                arg.putString(Key.KEY_DOCTOR_ID, mDoctorId);
+                arg.putString(Key.KEY_PATIENT_ID, mPatientId);
+                arg.putString(Key.KEY_PATIENT_PROBLEM_SHORT_DES, mShortDescriptionOfProblem);
+                arg.putString(Key.KEY_APPOINTMENT_DATE, selectedDate);
+                arg.putString(Key.KEY_APPOINTMENT_TIME, time);
+                arg.putString(Key.KEY_OAT, mOAT_code);
+                arg.putString(Key.KEY_DOCTOR_EXPERTISE, mDocExpertise);
+                arg.putString(Key.KEY_DOCTOR_AMOUNT, mDocAmount);
+                fragment.setArguments(arg);
+/*          *//*      String shortDescribtion=edtShortDescribtion.getText().toString();
+*//*
+//                if (mDoctorId!=null &&mDoctorId.length()>0){
+
+
+                }*/
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content_frame, fragment);
+                ft.commit();
+
+           /*     saveDoctorAppointmentTime(mPatientId, mDoctorId, selectedDate, mOAT_code, "", "",
                         "0", mShortDescriptionOfProblem, "0",
-                        "", "", "", "", "");
+                        "", "", "", "", "");*/
             }
         });
         ad.show();
     }
 
-    private void saveDoctorAppointmentTime(final String patient_id
-            , final String doctor_id, final String APPT_AppointmentDate
-            , final String oat_cod, final String PPFI_Code
-            , final String rel_Code, final String DrChargePaymentComplete
-            , final String APPT_ShortDescriptionOfProblem, final String hasDiabetics
-            , final String hasHighBloodPressure, final String hasAllergies
-            , final String hasAnyMedication, final String curMedicineList
-            , final String APPT_Comments) {
 
-
-        String tag = "save_appointment";
-
-      /*  pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Saving...");*/
-        if (pDialog != null)
-            pDialog.show();
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "saveDoctorAppointmentinfo",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        AppController.getInstance().getRequestQueue().getCache().clear();
-                        Log.d("SAVE_MOR", response);
-                        closeDialog();
-                        /**
-                         * {
-                         "status": "success",
-                         "data": {
-                         "id": "APPT-00000002"
-                         },
-                         "msg": "AppointmentCode Information  successfully Save"
-                         }
-
-
-                         */
-
-                        String id = "";
-                        String msg = "";
-
-                        try {
-                            JSONObject jos = new JSONObject(response);
-
-                            msg = jos.getString("msg");
-                            if (jos.getString("status").equals("success")) {
-                                JSONObject data = jos.getJSONObject("data");
-                                id = data.getString("id");
-                                SharePref.saveAppointmentID(getActivity(), id);
-
-
-                                AlertDialogManager.showSuccessDialog(getActivity(), msg);
-
-                            } else {
-                                AlertDialogManager.showSuccessDialog(getActivity(), msg);
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("PatientPersonal", response);
-
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Timber.d("Error: " + error.getMessage());
-
-                closeDialog();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("patient_id", patient_id);
-                params.put("doctor_id", doctor_id);
-                params.put("APPT_AppointmentDate", APPT_AppointmentDate);
-                params.put("oat_cod", oat_cod);
-                params.put("PPFI_Code", PPFI_Code);
-                params.put("rel_Code", rel_Code);
-                params.put("DrChargePaymentComplete", DrChargePaymentComplete);
-                params.put("APPT_ShortDescriptionOfProblem", APPT_ShortDescriptionOfProblem);
-                params.put("hasDiabetics", hasDiabetics);
-                params.put("hasHighBloodPressure", hasHighBloodPressure);
-                params.put("hasAllergies", hasAllergies);
-                params.put("hasAnyMedication", hasAnyMedication);
-                params.put("curMedicineList", curMedicineList);
-                params.put("APPT_Comments", APPT_Comments);
-
-
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, tag);
-    }
 
     private void closeDialog() {
         if (pDialog != null && pDialog.isShowing())

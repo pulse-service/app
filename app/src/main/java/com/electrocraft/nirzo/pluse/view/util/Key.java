@@ -30,4 +30,8 @@ public class Key {
     public static final String KEY_COUNTRY_CODE="KeyCountryCode";
     public static final String KEY_PATIENT_ID="KeyPatientId";
     public static final String KEY_PATIENT_PROBLEM_SHORT_DES="KeyPatientProbShortDescription";
+
+    public static final String KEY_APPOINTMENT_DATE="KeyAppointDate";
+    public static final String KEY_APPOINTMENT_TIME="KeyAppointTime";
+    public static final String KEY_OAT="KeyOat";
 }

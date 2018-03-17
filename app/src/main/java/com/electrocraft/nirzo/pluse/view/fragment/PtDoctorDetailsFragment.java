@@ -49,6 +49,7 @@ public class PtDoctorDetailsFragment extends Fragment {
     private ProgressDialog pDialog;
 
     private String mAvailableDateString;
+    private String mDocExpertise;
 
 //    public static PtDoctorDetailsFragment newInstance(String parameter) {
 //
@@ -67,18 +68,26 @@ public class PtDoctorDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
     @Nullable
     @Override
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_pt_doc_details, container, false);
         ButterKnife.bind(this, view);
         mAvailableDateString = "";
+        String special = "";
+        String amount = "";
+        String language = "";
         Bundle arg = getArguments();
+        if (arg != null) {
+            special = arg.getString(Key.KEY_DOCTOR_SPECIALIZATION, "");
+            amount = arg.getString(Key.KEY_DOCTOR_AMOUNT, "");
+            language = arg.getString(Key.KEY_DOCTOR_LANGUAGE, "");
+            mDoctorId = arg.getString(Key.KEY_DOCTOR_ID, "");
+            mDocExpertise = arg.getString(Key.KEY_DOCTOR_EXPERTISE, "");
+        }
 
-        String special = arg.getString(Key.KEY_DOCTOR_SPECIALIZATION, "");
-        String amount = arg.getString(Key.KEY_DOCTOR_AMOUNT, "");
-        String language = arg.getString(Key.KEY_DOCTOR_LANGUAGE, "");
-        mDoctorId = arg.getString(Key.KEY_DOCTOR_ID, "");
         getAvailableTime(mDoctorId);
         tvSpecialTag.setText(special);
         tvLanguage.setText(language);
@@ -117,7 +126,7 @@ public class PtDoctorDetailsFragment extends Fragment {
                                         String InTime_AMOrPM = object.getString("InTime_AMOrPM");
                                         String OutTime = object.getString("OutTime");
                                         String OutTime_AMOrPM = object.getString("OutTime_AMOrPM");
-                                        String tem = " "+Day + "    " + InTime + " " + InTime_AMOrPM + "  to  " + OutTime +" "+ OutTime_AMOrPM + "\n";
+                                        String tem = " " + Day + "    " + InTime + " " + InTime_AMOrPM + "  to  " + OutTime + " " + OutTime_AMOrPM + "\n";
                                         mAvailableDateString = mAvailableDateString + tem;
                                     }
                                     //                                   setupViewPager(viewPager);
