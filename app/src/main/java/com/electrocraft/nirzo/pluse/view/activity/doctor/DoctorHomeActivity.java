@@ -1,7 +1,12 @@
 package com.electrocraft.nirzo.pluse.view.activity.doctor;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -30,10 +35,13 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
+import com.electrocraft.nirzo.pluse.view.fragment.DocAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocChamberFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocTodayAppointFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +55,7 @@ import timber.log.Timber;
 
 public class DoctorHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    static final String ACTION = "com.tutorialspoint.CUSTOM_INTENT";
     private static final String TAG = "DoctorHomeActivity";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -62,11 +71,6 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
 
     private ProgressDialog pDialog;
 
-   /* @OnClick(R.id.btn_video)
-    public void dimOnClick(View view){
-        startActivity(new Intent(DoctorHomeActivity.this, MainActivity.class));
-
-    }*/
 
     String token = "";
     private String mDoctorId;
@@ -86,8 +90,11 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        mDoctorId = SharePref.getPatientID(this);
-        timeConsume();
+        mDoctorId = SharePref.getDoctorID(this);
+//        timeConsume();
+
+        Log.d("PLTO", " mDoctorId :" + mDoctorId);
+        getPatientAppointment(mDoctorId);
 //        getDoctorImageRequest();
 
        /* Test Json resouce reader
@@ -106,6 +113,14 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
         ivDocCoverPic.setVisibility(View.GONE);
         switch (item.getItemId()) {
 
+            case R.id.nav_home:
+                startActivity(new Intent(this, DoctorHomeActivity.class));
+                break;
+
+            case R.id.nav_doc_appointment:
+                fragment = new DocAppointmentFragment();
+                title = "";
+                break;
             case R.id.nav_doc_profile:
                 fragment = new DocProfileFragment();
                 title = "Profile";
@@ -159,6 +174,140 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
             super.onBackPressed();
         }
     }
+
+
+    private  void getPatientAppointment(final String doctorId) {
+        String patient_login_tag = "doctor_s_appointment";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "searchCallRequestForDoctor?receiverid=" + doctorId,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("PLTO", response);
+
+                        /**
+                         * {
+                         "status": "success",
+                         "data": [
+                         {
+                         "receiverid": "DR000000001",
+                         "senderId": "ECL-00000001",
+                         "receiverType": "Doctor"
+                         }
+                         ],
+                         "msg": "Call Request List"
+                         }
+                         */
+
+                        String receiverid = "";
+                        String senderId = "";
+                        String receiverType = "";
+
+
+                        try {
+                            JSONObject object = new JSONObject(response);
+
+                            if (object.getString("status").equals("success")) {
+                                if (!object.isNull("data")) {
+                                    JSONArray array = object.getJSONArray("data");
+                                    for (int i = 0; i < array.length(); i++) {
+                                        JSONObject object1 = array.getJSONObject(i);
+
+                                        receiverid = object1.getString("receiverid");
+                                        senderId = object1.getString("senderId");
+                                        receiverType = object1.getString("receiverType");
+
+                                        Intent intent = new Intent();
+                                        intent.setAction("com.tutorialspoint.CUSTOM_INTENT");
+                                        sendBroadcast(intent);
+
+                                /*        IntentFilter filter = new IntentFilter(ACTION);
+                                        DoctorHomeActivity.registerReceiver(mReceivedSMSReceiver, filter);*/
+
+                                    }
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                params.put("doctorId", doctorId);
+
+
+                return params;
+            }
+        };
+
+        AppController.getInstance().
+
+                addToRequestQueue(stringRequest, patient_login_tag);
+
+    }
+
+
+   /* private final BroadcastReceiver mReceivedSMSReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (ACTION.equals(action))
+            {
+                //your SMS processing code
+                displayAlert();
+            }
+        }
+    };*/
+
+
+  /*  public void showRiningMessage(Context context) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog ad = builder.create();
+//                .create();
+
+
+   *//*     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        final String selectedDate = sdf.format(new Date(calendarView.getDate()));
+        ad.setCancelable(false);*//*
+        ad.setTitle("Ringing");
+        ad.setMessage("You have Call");
+        ad.setButton("Accept ", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+
+            }
+        });
+        ad.setButton("Reject ", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+            }
+        });
+        ad.show();
+    }*/
 
     private void getDoctorImageRequest() {
 

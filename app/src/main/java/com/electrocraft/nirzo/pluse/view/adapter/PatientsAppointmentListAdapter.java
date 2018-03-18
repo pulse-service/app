@@ -1,6 +1,5 @@
 package com.electrocraft.nirzo.pluse.view.adapter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -17,12 +16,14 @@ import com.android.volley.toolbox.ImageRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.model.AppointmentModel;
 import com.electrocraft.nirzo.pluse.model.DoctorSearch;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -32,33 +33,33 @@ import butterknife.ButterKnife;
  * @since 2/22/2018
  */
 
-public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchListAdapter.ViewHolder> {
+public class PatientsAppointmentListAdapter extends RecyclerView.Adapter<PatientsAppointmentListAdapter.ViewHolder> {
 
 
-    private List<DoctorSearch> doctorList;
+    private List<AppointmentModel> list;
 
     private Context mContext;
 
-    public DoctorSearchListAdapter(List<DoctorSearch> doctorList) {
-        this.doctorList = doctorList;
+    public PatientsAppointmentListAdapter(List<AppointmentModel> list) {
+        this.list = list;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.lr_iv_DocImage)
-        ImageView docImage;
+        CircleImageView docImage;
         @BindView(R.id.lr_tv_DocName)
         TextView docName;
-        @BindView(R.id.lr_tv_DocInstitution)
-        TextView docInstitution;
+        @BindView(R.id.lr_tv_AppointmentDateNTime)
+        TextView tv_AppointmentDateNTime;
 
-        @BindView(R.id.lr_tv_doc_consult_price)
-        TextView docConsultPrice;
+        @BindView(R.id.lr_tv_Specialization)
+        TextView lr_tv_Specialization;
 
-        @BindView(R.id.lr_btn_book)
+     /*   @BindView(R.id.lr_btn_book)
         Button btnBook;
         @BindView(R.id.lr_iv_DocAvailableStatus)
-        ImageView docAvailable;
+        ImageView docAvailable;*/
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -67,13 +68,13 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
         }
     }
 
-
+//    ViewHolder holder;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_row_doctor_search, parent, false);
-        // set the Context here
+                .inflate(R.layout.list_row_patient_appointment, parent, false);
+
         mContext = parent.getContext();
         return new ViewHolder(itemView);
 
@@ -81,25 +82,28 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        DoctorSearch doctor = doctorList.get(position);
-        holder.docName.setText(doctor.getName());
-        holder.docInstitution.setText(doctor.getExpertise());
-        holder.docConsultPrice.setText("Consult online for " + doctor.getAmount() + " BDT");
-//        if (doctor.getPhoto() != null)
-            getDoctorImageRequest(doctor.getPhoto(), holder);
-        if (doctor.isAvailableFlag())
-            holder.docAvailable.setImageResource(R.drawable.ic_online);
+        AppointmentModel model = list.get(position);
+        holder.docName.setText(model.getDoctorName());
+        holder.tv_AppointmentDateNTime.setText(model.getAppointmentDate()+" ("+model.getInTime()+")");
+//        holder.docInstitution.setText(doctor.getExpertise());
+//        holder.docConsultPrice.setText("Consult online for " + doctor.getAmount() + " BDT");
+////        if (doctor.getPhoto() != null)
+//            getDoctorImageRequest(doctor.getPhoto(), holder);
+//        if (doctor.isAvailableFlag())
+//            holder.docAvailable.setImageResource(R.drawable.ic_online);
 
     }
 
     @Override
     public int getItemCount() {
-        return doctorList.size();
+        return list.size();
     }
 
     private void getDoctorImageRequest(String imageLink, final ViewHolder holder) {
 
-
+/*    pDialog = new ProgressDialog(mContext);
+        pDialog.setMessage("Loading...");
+        pDialog.show();*/
 
 
 

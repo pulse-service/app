@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 public class SharePref {
     private static final String FILE_NAME = "pulse_raw_data";
     private static final String KEY_PATIENT_APPOINTMENT_ID = "p_appointment_id";
+    private static final String KEY_PATIENT_APPOINTMENT_DATE = "p_appointment_date";
     private static final String KEY_PATIENT_ID = "p_id";
     private static final String KEY_DOCTOR_ID = "d_id";
 
@@ -21,6 +22,15 @@ public class SharePref {
     }
 
 
+    public static void saveAppointmentDate(Context context, String value) {
+        saveString(context, KEY_PATIENT_APPOINTMENT_DATE, value);
+
+    }
+
+    public static String getAppointmentDate(Context context) {
+        return getString(context, KEY_PATIENT_APPOINTMENT_DATE);
+
+    }
 
     public static void saveAppointmentID(Context context, String value) {
         saveString(context, KEY_PATIENT_APPOINTMENT_ID, value);

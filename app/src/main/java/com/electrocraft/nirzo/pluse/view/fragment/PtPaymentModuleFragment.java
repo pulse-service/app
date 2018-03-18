@@ -178,6 +178,7 @@ public class PtPaymentModuleFragment extends Fragment {
                                 JSONObject data = jos.getJSONObject("data");
                                 id = data.getString("id");
                                 SharePref.saveAppointmentID(getActivity(), id);
+                                SharePref.saveAppointmentDate(getActivity(), APPT_AppointmentDate);
 
 
                                 AlertDialogManager.showSuccessDialog(getActivity(), msg);

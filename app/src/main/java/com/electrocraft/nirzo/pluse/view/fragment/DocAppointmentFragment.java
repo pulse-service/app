@@ -1,7 +1,6 @@
 package com.electrocraft.nirzo.pluse.view.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,55 +21,47 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.model.AppointmentModel;
-import com.electrocraft.nirzo.pluse.model.DoctorSearch;
-import com.electrocraft.nirzo.pluse.view.MainActivity;
-import com.electrocraft.nirzo.pluse.view.adapter.DoctorSearchListAdapter;
+import com.electrocraft.nirzo.pluse.view.adapter.DoctorsAppointmentListAdapter;
 import com.electrocraft.nirzo.pluse.view.adapter.PatientsAppointmentListAdapter;
 import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
-import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
- * @author Faisal
- * @since 3/17/2018
+ * Created by nirzo on 3/17/2018.
  */
 
-public class PtAppointmentFragment extends Fragment {
+public class DocAppointmentFragment extends Fragment {
 
-    @BindView(R.id.recyAppointment)
+    @BindView(R.id.recyDocAppointment)
     RecyclerView rcvAppointment;
 
     List<AppointmentModel> modelList = new ArrayList<>();
+
+    private DoctorsAppointmentListAdapter mAdapter;
 
     /* @BindView(R.id.lr_btn_Call)
      Button lr_btn_Call;*/
     private String mPatientId;
     private String mPatientAppointDate;
     private ProgressDialog pDialog;
-    private String TAG = "PtAppointmentFragment";
+    private String TAG = "DocAppointmentFragment";
 
-/*    @OnClick(R.id.lr_btn_Call)
-    public void dimChole() {
-        startActivity(new Intent(getActivity(), MainActivity.class));
-    }*/
-
-    private PatientsAppointmentListAdapter mAdapter;
-
-    public PtAppointmentFragment() {
+    public DocAppointmentFragment() {
     }
 
     @Override
@@ -82,20 +72,20 @@ public class PtAppointmentFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_pt_s_appointment_list, container, false);
+        View view = inflater.inflate(R.layout.frag_doc_s_appointment_list, container, false);
         ButterKnife.bind(this, view);
-       /* APPT_AppointmentDate*/
         setUpAdapter();
-        mPatientId = SharePref.getPatientID(getActivity());
-        mPatientAppointDate = SharePref.getAppointmentDate(getActivity());
 
-        Log.d("Sala", " mPatientId:" + mPatientId + " mPatientAppointDate" + mPatientAppointDate);
-        getPatientAppointment(mPatientId, mPatientAppointDate);
+        Date c = Calendar.getInstance().getTime();
+//        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c);
         return view;
     }
 
     private void setUpAdapter() {
-        mAdapter = new PatientsAppointmentListAdapter(modelList);
+        mAdapter = new DoctorsAppointmentListAdapter(modelList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rcvAppointment.setLayoutManager(mLayoutManager);
         rcvAppointment.setItemAnimator(new DefaultItemAnimator());
@@ -105,7 +95,7 @@ public class PtAppointmentFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
-                startActivity(new Intent(getActivity(), MainActivity.class));
+
             }
 
             @Override
@@ -116,40 +106,41 @@ public class PtAppointmentFragment extends Fragment {
     }
 
     /**
-     * {
-     * "status": "success",
-     * "data": [
-     * {
-     * "APPT_AppointmentDate": "2018-03-15",
-     * "InTime": "07:00:00",
-     * "InTime_AMOrPM": "PM",
-     * "OutTime": "07:30:00",
-     * "OutTime_AMOrPM": "PM",
-     * "APPT_ShortDescriptionOfProblem": "hello ok",
-     * "APPT_ApptSubmissionDate": "2018-03-15",
-     * "DRI_DrID": "DR000000001",
-     * "DRI_DrName": "Dr. Farzana B Ibrahim",
-     * "PRI_Name": "Faisal Mohammad",
-     * "PRI_PTID": "ECL-00000001",
-     * "DRI_Phone": "01911444647",
-     * "PRI_Phone": "1911444647"
-     * }
-     * ],
-     * "msg": "Patient Appointment List"
-     * }
+     *
+     {
+     "status": "success",
+     "data": [
+     {
+     "APPT_AppointmentDate": "2018-03-15",
+     "InTime": "07:00:00",
+     "InTime_AMOrPM": "PM",
+     "OutTime": "07:30:00",
+     "OutTime_AMOrPM": "PM",
+     "APPT_ShortDescriptionOfProblem": "hello ok",
+     "APPT_ApptSubmissionDate": "2018-03-15",
+     "DRI_DrID": "DR000000001",
+     "DRI_DrName": "Dr. Farzana B Ibrahim",
+     "PRI_PTName": "Faisal Mohammad",
+     "DRI_Phone": "01911444647",
+     "PRI_Phone": "1911444647"
+     }
+     ],
+     "msg": "Doctor Appointment List"
+     }
      */
-
-    private void getPatientAppointment(final String patientId, final String date) {
-        String patient_login_tag = "doc_search_tag";
+    private void getPatientAppointment(final String doctorId, final String date) {
+        String patient_login_tag = "doctor_s_appointment";
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "searchPatientAppointment",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "searchDoctorAppointment",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         AppController.getInstance().getRequestQueue().getCache().clear();
                         Log.d("DIM", response);
+
+
 
 
                         closeDialog();
@@ -206,7 +197,7 @@ public class PtAppointmentFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
 
 
-                params.put("patienId", patientId);
+                params.put("doctorId", doctorId);
                 params.put("date", date);
 
 

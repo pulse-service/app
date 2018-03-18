@@ -5,6 +5,14 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_doc_appointment"
+            android:icon="@drawable/ic_menu_date_range"
+            android:title="@string/appointment" />
+        <item
             android:id="@+id/nav_doc_profile"
             android:icon="@drawable/ic_menu_person"
             android:title="@string/doc_profileInfo" />
@@ -18,7 +26,7 @@
             android:title="@string/doc_bankInfo" />
         <item
             android:id="@+id/nav_doc_today"
-            android:icon="@drawable/ic_menu_date_range"
+            android:icon="@drawable/ic_menu_time"
             android:title="@string/doc_today" />
 
         <item

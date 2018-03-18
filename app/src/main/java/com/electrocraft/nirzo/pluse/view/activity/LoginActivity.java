@@ -32,6 +32,7 @@ import com.electrocraft.nirzo.pluse.controller.network.ConnectionDetector;
 import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DocRegistrationActivity;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
@@ -107,18 +108,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loadLoginAsSpinner();
 
-        /*rbGroupLogin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton rb = (RadioButton) findViewById(checkedId);
 
-
-                if (rb.getText().equals("doctor"))
-                    isDoctorLogin = true;
-                else
-                    isDoctorLogin = false;
-            }
-        });*/
     }
 
     @OnClick(R.id.btn_sub_login_doc)
@@ -160,7 +150,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (!isDoctorLogin) {
                     loginPatient(phone, password);
                 } else {
-                    // todo api needed doctor login
+
+                    loginDoctor(phone, password);
                 }
 
 
@@ -305,6 +296,86 @@ public class LoginActivity extends AppCompatActivity {
                                     SharePref.savePatientID(mContext, id);
                                     Intent intent = new Intent(LoginActivity.this, PatientHomeActivity.class);
                                     intent.putExtra(Key.KEY_PATIENT_ID, id);
+                                    startActivity(intent);
+
+                                }
+                            } else
+                                AlertDialogManager.showErrorDialog(LoginActivity.this, "Invalid User or password");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                // hide the progress dialog
+                closeDialog();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("phone_number", phoneNo);
+                params.put("password", password);
+
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest, patient_login_tag);
+
+    }
+
+
+    /**
+     * {
+     "status": "success",
+     "data": {
+     "id": "DR000000001"
+     },
+     "msg": "login successful"
+     }
+     * @param phoneNo sdf
+     * @param password dsfd
+     */
+    private void loginDoctor(final String phoneNo, final String password) {
+        String patient_login_tag = "patient_log_in_tag";
+
+        if (pDialog == null) {
+            pDialog = new ProgressDialog(this);
+            pDialog.setMessage("Loading...");
+        }
+        pDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "doctorlogin",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("MAL", response);
+
+
+                        String id = "";
+
+                        closeDialog();
+                        try {
+                            JSONObject object = new JSONObject(response);
+
+                            if (object.getString("status").equals("success")) {
+                                if (!object.isNull("data")) {
+                                    JSONObject obj = object.getJSONObject("data");
+
+
+                                    id = obj.getString("id");
+                                    SharePref.saveDoctorID(mContext, id);
+                                    Intent intent = new Intent(LoginActivity.this, DoctorHomeActivity.class);
+//                                    intent.putExtra(Key.KEY_PATIENT_ID, id);
                                     startActivity(intent);
 
                                 }

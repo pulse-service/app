@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.util.SharePref;
 import com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment;
+import com.electrocraft.nirzo.pluse.view.fragment.PtAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtProfileFragment;
 import com.electrocraft.nirzo.pluse.view.util.Key;
@@ -123,6 +124,10 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
 
             case R.id.nav_home:
                 startActivity(new Intent(this, PatientHomeActivity.class));
+                break;
+            case R.id.nav_appointment:
+                fragment = new PtAppointmentFragment();
+                title = "";
                 break;
             case R.id.nav_profile:
                 fragment = new PtProfileFragment();

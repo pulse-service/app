@@ -272,8 +272,9 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
     private void getAvailableTime(final String doctorId) {
         String tag = "get_doc_available_time";
+        if (pDialog == null)
+            pDialog = new ProgressDialog(getActivity());
 
-        pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
 
@@ -450,7 +451,6 @@ public class PtPickUpTimeDateFragment extends Fragment {
         });
         ad.show();
     }
-
 
 
     private void closeDialog() {

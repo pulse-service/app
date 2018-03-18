@@ -5,7 +5,16 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAPTURE_VIDEO_OUTPUT" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:name=".controller.application.AppController"
@@ -40,8 +49,9 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".view.activity.LoginActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".view.activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".view.activity.patient.PatientHomeActivity"
             android:label="@string/title_activity_home"
@@ -52,7 +62,14 @@
         <activity android:name=".view.activity.doctor.DocRegistrationActivity" />
         <activity android:name=".view.fragment.PtSeeDoctorProfileActivity" />
         <activity android:name=".view.activity.patient.PtAppointBookActivity" />
-        <activity android:name=".view.activity.doctor.DoctorHomeActivity"/>
+        <activity android:name=".view.activity.doctor.DoctorHomeActivity" />
+        <activity android:name=".controller.network.NotifySMSReceived" />
+
+        <receiver android:name=".controller.receive.DoctorReceiver">
+            <intent-filter>
+                <action android:name="com.tutorialspoint.CUSTOM_INTENT"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

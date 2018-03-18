@@ -63,11 +63,5 @@
         android:textColor="@color/red"
         android:textSize="12sp" />
 
-    <!--   <TextView
-           android:id="@+id/lr_tv_docRating"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_alignEnd="@+id/imageView3"
-           android:layout_below="@+id/lr_tv_DocName"
-           android:text="@string/_30" />-->
+
 </RelativeLayout>

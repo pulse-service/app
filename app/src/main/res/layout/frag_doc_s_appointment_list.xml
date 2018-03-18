@@ -6,7 +6,7 @@
     android:background="@color/off_white">
 
      <android.support.v7.widget.RecyclerView
-         android:id="@+id/recyAppointment"
+         android:id="@+id/recyDocAppointment"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:layout_below="@+id/actv_specializationCat"
