@@ -125,7 +125,7 @@ public class PtSpecializationFragment extends Fragment {
                 ft.replace(R.id.content_frame, fragment);
                 ft.commit();*/
                 //  Timber.d("hello Doc");
-              Intent intent = new Intent(getActivity(), PtSeeDoctorProfileActivity.class);
+                Intent intent = new Intent(getActivity(), PtSeeDoctorProfileActivity.class);
                 intent.putExtra(Key.DOCTOR_NAME_KEY, doctor.getName());
                 intent.putExtra(Key.KEY_DOCTOR_ID, doctor.getDrID());
                 intent.putExtra(Key.KEY_DOCTOR_EXPERTISE, doctor.getExpertise());
@@ -145,7 +145,8 @@ public class PtSpecializationFragment extends Fragment {
 
     private void getDoctorList() {
         String patient_login_tag = "doc_search_tag";
-        pDialog = new ProgressDialog(getActivity());
+        if (pDialog == null)
+            pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getdoctorslist",
@@ -189,7 +190,7 @@ public class PtSpecializationFragment extends Fragment {
                                     DCharge = jsonObject.getString("amount");
                                     Photo = jsonObject.getString("Photo");
 
-                                    DoctorSearch doctor = new DoctorSearch(DRI_ID,DRI_DrName, Expertise, SPName, DCharge, true,Photo);
+                                    DoctorSearch doctor = new DoctorSearch(DRI_ID, DRI_DrName, Expertise, SPName, DCharge, true, Photo);
                                     mList.add(doctor);
                                 }
 

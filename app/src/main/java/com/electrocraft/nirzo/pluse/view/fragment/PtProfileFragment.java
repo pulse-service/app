@@ -1,8 +1,14 @@
 package com.electrocraft.nirzo.pluse.view.fragment;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,15 +18,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.controller.util.ImageFilePath;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
@@ -28,6 +40,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -48,10 +65,16 @@ import timber.log.Timber;
 
 public class PtProfileFragment extends Fragment {
 
+    private static final int PICK_IMAGE_REQUEST = 3;
+    private static final int REQUEST_CAMERA = 1;
+    private static final int SELECT_FILE = 2;
     /**
      * the patient id
      */
     private String mPatientId;
+
+    @BindView(R.id.iv_doc_image_thumbel)
+    ImageView ivImage;
 
     private String mfatherName = "";
     private String mMotherName = "";
@@ -85,6 +108,7 @@ public class PtProfileFragment extends Fragment {
     private Calendar calendar = Calendar.getInstance();
     @BindView(R.id.tvPatientDOB)
     public TextView tvPatientDOB;
+    private String imageFilePath;
 
     /**
      * DatePicker code Start
@@ -139,7 +163,8 @@ public class PtProfileFragment extends Fragment {
 
     /**
      * set data to the View
-     * @param str data
+     *
+     * @param str  data
      * @param view editText
      */
     private void setDataToView(String str, EditText view) {
@@ -170,6 +195,7 @@ public class PtProfileFragment extends Fragment {
         String age = tvPtAge.getText().toString();
 
         savePatientPersonalInfo(mPatientId, fatherName, motherName, patientDateOfBirth, age, presentAddress);
+        saveProfileAccount(mPatientId, fatherName, motherName, patientDateOfBirth, age, presentAddress);
     }
 
     /**
@@ -272,7 +298,8 @@ public class PtProfileFragment extends Fragment {
                                          final String patientDOB, final String patientAge, final String patientPresentAdd) {
         String tag = "patient_personal_info_save";
 
-        pDialog = new ProgressDialog(getActivity());
+        if (pDialog == null)
+            pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "patientprofilepersonalinfo",
@@ -334,5 +361,187 @@ public class PtProfileFragment extends Fragment {
             pDialog.hide();
     }
 
+    private void saveProfileAccount(final String patientId, final String fatherName, final String motherName,
+                                    final String patientDOB, final String patientAge, final String patientPresentAdd) {
+        // loading or check internet connection or something...
+        // ... then
+//        String url = "http://www.angga-ari.com/api/something/awesome";
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "patientprofilepersonalinfo"
+                , new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+                String resultResponse = new String(response.data);
+                try {
+                    JSONObject result = new JSONObject(resultResponse);
+         /*           String status = result.getString("status");
+                    String message = result.getString("message");*/
+
+                /*    if (status.equals(Constant.REQUEST_SUCCESS)) {
+                        // tell everybody you have succed upload image and post strings
+                        Log.i("Messsage", message);
+                    } else {
+                        Log.i("Unexpected", message);
+                    }*/
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkResponse networkResponse = error.networkResponse;
+                String errorMessage = "Unknown error";
+                if (networkResponse == null) {
+                    if (error.getClass().equals(TimeoutError.class)) {
+                        errorMessage = "Request timeout";
+                    } else if (error.getClass().equals(NoConnectionError.class)) {
+                        errorMessage = "Failed to connect server";
+                    }
+                } else {
+                    String result = new String(networkResponse.data);
+                    try {
+                        JSONObject response = new JSONObject(result);
+                        String status = response.getString("status");
+                        String message = response.getString("message");
+
+                        Log.e("Error Status", status);
+                        Log.e("Error Message", message);
+
+                        if (networkResponse.statusCode == 404) {
+                            errorMessage = "Resource not found";
+                        } else if (networkResponse.statusCode == 401) {
+                            errorMessage = message + " Please login again";
+                        } else if (networkResponse.statusCode == 400) {
+                            errorMessage = message + " Check your inputs";
+                        } else if (networkResponse.statusCode == 500) {
+                            errorMessage = message + " Something is getting wrong";
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.i("Error", errorMessage);
+                error.printStackTrace();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+            /*    params.put("api_token", "gh659gjhvdyudo973823tt9gvjf7i6ric75r76");
+                params.put("name", mNameInput.getText().toString());
+                params.put("location", mLocationInput.getText().toString());
+                params.put("about", mAvatarInput.getText().toString());
+                params.put("contact", mContactInput.getText().toString());*/
+                params.put("father_name", fatherName);
+                params.put("mother_name", motherName);
+                params.put("dob", patientDOB);
+                params.put("age", patientAge);
+                params.put("presentAddress", patientPresentAdd);
+                params.put("pri_prid", patientId);
+                // api param active but not integrated
+                // params.put("image", image);
+                return params;
+            }
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                // file name could found file base or direct access from real path
+                // for now just get bitmap data from ImageView
+                params.put("image", new DataPart("file_avatar.jpg", AppHelper.getFileDataFromDrawable(getActivity(), ivImage.getDrawable()), "image/jpeg"));
+//                params.put("cover", new DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(getActivity(), mCoverImage.getDrawable()), "image/jpeg"));
+
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(multipartRequest);
+//        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
+    }
+
+
+    @OnClick(R.id.ivFolder)
+    public void galleryIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"), PICK_IMAGE_REQUEST);
+    }
+
+    @OnClick(R.id.ivCamera)
+    public void onCameraClick() {
+        cameraIntent();
+    }
+
+    private void cameraIntent() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    Bitmap bitmap;
+
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
+        Bitmap bm = null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        ivImage.setImageBitmap(bm);
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ivImage.setImageBitmap(thumbnail);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
+
+
+            else if (requestCode == PICK_IMAGE_REQUEST) {
+
+
+                if (data != null && data.getData() != null) {
+                    Uri uri = data.getData();
+                    imageFilePath = ImageFilePath.getPath(getActivity(), data.getData());
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                        ivImage.setImageBitmap(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Some thing wrong", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
 
 }

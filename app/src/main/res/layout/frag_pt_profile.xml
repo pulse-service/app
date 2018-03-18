@@ -91,6 +91,43 @@
             android:hint="@string/present_address"
             android:inputType="textPersonName" />
 
+        <ImageView
+            android:id="@+id/iv_doc_image_thumbel"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/edtPtPresentAddress"
+
+            android:layout_marginStart="10dp"
+            android:background="@drawable/border_spinner"
+            android:src="@drawable/ic_if_file_doc" />
+
+        <ImageView
+            android:id="@+id/ivCamera"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/edtPtPresentAddress"
+            android:layout_marginBottom="79dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/iv_doc_image_thumbel"
+            android:background="@drawable/border_spinner"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_menu_camera" />
+
+        <ImageView
+            android:id="@+id/ivFolder"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/edtPtPresentAddress"
+            android:layout_marginBottom="79dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/ivCamera"
+            android:background="@drawable/border_spinner"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_folder_black_24dp" />
+
     </RelativeLayout>
 
 </FrameLayout>

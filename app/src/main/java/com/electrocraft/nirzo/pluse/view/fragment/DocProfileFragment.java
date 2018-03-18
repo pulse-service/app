@@ -66,8 +66,8 @@ import timber.log.Timber;
 
 public class DocProfileFragment extends Fragment {
 
-    public static final int REQUEST_CAMERA = 1;
-    public static final int SELECT_FILE = 2;
+    private static final int REQUEST_CAMERA = 1;
+    private static final int SELECT_FILE = 2;
     private static final int PICK_IMAGE_REQUEST = 3;
     @BindView(R.id.edtDocFirstName)
     EditText edtDocFirstName;

@@ -14,8 +14,7 @@ import com.electrocraft.nirzo.pluse.view.MainActivity;
 
 public class NotifySMSReceived extends Activity {
     private static final String LOG_TAG = "SMSReceiver";
-    public static final int NOTIFICATION_ID_RECEIVED = 0x1221;
-//    static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class NotifySMSReceived extends Activity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-//                        startActivity( new Intent(NotifySMSReceived.this, MainActivity.class));
+                        startActivity( new Intent(NotifySMSReceived.this, MainActivity.class));
                     }
                 }).setNegativeButton("Reject",
                 new DialogInterface.OnClickListener() {

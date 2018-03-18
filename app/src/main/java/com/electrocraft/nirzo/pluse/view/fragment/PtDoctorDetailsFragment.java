@@ -51,14 +51,7 @@ public class PtDoctorDetailsFragment extends Fragment {
     private String mAvailableDateString;
     private String mDocExpertise;
 
-//    public static PtDoctorDetailsFragment newInstance(String parameter) {
-//
-//        Bundle args = new Bundle();
-//        args.putString(Key.KEY_DOCTOR_SPECIALIZATION, parameter);
-//        PtDoctorDetailsFragment fragment = new PtDoctorDetailsFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
+
 
     public PtDoctorDetailsFragment() {
     }

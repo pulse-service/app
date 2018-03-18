@@ -106,8 +106,7 @@ public class PtAppointmentFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
-        /*        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com"));
-                startActivity(browserIntent);*/
+
 
                 startActivity(new Intent(getActivity(), MainActivity.class));
             }
@@ -119,29 +118,93 @@ public class PtAppointmentFragment extends Fragment {
         }));
     }
 
-    /**
-     * {
-     * "status": "success",
-     * "data": [
-     * {
-     * "APPT_AppointmentDate": "2018-03-15",
-     * "InTime": "07:00:00",
-     * "InTime_AMOrPM": "PM",
-     * "OutTime": "07:30:00",
-     * "OutTime_AMOrPM": "PM",
-     * "APPT_ShortDescriptionOfProblem": "hello ok",
-     * "APPT_ApptSubmissionDate": "2018-03-15",
-     * "DRI_DrID": "DR000000001",
-     * "DRI_DrName": "Dr. Farzana B Ibrahim",
-     * "PRI_Name": "Faisal Mohammad",
-     * "PRI_PTID": "ECL-00000001",
-     * "DRI_Phone": "01911444647",
-     * "PRI_Phone": "1911444647"
-     * }
-     * ],
-     * "msg": "Patient Appointment List"
-     * }
-     */
+ /*   http://180.148.210.139:8081/pulse_api/api/saveCallRequest
+    receiverId:DR000000001
+    senderId:ECL-00000001
+    receiverType:Doctor*/
+    private void postCallRequestFromPatient(final String patientId) {
+        String patient_login_tag = "doc_search_tag";
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "saveCallRequest",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("DIM", response);
+
+
+                        closeDialog();
+
+                        String APPT_AppointmentDate;
+                        String InTime;
+                        String InTime_AMOrPM;
+                        String DRI_DrID;
+                        String DRI_DrName;
+
+                        try {
+                            JSONObject object = new JSONObject(response);
+
+                            if (object.getString("status").equals("success")) {
+                                if (!object.isNull("data")) {
+                                    JSONArray array = object.getJSONArray("data");
+
+                                    for (int i = 0; i < array.length(); i++) {
+                                        JSONObject jsonObject = array.getJSONObject(i);
+
+                                        APPT_AppointmentDate = jsonObject.getString("APPT_AppointmentDate");
+                                        InTime = jsonObject.getString("InTime");
+                                        InTime_AMOrPM = jsonObject.getString("InTime_AMOrPM");
+                                        DRI_DrID = jsonObject.getString("DRI_DrID");
+                                        DRI_DrName = jsonObject.getString("DRI_DrName");
+
+                                        AppointmentModel model = new AppointmentModel(APPT_AppointmentDate, InTime, InTime_AMOrPM, DRI_DrID, DRI_DrName);
+                                        modelList.add(model);
+                                    }
+
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                // hide the progress dialog
+                closeDialog();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                params.put("receiverId", patientId);
+                params.put("senderId", patientId);
+                params.put("receiverType", "Doctor");
+
+
+
+                return params;
+            }
+        };
+
+        AppController.getInstance().
+
+                addToRequestQueue(stringRequest, patient_login_tag);
+
+    }
+
 
     private void getPatientAppointment(final String patientId) {
         String patient_login_tag = "doc_search_tag";
