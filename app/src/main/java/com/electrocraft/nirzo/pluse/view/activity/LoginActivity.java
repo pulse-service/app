@@ -1,10 +1,18 @@
 package com.electrocraft.nirzo.pluse.view.activity;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -19,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -42,6 +51,7 @@ import com.electrocraft.nirzo.pluse.view.viewhelper.BKViewController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,10 +62,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.RECORD_AUDIO;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     private boolean isDoctorLogin = false;
+
+    private final int CAMERA_PERMISSION_CODE = 1;
+    private static final int PERMISSION_REQUEST_CODE = 200;
 
     private ProgressDialog pDialog;
     private static final String TAG = "LoginActivity";
@@ -103,12 +119,117 @@ public class LoginActivity extends AppCompatActivity {
         if (mContext == null)
             mContext = this;
 
-
+        // for internet check
         cd = new ConnectionDetector(this);
+
+     /*   if (ContextCompat.checkSelfPermission(mContext, CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestCameraPermission();
+        }*/
 
         loadLoginAsSpinner();
 
+        if (!checkPermission()) {
 
+            requestPermission();
+
+        } else {
+
+            Toast.makeText(this, "Permission already granted.", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+    }
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA);
+
+//        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAPTURE_VIDEO_OUTPUT);
+
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{ RECORD_AUDIO,  CAMERA}, PERMISSION_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+
+                    boolean audioAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean cameraAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (audioAccepted && cameraAccepted){
+
+                    }
+//                        Snackbar.make(view, "Permission Granted, Now you can access location data and camera.", Snackbar.LENGTH_LONG).show();
+                    else {
+
+//                        Snackbar.make(view, "Permission Denied, You cannot access location data and camera.", Snackbar.LENGTH_LONG).show();
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(RECORD_AUDIO)) {
+                                showMessageOKCancel("You need to allow access to both the permissions",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{RECORD_AUDIO, CAMERA},
+                                                            PERMISSION_REQUEST_CODE);
+                                                }
+                                            }
+                                        });
+                                return;
+                            }
+                        }
+
+                    }
+                }
+
+
+                break;
+        }
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(LoginActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+    private void requestCameraPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, CAMERA)) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Permission needed");
+            builder.setTitle("App need the Camera Permission of your Device");
+            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(LoginActivity.this, new String[]{CAMERA}, CAMERA_PERMISSION_CODE);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create();
+            builder.show();
+
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{CAMERA}, CAMERA_PERMISSION_CODE);
+        }
     }
 
     @OnClick(R.id.btn_sub_login_doc)
@@ -335,13 +456,14 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * {
-     "status": "success",
-     "data": {
-     "id": "DR000000001"
-     },
-     "msg": "login successful"
-     }
-     * @param phoneNo sdf
+     * "status": "success",
+     * "data": {
+     * "id": "DR000000001"
+     * },
+     * "msg": "login successful"
+     * }
+     *
+     * @param phoneNo  sdf
      * @param password dsfd
      */
     private void loginDoctor(final String phoneNo, final String password) {

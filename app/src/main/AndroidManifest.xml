@@ -70,6 +70,23 @@
                 <action android:name="com.tutorialspoint.CUSTOM_INTENT"></action>
             </intent-filter>
         </receiver>
+
+    <!--    //Register Service in manifest for Token Refresh-->
+
+        <service
+            android:name=".controller.pusenotification.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        //Register Service in manifest to Receive Message
+
+        <service
+            android:name="controller.pusenotification.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

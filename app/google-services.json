@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "904963620246",
+    "firebase_url": "https://pulse-android-71e54.firebaseio.com",
+    "project_id": "pulse-android-71e54",
+    "storage_bucket": "pulse-android-71e54.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904963620246:android:a47c752a93747e79",
+        "android_client_info": {
+          "package_name": "com.electrocraft.nirzo.pluse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904963620246-8tu2gmp2liopv1usgpjt25pi989ngcsu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.electrocraft.nirzo.pluse",
+            "certificate_hash": "e427825c0b7eb0de1502b2d4cf982edad73760bf"
+          }
+        },
+        {
+          "client_id": "904963620246-qruurljsq65bm5c0nqgnrunorsd1qn83.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUTiiDwgVP5jGh9EA1x2a9NhfIIPszUbw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904963620246-qruurljsq65bm5c0nqgnrunorsd1qn83.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -32,7 +32,7 @@ public class NotifySMSReceived extends Activity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        startActivity( new Intent(NotifySMSReceived.this, MainActivity.class));
+//                        startActivity( new Intent(NotifySMSReceived.this, MainActivity.class));
                     }
                 }).setNegativeButton("Reject",
                 new DialogInterface.OnClickListener() {

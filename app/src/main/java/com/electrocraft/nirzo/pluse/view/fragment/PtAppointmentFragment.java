@@ -2,6 +2,7 @@ package com.electrocraft.nirzo.pluse.view.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -104,6 +105,9 @@ public class PtAppointmentFragment extends Fragment {
         rcvAppointment.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rcvAppointment, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+
+        /*        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com"));
+                startActivity(browserIntent);*/
 
                 startActivity(new Intent(getActivity(), MainActivity.class));
             }
