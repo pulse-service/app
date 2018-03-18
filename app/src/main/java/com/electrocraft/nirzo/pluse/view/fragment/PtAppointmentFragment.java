@@ -88,10 +88,10 @@ public class PtAppointmentFragment extends Fragment {
        /* APPT_AppointmentDate*/
         setUpAdapter();
         mPatientId = SharePref.getPatientID(getActivity());
-        mPatientAppointDate = SharePref.getAppointmentDate(getActivity());
 
-        Log.d("Sala", " mPatientId:" + mPatientId + " mPatientAppointDate" + mPatientAppointDate);
-        getPatientAppointment(mPatientId, mPatientAppointDate);
+
+        Log.d("Sala", " mPatientId:" + mPatientId  );
+        getPatientAppointment(mPatientId);
         return view;
     }
 
@@ -143,7 +143,7 @@ public class PtAppointmentFragment extends Fragment {
      * }
      */
 
-    private void getPatientAppointment(final String patientId, final String date) {
+    private void getPatientAppointment(final String patientId) {
         String patient_login_tag = "doc_search_tag";
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
@@ -211,7 +211,7 @@ public class PtAppointmentFragment extends Fragment {
 
 
                 params.put("patienId", patientId);
-                params.put("date", date);
+
 
 
                 return params;

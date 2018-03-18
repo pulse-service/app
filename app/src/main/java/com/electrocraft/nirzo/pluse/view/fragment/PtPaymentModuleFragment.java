@@ -178,13 +178,11 @@ public class PtPaymentModuleFragment extends Fragment {
                                 JSONObject data = jos.getJSONObject("data");
                                 id = data.getString("id");
                                 SharePref.saveAppointmentID(getActivity(), id);
-                                SharePref.saveAppointmentDate(getActivity(), APPT_AppointmentDate);
-
 
                                 AlertDialogManager.showSuccessDialog(getActivity(), msg);
 
                             } else {
-                                AlertDialogManager.showSuccessDialog(getActivity(), msg);
+                                AlertDialogManager.showErrorDialog(getActivity(), msg);
                             }
 
 
@@ -233,11 +231,13 @@ public class PtPaymentModuleFragment extends Fragment {
     private void loadMobilePaymentWay() {
         List<SpinnerHelper> list = new ArrayList<>();
         SpinnerHelper helper;
-        helper = new SpinnerHelper(0, "001", "Bkash");
+        helper = new SpinnerHelper(0, "001", "Please select One");
         list.add(helper);
-        helper = new SpinnerHelper(1, "002", "Sure Cash");
+        helper = new SpinnerHelper(1, "001", "Bkash");
         list.add(helper);
-        helper = new SpinnerHelper(2, "003", "Rocket");
+        helper = new SpinnerHelper(2, "002", "Sure Cash");
+        list.add(helper);
+        helper = new SpinnerHelper(3, "003", "Rocket");
         list.add(helper);
 
         ArrayAdapter<SpinnerHelper> adapter = new ArrayAdapter<>(getContext(),
