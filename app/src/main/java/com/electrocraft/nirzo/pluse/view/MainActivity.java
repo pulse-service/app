@@ -7,6 +7,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
+import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import org.jitsi.meet.sdk.JitsiMeetView;
@@ -61,19 +63,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onConferenceLeft(Map<String, Object> data) {
                 super.onConferenceLeft(data);
-                Toast.makeText(MainActivity.this, "Left", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Left", Toast.LENGTH_SHORT).show();
+                Intent intent;
+                if (isPatient)
+                    intent= new Intent(MainActivity.this, PatientHomeActivity.class);
+                else
+                    intent= new Intent(MainActivity.this, DoctorHomeActivity.class);
+
+                startActivity(intent);
             }
 
             @Override
             public void onConferenceWillJoin(Map<String, Object> data) {
                 super.onConferenceWillJoin(data);
-                Toast.makeText(MainActivity.this, "Join", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Join", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onConferenceWillLeave(Map<String, Object> data) {
                 super.onConferenceWillLeave(data);
-                Toast.makeText(MainActivity.this, "Leave", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Leave", Toast.LENGTH_SHORT).show();
             }
 
             @Override

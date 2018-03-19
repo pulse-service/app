@@ -12,6 +12,15 @@ public class AppointmentModel {
     private String doctorName;
     private String patientID;
     private String patientName;
+    private String probShortDescribtion;
+
+    public String getProbShortDescribtion() {
+        return probShortDescribtion;
+    }
+
+    public void setProbShortDescribtion(String probShortDescribtion) {
+        this.probShortDescribtion = probShortDescribtion;
+    }
 
     public String getPatientID() {
         return patientID;
@@ -38,6 +47,15 @@ public class AppointmentModel {
         this.inTime_AMOrPM = inTime_AMOrPM;
         this.doctorID = doctorID;
         this.doctorName = doctorName;
+    }
+
+    public AppointmentModel(String appointmentDate, String inTime, String inTime_AMOrPM, String patientID, String patientName, String probShortDescribtion) {
+        this.appointmentDate = appointmentDate;
+        this.inTime = inTime;
+        this.inTime_AMOrPM = inTime_AMOrPM;
+        this.patientID = patientID;
+        this.patientName = patientName;
+        this.probShortDescribtion = probShortDescribtion;
     }
 
     public String getAppointmentDate() {

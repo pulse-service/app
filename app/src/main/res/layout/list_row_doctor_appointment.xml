@@ -11,6 +11,15 @@
         android:id="@+id/lr_tv_AppointmentDateNTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="e3434" />
+
+
+    <TextView
+        android:id="@+id/lr_tv_patientShortDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/lr_tv_PatientName"
         android:layout_marginTop="10dp"
         android:text="Dr. Faisal Khali koborerdfjkdsjfl" />

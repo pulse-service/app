@@ -53,6 +53,9 @@ public class DoctorsAppointmentListAdapter extends RecyclerView.Adapter<DoctorsA
         TextView tv_AppointmentDateNTime;
 
 
+        @BindView(R.id.lr_tv_patientShortDes)
+        TextView tv_patientShortDes;
+
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -76,15 +79,12 @@ public class DoctorsAppointmentListAdapter extends RecyclerView.Adapter<DoctorsA
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         AppointmentModel model = list.get(position);
+        holder.tvPatientID.setText(model.getPatientID());
+        holder.tvPatientName.setText(model.getPatientName());
+        holder.tv_patientShortDes.setText(model.getProbShortDescribtion());
+        holder.tv_AppointmentDateNTime.setText(model.getAppointmentDate()+" ("+model.getInTime()+")");
 
-//        holder.docName.setText(model.getDoctorName());
-//        holder.tv_AppointmentDateNTime.setText(model.getAppointmentDate()+" ("+model.getInTime()+")");
-////        holder.docInstitution.setText(doctor.getExpertise());
-////        holder.docConsultPrice.setText("Consult online for " + doctor.getAmount() + " BDT");
-//////        if (doctor.getPhoto() != null)
-////            getDoctorImageRequest(doctor.getPhoto(), holder);
-////        if (doctor.isAvailableFlag())
-////            holder.docAvailable.setImageResource(R.drawable.ic_online);
+
 
     }
 

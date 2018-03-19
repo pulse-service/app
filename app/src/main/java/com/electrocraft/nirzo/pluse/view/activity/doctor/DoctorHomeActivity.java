@@ -94,7 +94,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
 //        timeConsume();
 
         Log.d("PLTO", " mDoctorId :" + mDoctorId);
-        getPatientAppointment(mDoctorId);
+//        getPatientAppointment(mDoctorId);
 //        getDoctorImageRequest();
 
        /* Test Json resouce reader
@@ -340,7 +340,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
 
     private void timeConsume() {
 
-
+/*
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.show();
@@ -353,7 +353,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
                     if (!jos.isNull("token")) {
                         token = jos.getString("token");
                         if (token.length() > 6)
-                            heatStoke(token);
+//                            heatStoke(token);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -378,11 +378,11 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
             }
         };
 
-        AppController.getInstance().addToRequestQueue(stringRequest, "token");
+        AppController.getInstance().addToRequestQueue(stringRequest, "token");*/
     }
 
 
-    private void heatStoke(final String token1) {
+  /*  private void heatStoke(final String token1) {
         // Tag used to cancel the request
         String tag_json_obj = "json_obj_req";
 
@@ -422,5 +422,5 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
 
 // Adding request to request queue
         AppController.getInstance().addToRequestQueue(stringRequest, tag_json_obj);
-    }
+    }*/
 }
