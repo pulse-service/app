@@ -59,7 +59,12 @@
         <activity android:name=".view.fragment.PtSeeDoctorProfileActivity" />
         <activity android:name=".view.activity.patient.PtAppointBookActivity" />
         <activity android:name=".view.activity.doctor.DoctorHomeActivity" />
-        <activity android:name=".controller.network.NotifySMSReceived" />
+        <activity android:name=".controller.network.NotifySMSReceived" >
+            <intent-filter>
+                <action android:name="click_action" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <receiver android:name=".controller.receive.DoctorReceiver">
             <intent-filter>
@@ -69,19 +74,19 @@
 
         <!-- //Register Service in manifest for Token Refresh -->
 
-        <service android:name=".controller.pusenotification.MyFirebaseInstanceIDService">
+        <service android:name=".fcm.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        //Register Service in manifest to Receive Message
-        <service android:name="controller.pusenotification.MyFirebaseMessagingService">
+
+        <service android:name=".fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name=".view.activity.IsPatientOrDoctorActivity"></activity>
+        <activity android:name=".view.activity.LoginAsActivity"></activity>
     </application>
 
 </manifest>

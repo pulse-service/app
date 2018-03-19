@@ -1,706 +1,813 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context="com.electrocraft.nirzo.pluse.view.activity.LoginActivity">
+    tools:context=".view.activity.LoginActivity">
 
-    <include
-        android:id="@+id/my_toolbar"
-        layout="@layout/appbar_layout"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginStart="8dp"
-        app:layout_goneMarginTop="8dp" />
 
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-
-        android:layout_marginTop="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_toolbar">
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/my_toolbar">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <RelativeLayout
-                android:id="@+id/rly_login"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/ivLogo"
-                android:layout_marginTop="0dp"
-                android:visibility="visible">
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:orientation="vertical">
 
-                <!--Radio Group er bodoler  spinner dilam jate sob ekotre thake-->
-           <!--     <TextView
-                    android:id="@+id/lable_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/login_registration_as" />
-
-                <RadioGroup
-                    android:id="@+id/rbGroupLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_toEndOf="@+id/lable_1"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/rbPatient"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:checked="true"
-                        android:text="@string/patient" />
-
-                    <RadioButton
-                        android:id="@+id/rbDoctor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/doctor" />
-                </RadioGroup>-->
-                <Spinner
-                    android:id="@+id/spLoginOrRegAs"
+                <ImageView
+                    android:id="@+id/top_icon"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/spinner_height"
-                    android:padding="2dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="10dp"
-                     />
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:src="@drawable/newlogo" />
+
                 <EditText
                     android:id="@+id/edtPhone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/spLoginOrRegAs"
-
+                    style="@style/edit_text_style_1"
+                    android:layout_marginTop="36dp"
                     android:ems="10"
-                    android:hint="@string/phone_no"
-                    android:inputType="phone" />
+                    android:hint="Mobile Number/E-mail Address"
+                    android:inputType="textEmailAddress" />
 
                 <EditText
                     android:id="@+id/edtPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/edtPhone"
-                    android:layout_marginTop="10dp"
+                    style="@style/edit_text_style_1"
+                    android:layout_marginTop="14dp"
                     android:ems="10"
                     android:hint="@string/password"
                     android:inputType="textPassword" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/robotoregular"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp"
+                    android:text="Forgot Password?"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorPrimary"
+                    android:typeface="normal" />
+
                 <Button
                     android:id="@+id/btn_login"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/edtPassword"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/ripple_effect_login"
-                    android:onClick="onLoginClick"
-                    android:text="Login"
-                    android:textColor="@color/color_white" />
-
-
-                <Button
-                    android:id="@+id/btn_reg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_login"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/edt_password"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/ripple_effect_reg"
-                    android:onClick="onRegistrationClick"
-                    android:text="@string/reg"
+                    android:onClick="onLoginClick"
+                    android:text="Log In"
+                    android:textAllCaps="false"
                     android:textColor="@color/color_white" />
 
-                <TextView
-                    android:id="@+id/tvForgetPassword"
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/robotoregular"
+        android:gravity="center"
+        android:onClick="onRegistrationClick"
+        android:paddingEnd="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp"
+        android:paddingStart="10dp"
+        android:text="Create a new account !"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorPrimary"
+        android:typeface="normal" />
+</RelativeLayout>
+
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="com.electrocraft.nirzo.pluse.view.activity.LoginActivity">
+
+        <include
+            android:id="@+id/my_toolbar"
+            layout="@layout/appbar_layout"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginStart="8dp"
+            app:layout_goneMarginTop="8dp" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+
+            android:layout_marginTop="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_toolbar">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rly_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/ivLogo"
+                    android:layout_marginTop="0dp"
+                    android:visibility="visible">
+
+                    &lt;!&ndash;Radio Group er bodoler  spinner dilam jate sob ekotre thake&ndash;&gt;
+               &lt;!&ndash;     <TextView
+                        android:id="@+id/lable_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/login_registration_as" />
+
+                    <RadioGroup
+                        android:id="@+id/rbGroupLogin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/lable_1"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/rbPatient"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:checked="true"
+                            android:text="@string/patient" />
+
+                        <RadioButton
+                            android:id="@+id/rbDoctor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/doctor" />
+                    </RadioGroup>&ndash;&gt;
+                    <Spinner
+                        android:id="@+id/spLoginOrRegAs"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spinner_height"
+                        android:padding="2dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="10dp"
+                         />
+                    <EditText
+                        android:id="@+id/edtPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/spLoginOrRegAs"
+
+                        android:ems="10"
+                        android:hint="@string/phone_no"
+                        android:inputType="phone" />
+
+                    <EditText
+                        android:id="@+id/edtPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/edtPhone"
+                        android:layout_marginTop="10dp"
+                        android:ems="10"
+                        android:hint="@string/password"
+                        android:inputType="textPassword" />
+
+                    <Button
+                        android:id="@+id/btn_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/edtPassword"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/ripple_effect_login"
+                        android:onClick="onLoginClick"
+                        android:text="Login"
+                        android:textColor="@color/color_white" />
+
+
+                    <Button
+                        android:id="@+id/btn_reg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/btn_login"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/ripple_effect_reg"
+                        android:onClick="onRegistrationClick"
+                        android:text="@string/reg"
+                        android:textColor="@color/color_white" />
+
+                    <TextView
+                        android:id="@+id/tvForgetPassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@+id/btn_reg"
+                        android:layout_marginTop="20dp"
+
+                        android:text="@string/forget_password"
+                        android:textColor="@color/royal_blue"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvSignIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvForgetPassword"
+                        android:layout_marginTop="20dp"
+
+                        android:maxLines="1"
+                        android:text="-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; Or sign in with &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;"
+
+                        android:textStyle="bold" />
+
+                    &lt;!&ndash;facebook button&ndash;&gt;
+                    &lt;!&ndash;                    <Button
+                          android:id="@+id/btnRegistrationFaceBook"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentStart="true"
+                          android:layout_below="@+id/tvSignIn"
+                          android:layout_marginTop="20dp"
+                          android:background="@color/fb_color"
+                          android:text="@string/login_using_facebook"
+                          android:textColor="@color/color_white"
+                          android:textStyle="bold" />&ndash;&gt;
+                    <ImageView
+                        android:id="@+id/ivSignwithFaceBook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvSignIn"
+                        android:layout_marginStart="130dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ic_fb_logo" />
+
+                    <ImageView
+                        android:id="@+id/ivSignwithGooglePulse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvSignIn"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/ivSignwithFaceBook"
+                        android:src="@drawable/ic_google_plus" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/labelLLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_below="@+id/btn_reg"
-                    android:layout_marginTop="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal">
 
-                    android:text="@string/forget_password"
-                    android:textColor="@color/royal_blue"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:text="LogIn"
+                        android:textColor="@color/water_blue"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvSignIn"
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="13dp"
+                        android:text="or" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reg"
+                        android:textColor="@color/water_blue"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/ll_sub"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvForgetPassword"
-                    android:layout_marginTop="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="22dp"
+                    android:background="@color/gray_light"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    android:maxLines="1"
-                    android:text="--------------------- Or sign in with ----------------"
+                    <RelativeLayout
+                        android:id="@+id/rl_sub_patient"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
 
-                    android:textStyle="bold" />
+                        <ImageView
+                            android:id="@+id/iv_person"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_male" />
 
-                <!--facebook button-->
-                <!--                    <Button
-                      android:id="@+id/btnRegistrationFaceBook"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_alignParentStart="true"
-                      android:layout_below="@+id/tvSignIn"
-                      android:layout_marginTop="20dp"
-                      android:background="@color/fb_color"
-                      android:text="@string/login_using_facebook"
-                      android:textColor="@color/color_white"
-                      android:textStyle="bold" />-->
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/iv_person"
+
+                            android:text="@string/my_pulse"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_desc"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_title"
+
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/iv_person"
+
+                            android:padding="5dp"
+                            android:text="@string/patient_instruction"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_sub_login"
+                            android:layout_width="90dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/tv_desc"
+                            android:layout_marginStart="12dp"
+                            android:drawableEnd="@drawable/ic_arrow_right_32px"
+                            android:onClick="onSubLoginClick"
+                            android:text="login"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_sub_reg"
+                            android:layout_width="130dp"
+                            android:layout_height="40dp"
+                            android:layout_below="@+id/tv_desc"
+                            android:layout_toEndOf="@+id/btn_sub_login"
+                            android:drawableEnd="@drawable/ic_arrow_right_32px"
+                            android:onClick="onRegistrationClick"
+                            android:text="@string/reg"
+                            android:textSize="10sp" />
+
+                    </RelativeLayout>
+                    &lt;!&ndash;for doctor &ndash;&gt;
+                    <RelativeLayout
+                        android:id="@+id/rl_sub_doctor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:id="@+id/iv_doctor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_doctor" />
+
+                        <TextView
+                            android:id="@+id/tv_title_doc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/iv_doctor"
+                            android:text="Doctor"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_desc_doc"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_title_doc"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/iv_doctor"
+                            android:padding="5dp"
+                            android:text="@string/doc_instruction_login"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btn_sub_login_doc"
+                            android:layout_width="90dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/tv_desc_doc"
+                            android:layout_marginStart="12dp"
+                            android:drawableEnd="@drawable/ic_arrow_right_32px"
+                            android:onClick="onSubLoginClick"
+                            android:text="login"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/btn_sub_reg_doc"
+                            android:layout_width="130dp"
+                            android:layout_height="40dp"
+                            android:layout_below="@+id/tv_desc_doc"
+                            android:layout_toEndOf="@+id/btn_sub_login_doc"
+                            android:drawableEnd="@drawable/ic_arrow_right_32px"
+                            android:onClick="onRegistrationClick"
+                            android:text="@string/reg"
+                            android:textSize="10sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
                 <ImageView
-                    android:id="@+id/ivSignwithFaceBook"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvSignIn"
-                    android:layout_marginStart="130dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_fb_logo" />
-
-                <ImageView
-                    android:id="@+id/ivSignwithGooglePulse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvSignIn"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/ivSignwithFaceBook"
-                    android:src="@drawable/ic_google_plus" />
+                    android:id="@+id/ivLogo"
+                    style="@style/simple_logo_style_1"
+                    android:layout_below="@+id/labelLLayout" />
 
             </RelativeLayout>
+        </ScrollView>
 
-            <LinearLayout
-                android:id="@+id/labelLLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:text="LogIn"
-                    android:textColor="@color/water_blue"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="13dp"
-                    android:text="or" />
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/reg"
-                    android:textColor="@color/water_blue"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:id="@+id/ll_sub"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="22dp"
-                android:background="@color/gray_light"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <RelativeLayout
-                    android:id="@+id/rl_sub_patient"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/iv_person"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_male" />
-
-                    <TextView
-                        android:id="@+id/tv_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@+id/iv_person"
-
-                        android:text="@string/my_pulse"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_desc"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_title"
-
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@+id/iv_person"
-
-                        android:padding="5dp"
-                        android:text="@string/patient_instruction"
-                        android:textSize="12sp" />
-
-                    <Button
-                        android:id="@+id/btn_sub_login"
-                        android:layout_width="90dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/tv_desc"
-                        android:layout_marginStart="12dp"
-                        android:drawableEnd="@drawable/ic_arrow_right_32px"
-                        android:onClick="onSubLoginClick"
-                        android:text="login"
-                        android:textSize="10sp" />
-
-                    <Button
-                        android:id="@+id/btn_sub_reg"
-                        android:layout_width="130dp"
-                        android:layout_height="40dp"
-                        android:layout_below="@+id/tv_desc"
-                        android:layout_toEndOf="@+id/btn_sub_login"
-                        android:drawableEnd="@drawable/ic_arrow_right_32px"
-                        android:onClick="onRegistrationClick"
-                        android:text="@string/reg"
-                        android:textSize="10sp" />
-
-                </RelativeLayout>
-                <!--for doctor -->
-                <RelativeLayout
-                    android:id="@+id/rl_sub_doctor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:id="@+id/iv_doctor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_doctor" />
-
-                    <TextView
-                        android:id="@+id/tv_title_doc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@+id/iv_doctor"
-                        android:text="Doctor"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_desc_doc"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_title_doc"
-                        android:layout_marginStart="10dp"
-                        android:layout_toEndOf="@+id/iv_doctor"
-                        android:padding="5dp"
-                        android:text="@string/doc_instruction_login"
-                        android:textSize="12sp" />
-
-                    <Button
-                        android:id="@+id/btn_sub_login_doc"
-                        android:layout_width="90dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/tv_desc_doc"
-                        android:layout_marginStart="12dp"
-                        android:drawableEnd="@drawable/ic_arrow_right_32px"
-                        android:onClick="onSubLoginClick"
-                        android:text="login"
-                        android:textSize="10sp" />
-
-                    <Button
-                        android:id="@+id/btn_sub_reg_doc"
-                        android:layout_width="130dp"
-                        android:layout_height="40dp"
-                        android:layout_below="@+id/tv_desc_doc"
-                        android:layout_toEndOf="@+id/btn_sub_login_doc"
-                        android:drawableEnd="@drawable/ic_arrow_right_32px"
-                        android:onClick="onRegistrationClick"
-                        android:text="@string/reg"
-                        android:textSize="10sp" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/ivLogo"
-                style="@style/simple_logo_style_1"
-                android:layout_below="@+id/labelLLayout" />
-
-        </RelativeLayout>
-    </ScrollView>
-
-    <!-- <ScrollView
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_below="@+id/my_toolbar">
-
-         <RelativeLayout
+        &lt;!&ndash; <ScrollView
              android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginLeft="10dp"
-             android:layout_marginRight="10dp">
-
+             android:layout_height="match_parent"
+             android:layout_below="@+id/my_toolbar">
 
              <RelativeLayout
-                 android:id="@loginLayoutogin"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginRight="10dp">
 
-                 android:layout_alignParentStart="true"
-                 android:layout_marginTop="100dp"
-                 android:visibility="visible">
 
-                 <TextView
-                     android:id="@+id/lable_1"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_marginTop="5dp"
-
-                     android:text="@string/login_registration_as" />
-
-                 <RadioGroup
-                     android:id="@+id/rbGroupLogin"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_alignParentEnd="true"
-
-                     android:orientation="horizontal">
-
-                     <RadioButton
-                         android:id="@+id/rbPatient"
-                         android:layout_width="wrap_content"
-                         android:layout_height="match_parent"
-                         android:checked="true"
-                         android:text="@string/patient" />
-
-                     <RadioButton
-                         android:id="@+id/rbDoctor"
-                         android:layout_width="wrap_content"
-                         android:layout_height="match_parent"
-                         android:text="@string/doctor" />
-                 </RadioGroup>
-
-                 <EditText
-                     android:id="@+id/edtPhone"
+                 <RelativeLayout
+                     android:id="@loginLayoutogin"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:layout_below="@+id/lable_1"
 
-                     android:ems="10"
-                     android:hint="@string/phone_no"
-                     android:inputType="phone" />
-
-                 <EditText
-                     android:id="@+id/edtPassword"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
                      android:layout_alignParentStart="true"
-                     android:layout_below="@+id/edtPhone"
-                     android:layout_marginTop="10dp"
-                     android:ems="10"
-                     android:hint="@string/password"
-                     android:inputType="textPassword" />
-
-                 <Button
-                     android:id="@+id/btn_login"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:layout_below="@+id/edtPassword"
-                     android:layout_marginTop="30dp"
-                     android:background="@drawable/ripple_effect_login"
-                     android:onClick="onLoginClick"
-                     android:text="Login"
-                     android:textColor="@color/color_white" />
-
-
-                 <Button
-                     android:id="@+id/btn_reg"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:layout_below="@+id/btn_login"
-                     android:layout_marginTop="20dp"
-                     android:background="@drawable/ripple_effect_reg"
-                     android:onClick="onRegistrationClick"
-                     android:text="@string/reg"
-                     android:textColor="@color/color_white" />
-
-                 <TextView
-                     android:id="@+id/tvForgetPassword"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_alignParentEnd="true"
-                     android:layout_below="@+id/btn_reg"
-                     android:layout_marginTop="20dp"
-                     android:clickable="true"
-                     android:text="@string/forget_password"
-                     android:textColor="@color/royal_blue"
-                     android:textStyle="bold" />
-
-                 <TextView
-                     android:id="@+id/tvSignIn"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_below="@+id/tvForgetPassword"
-                     android:layout_marginTop="20dp"
-                     android:clickable="true"
-                     android:maxLines="1"
-                     android:text="&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; Or sign in with &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;"
-
-                     android:textStyle="bold" />
-
-                 &lt;!&ndash; facebook button &ndash;&gt;
-                 &lt;!&ndash;                <Button
-                                     android:id="@+id/btnRegistrationFaceBook"
-                                     android:layout_width="match_parent"
-                                     android:layout_height="wrap_content"
-                                     android:layout_alignParentStart="true"
-                                     android:layout_below="@+id/tvSignIn"
-                                     android:layout_marginTop="20dp"
-                                     android:background="@color/fb_color"
-                                     android:text="@string/login_using_facebook"
-                                     android:textColor="@color/color_white"
-                                     android:textStyle="bold" />&ndash;&gt;
-                 <ImageView
-                     android:id="@+id/ivSignwithFaceBook"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_below="@+id/tvSignIn"
-                     android:layout_marginStart="130dp"
-                     android:layout_marginTop="10dp"
-                     android:src="@drawable/ic_fb_logo" />
-
-                 <ImageView
-                     android:id="@+id/ivSignwithGooglePulse"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_below="@+id/tvSignIn"
-                     android:layout_marginStart="30dp"
-                     android:layout_marginTop="10dp"
-                     android:layout_toRightOf="@+id/ivSignwithFaceBook"
-                     android:src="@drawable/ic_google_plus" />
-
-             </RelativeLayout>
-
-
-             <LinearLayout
-                 android:id="@+id/linearLayout"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentEnd="true"
-
-                 android:clickable="true"
-                 android:focusable="true"
-                 android:onClick="onTextViewClick"
-                 android:orientation="horizontal">
-
-                 <TextView
-                     android:id="@+id/textView3"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_marginEnd="10dp"
-
-                     android:text="LogIn"
-                     android:textColor="@color/water_blue"
-                     android:textStyle="bold" />
-
-                 <TextView
-                     android:id="@+id/textView4"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_marginEnd="13dp"
-
-                     android:text="or" />
-
-                 <TextView
-                     android:id="@+id/textView5"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:text="Registration"
-                     android:textColor="@color/water_blue"
-                     android:textStyle="bold" />
-             </LinearLayout>
-
-             <LinearLayout
-                 android:id="@+id/ll_sub"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentEnd="true"
-                 android:layout_marginTop="22dp"
-                 android:background="@color/gray_light"
-                 android:orientation="vertical"
-                 android:visibility="visible">
-
-                 <RelativeLayout
-                     android:id="@+id/rl_sub_patient"
-                     android:layout_width="wrap_content"
-                     android:layout_height="match_parent">
-
-                     <ImageView
-                         android:id="@+id/iv_person"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:src="@drawable/ic_male" />
-
-                     <TextView
-                         android:id="@+id/tv_title"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-
-                         android:layout_marginStart="10dp"
-                         android:layout_toEndOf="@+id/iv_person"
-
-                         android:text="@string/my_pulse"
-                         android:textSize="15sp"
-                         android:textStyle="bold" />
-
-                     <TextView
-                         android:id="@+id/tv_desc"
-                         android:layout_width="150dp"
-                         android:layout_height="wrap_content"
-                         android:layout_below="@+id/tv_title"
-
-                         android:layout_marginStart="10dp"
-                         android:layout_toEndOf="@+id/iv_person"
-
-                         android:padding="5dp"
-                         android:text="@string/patient_instruction"
-                         android:textSize="12sp" />
-
-                     <Button
-                         android:id="@+id/btn_sub_login"
-                         android:layout_width="90dp"
-                         android:layout_height="40dp"
-                         android:layout_alignParentBottom="true"
-
-                         android:layout_alignParentStart="true"
-                         android:layout_below="@+id/tv_desc"
-
-                         android:layout_marginStart="12dp"
-                         android:drawableEnd="@drawable/ic_arrow_right_32px"
-
-                         android:onClick="onSubLoginClick"
-                         android:text="login"
-                         android:textSize="10sp" />
-
-                     <Button
-                         android:id="@+id/btn_sub_reg"
-                         android:layout_width="130dp"
-                         android:layout_height="40dp"
-                         android:layout_below="@+id/tv_desc"
-                         android:layout_toEndOf="@+id/btn_sub_login"
-
-                         android:drawableEnd="@drawable/ic_arrow_right_32px"
-
-                         android:onClick="onRegistrationClick"
-                         android:text="@string/reg"
-                         android:textSize="10sp" />
-
-                 </RelativeLayout>
-                 &lt;!&ndash;for doctor &ndash;&gt;
-                 <RelativeLayout
-                     android:id="@+id/rl_sub_doctor"
-                     android:layout_width="wrap_content"
-                     android:layout_height="match_parent"
+                     android:layout_marginTop="100dp"
                      android:visibility="visible">
 
-                     <ImageView
-                         android:id="@+id/iv_doctor"
+                     <TextView
+                         android:id="@+id/lable_1"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         android:src="@drawable/ic_doctor" />
+                         android:layout_marginTop="5dp"
+
+                         android:text="@string/login_registration_as" />
+
+                     <RadioGroup
+                         android:id="@+id/rbGroupLogin"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_alignParentEnd="true"
+
+                         android:orientation="horizontal">
+
+                         <RadioButton
+                             android:id="@+id/rbPatient"
+                             android:layout_width="wrap_content"
+                             android:layout_height="match_parent"
+                             android:checked="true"
+                             android:text="@string/patient" />
+
+                         <RadioButton
+                             android:id="@+id/rbDoctor"
+                             android:layout_width="wrap_content"
+                             android:layout_height="match_parent"
+                             android:text="@string/doctor" />
+                     </RadioGroup>
+
+                     <EditText
+                         android:id="@+id/edtPhone"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@+id/lable_1"
+
+                         android:ems="10"
+                         android:hint="@string/phone_no"
+                         android:inputType="phone" />
+
+                     <EditText
+                         android:id="@+id/edtPassword"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_alignParentStart="true"
+                         android:layout_below="@+id/edtPhone"
+                         android:layout_marginTop="10dp"
+                         android:ems="10"
+                         android:hint="@string/password"
+                         android:inputType="textPassword" />
+
+                     <Button
+                         android:id="@+id/btn_login"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@+id/edtPassword"
+                         android:layout_marginTop="30dp"
+                         android:background="@drawable/ripple_effect_login"
+                         android:onClick="onLoginClick"
+                         android:text="Login"
+                         android:textColor="@color/color_white" />
+
+
+                     <Button
+                         android:id="@+id/btn_reg"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@+id/btn_login"
+                         android:layout_marginTop="20dp"
+                         android:background="@drawable/ripple_effect_reg"
+                         android:onClick="onRegistrationClick"
+                         android:text="@string/reg"
+                         android:textColor="@color/color_white" />
 
                      <TextView
-                         android:id="@+id/tv_title_doc"
+                         android:id="@+id/tvForgetPassword"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-
-                         android:layout_marginStart="10dp"
-                         android:layout_toEndOf="@+id/iv_doctor"
-
-                         android:text="Doctor"
-                         android:textSize="18sp"
+                         android:layout_alignParentEnd="true"
+                         android:layout_below="@+id/btn_reg"
+                         android:layout_marginTop="20dp"
+                         android:clickable="true"
+                         android:text="@string/forget_password"
+                         android:textColor="@color/royal_blue"
                          android:textStyle="bold" />
 
                      <TextView
-                         android:id="@+id/tv_desc_doc"
-                         android:layout_width="150dp"
+                         android:id="@+id/tvSignIn"
+                         android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         android:layout_below="@+id/tv_title_doc"
+                         android:layout_below="@+id/tvForgetPassword"
+                         android:layout_marginTop="20dp"
+                         android:clickable="true"
+                         android:maxLines="1"
+                         android:text="&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; Or sign in with &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;"
 
-                         android:layout_marginStart="10dp"
-                         android:layout_toEndOf="@+id/iv_doctor"
+                         android:textStyle="bold" />
 
-                         android:padding="5dp"
-                         android:text="@string/doc_instruction_login"
-                         android:textSize="12sp" />
+                     &lt;!&ndash; facebook button &ndash;&gt;
+                     &lt;!&ndash;                <Button
+                                         android:id="@+id/btnRegistrationFaceBook"
+                                         android:layout_width="match_parent"
+                                         android:layout_height="wrap_content"
+                                         android:layout_alignParentStart="true"
+                                         android:layout_below="@+id/tvSignIn"
+                                         android:layout_marginTop="20dp"
+                                         android:background="@color/fb_color"
+                                         android:text="@string/login_using_facebook"
+                                         android:textColor="@color/color_white"
+                                         android:textStyle="bold" />&ndash;&gt;
+                     <ImageView
+                         android:id="@+id/ivSignwithFaceBook"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@+id/tvSignIn"
+                         android:layout_marginStart="130dp"
+                         android:layout_marginTop="10dp"
+                         android:src="@drawable/ic_fb_logo" />
 
-                     <Button
-                         android:id="@+id/btn_sub_login_doc"
-                         android:layout_width="90dp"
-                         android:layout_height="40dp"
-                         android:layout_alignParentBottom="true"
-                         android:layout_alignParentStart="true"
-                         android:layout_below="@+id/tv_desc_doc"
-                         android:layout_marginStart="12dp"
-                         android:drawableEnd="@drawable/ic_arrow_right_32px"
-                         android:drawableRight="@drawable/ic_arrow_right_32px"
-                         android:onClick="onSubLoginClick"
-                         android:text="login"
-                         android:textSize="10sp" />
-
-                     <Button
-                         android:id="@+id/btn_sub_reg_doc"
-                         android:layout_width="130dp"
-                         android:layout_height="40dp"
-                         android:layout_below="@+id/tv_desc_doc"
-                         android:layout_toEndOf="@+id/btn_sub_login_doc"
-                         android:drawableEnd="@drawable/ic_arrow_right_32px"
-                         android:onClick="onRegistrationClick"
-                         android:text="Registration"
-                         android:textSize="10sp" />
+                     <ImageView
+                         android:id="@+id/ivSignwithGooglePulse"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@+id/tvSignIn"
+                         android:layout_marginStart="30dp"
+                         android:layout_marginTop="10dp"
+                         android:layout_toRightOf="@+id/ivSignwithFaceBook"
+                         android:src="@drawable/ic_google_plus" />
 
                  </RelativeLayout>
-             </LinearLayout>
 
-             <ImageView
-                 android:id="@+id/imageView2"
-                 android:layout_width="80dp"
-                 android:layout_height="80dp"
-                 android:layout_below="@+id/linearLayout"
-                 android:layout_centerHorizontal="true"
-                 app:srcCompat="@drawable/splash_logo" />
 
-         </RelativeLayout>
-     </ScrollView>
+                 <LinearLayout
+                     android:id="@+id/linearLayout"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentEnd="true"
 
- -->
-</android.support.constraint.ConstraintLayout>
+                     android:clickable="true"
+                     android:focusable="true"
+                     android:onClick="onTextViewClick"
+                     android:orientation="horizontal">
+
+                     <TextView
+                         android:id="@+id/textView3"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginEnd="10dp"
+
+                         android:text="LogIn"
+                         android:textColor="@color/water_blue"
+                         android:textStyle="bold" />
+
+                     <TextView
+                         android:id="@+id/textView4"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginEnd="13dp"
+
+                         android:text="or" />
+
+                     <TextView
+                         android:id="@+id/textView5"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Registration"
+                         android:textColor="@color/water_blue"
+                         android:textStyle="bold" />
+                 </LinearLayout>
+
+                 <LinearLayout
+                     android:id="@+id/ll_sub"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentEnd="true"
+                     android:layout_marginTop="22dp"
+                     android:background="@color/gray_light"
+                     android:orientation="vertical"
+                     android:visibility="visible">
+
+                     <RelativeLayout
+                         android:id="@+id/rl_sub_patient"
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent">
+
+                         <ImageView
+                             android:id="@+id/iv_person"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:src="@drawable/ic_male" />
+
+                         <TextView
+                             android:id="@+id/tv_title"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+
+                             android:layout_marginStart="10dp"
+                             android:layout_toEndOf="@+id/iv_person"
+
+                             android:text="@string/my_pulse"
+                             android:textSize="15sp"
+                             android:textStyle="bold" />
+
+                         <TextView
+                             android:id="@+id/tv_desc"
+                             android:layout_width="150dp"
+                             android:layout_height="wrap_content"
+                             android:layout_below="@+id/tv_title"
+
+                             android:layout_marginStart="10dp"
+                             android:layout_toEndOf="@+id/iv_person"
+
+                             android:padding="5dp"
+                             android:text="@string/patient_instruction"
+                             android:textSize="12sp" />
+
+                         <Button
+                             android:id="@+id/btn_sub_login"
+                             android:layout_width="90dp"
+                             android:layout_height="40dp"
+                             android:layout_alignParentBottom="true"
+
+                             android:layout_alignParentStart="true"
+                             android:layout_below="@+id/tv_desc"
+
+                             android:layout_marginStart="12dp"
+                             android:drawableEnd="@drawable/ic_arrow_right_32px"
+
+                             android:onClick="onSubLoginClick"
+                             android:text="login"
+                             android:textSize="10sp" />
+
+                         <Button
+                             android:id="@+id/btn_sub_reg"
+                             android:layout_width="130dp"
+                             android:layout_height="40dp"
+                             android:layout_below="@+id/tv_desc"
+                             android:layout_toEndOf="@+id/btn_sub_login"
+
+                             android:drawableEnd="@drawable/ic_arrow_right_32px"
+
+                             android:onClick="onRegistrationClick"
+                             android:text="@string/reg"
+                             android:textSize="10sp" />
+
+                     </RelativeLayout>
+                     &lt;!&ndash;for doctor &ndash;&gt;
+                     <RelativeLayout
+                         android:id="@+id/rl_sub_doctor"
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+                         android:visibility="visible">
+
+                         <ImageView
+                             android:id="@+id/iv_doctor"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:src="@drawable/ic_doctor" />
+
+                         <TextView
+                             android:id="@+id/tv_title_doc"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+
+                             android:layout_marginStart="10dp"
+                             android:layout_toEndOf="@+id/iv_doctor"
+
+                             android:text="Doctor"
+                             android:textSize="18sp"
+                             android:textStyle="bold" />
+
+                         <TextView
+                             android:id="@+id/tv_desc_doc"
+                             android:layout_width="150dp"
+                             android:layout_height="wrap_content"
+                             android:layout_below="@+id/tv_title_doc"
+
+                             android:layout_marginStart="10dp"
+                             android:layout_toEndOf="@+id/iv_doctor"
+
+                             android:padding="5dp"
+                             android:text="@string/doc_instruction_login"
+                             android:textSize="12sp" />
+
+                         <Button
+                             android:id="@+id/btn_sub_login_doc"
+                             android:layout_width="90dp"
+                             android:layout_height="40dp"
+                             android:layout_alignParentBottom="true"
+                             android:layout_alignParentStart="true"
+                             android:layout_below="@+id/tv_desc_doc"
+                             android:layout_marginStart="12dp"
+                             android:drawableEnd="@drawable/ic_arrow_right_32px"
+                             android:drawableRight="@drawable/ic_arrow_right_32px"
+                             android:onClick="onSubLoginClick"
+                             android:text="login"
+                             android:textSize="10sp" />
+
+                         <Button
+                             android:id="@+id/btn_sub_reg_doc"
+                             android:layout_width="130dp"
+                             android:layout_height="40dp"
+                             android:layout_below="@+id/tv_desc_doc"
+                             android:layout_toEndOf="@+id/btn_sub_login_doc"
+                             android:drawableEnd="@drawable/ic_arrow_right_32px"
+                             android:onClick="onRegistrationClick"
+                             android:text="Registration"
+                             android:textSize="10sp" />
+
+                     </RelativeLayout>
+                 </LinearLayout>
+
+                 <ImageView
+                     android:id="@+id/imageView2"
+                     android:layout_width="80dp"
+                     android:layout_height="80dp"
+                     android:layout_below="@+id/linearLayout"
+                     android:layout_centerHorizontal="true"
+                     app:srcCompat="@drawable/splash_logo" />
+
+             </RelativeLayout>
+         </ScrollView>
+
+     &ndash;&gt;
+    </android.support.constraint.ConstraintLayout>
+    -->

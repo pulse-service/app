@@ -57,8 +57,7 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
 
         @BindView(R.id.lr_btn_book)
         Button btnBook;
-        @BindView(R.id.lr_iv_DocAvailableStatus)
-        ImageView docAvailable;
+
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -66,7 +65,6 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
 
         }
     }
-
 
 
     @Override
@@ -85,10 +83,10 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
         holder.docName.setText(doctor.getName());
         holder.docInstitution.setText(doctor.getExpertise());
         holder.docConsultPrice.setText("Consult online for " + doctor.getAmount() + " BDT");
-//        if (doctor.getPhoto() != null)
+        if (doctor.getPhoto() != null)
             getDoctorImageRequest(doctor.getPhoto(), holder);
-        if (doctor.isAvailableFlag())
-            holder.docAvailable.setImageResource(R.drawable.ic_online);
+    /*    if (doctor.isAvailableFlag())
+            holder.docAvailable.setImageResource(R.drawable.ic_online);*/
 
     }
 
@@ -98,10 +96,6 @@ public class DoctorSearchListAdapter extends RecyclerView.Adapter<DoctorSearchLi
     }
 
     private void getDoctorImageRequest(String imageLink, final ViewHolder holder) {
-
-
-
-
 
 
 // Retrieves an image specified by the URL, displays it in the UI.

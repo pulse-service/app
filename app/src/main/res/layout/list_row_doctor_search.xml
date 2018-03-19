@@ -1,4 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="5dp"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="1dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--<de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/profile"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>-->
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/lr_iv_DocImage"
+            android:layout_width="@dimen/doctor_thumbnail_width"
+            android:layout_height="@dimen/doctor_thumbnail_height"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            app:srcCompat="@drawable/ic_doctor" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/lr_tv_DocName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/lr_iv_DocImage"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/lr_iv_DocImage"
+            android:layout_toRightOf="@+id/lr_iv_DocImage"
+            android:layout_toStartOf="@+id/imageView3"
+            android:text="Dr. Faisal Khali kjkdsjfl"
+            android:textSize="17sp"
+             />
+
+        <TextView
+            android:id="@+id/lr_tv_DocInstitution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/lr_tv_DocName"
+            android:layout_below="@+id/lr_tv_DocName"
+            android:text="TextView"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/lr_tv_DocAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/lr_tv_DocName"
+            android:layout_below="@+id/lr_tv_DocInstitution"
+            android:text="23, Gul Ave, Demo"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/lr_btn_book"
+            style="@style/general_button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/lr_tv_DocAddress"
+            android:layout_marginBottom="14dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Book Appointment"
+            android:textSize="10sp"
+            android:textAllCaps="false" />
+
+        <!--    <ImageView
+                android:id="@+id/lr_iv_DocAvailableStatus"
+                android:layout_width="@dimen/doc_availableStatus_width"
+                android:layout_height="@dimen/doc_availableStatus_height"
+                android:layout_alignEnd="@+id/lr_iv_DocImage"
+                android:layout_below="@+id/lr_iv_DocImage"
+                android:layout_marginEnd="11dp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/ic_offline" />-->
+
+        <TextView
+            android:id="@+id/lr_tv_doc_consult_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/lr_btn_book"
+            android:layout_alignBottom="@+id/lr_btn_book"
+            android:layout_alignEnd="@+id/lr_tv_DocAddress"
+            android:layout_alignStart="@+id/lr_iv_DocImage"
+            android:text="TextView"
+            android:textColor="@color/colorPrimary"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_marginEnd="@dimen/padding_def"
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/lr_tv_DocName"
+            android:text="90%"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:layout_marginEnd="@dimen/margin_def"
+            android:id="@+id/imageView3"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignTop="@+id/textView"
+            android:layout_toStartOf="@+id/textView"
+            app:srcCompat="@drawable/ic_if_red_heart" />
+
+        <!--   <TextView
+               android:id="@+id/lr_tv_docRating"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignEnd="@+id/imageView3"
+               android:layout_below="@+id/lr_tv_DocName"
+               android:text="@string/_30" />-->
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+<!--
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -64,4 +200,4 @@
         android:textSize="12sp" />
 
 
-</RelativeLayout>
+</RelativeLayout>-->

@@ -13,6 +13,8 @@ public class SharePref {
     private static final String KEY_PATIENT_APPOINTMENT_DATE = "p_appointment_date";
     private static final String KEY_PATIENT_ID = "p_id";
     private static final String KEY_DOCTOR_ID = "d_id";
+    private static final String KEY_FCM_TOKEN = "key_fcm_token";
+
 
     private static void saveString(Context context, String key, String value) {
         SharedPreferences sharedPref = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
@@ -21,6 +23,16 @@ public class SharePref {
         editor.apply();
     }
 
+
+    public static void saveFireBaseToken(Context context, String value) {
+        saveString(context, KEY_FCM_TOKEN, value);
+
+    }
+
+    public static String getFireBaseToken(Context context) {
+        return getString(context, KEY_FCM_TOKEN);
+
+    }
 
     public static void saveAppointmentDate(Context context, String value) {
         saveString(context, KEY_PATIENT_APPOINTMENT_DATE, value);
