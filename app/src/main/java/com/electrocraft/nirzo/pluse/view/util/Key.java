@@ -34,4 +34,6 @@ public class Key {
     public static final String KEY_APPOINTMENT_DATE="KeyAppointDate";
     public static final String KEY_APPOINTMENT_TIME="KeyAppointTime";
     public static final String KEY_OAT="KeyOat";
+
+    public static final String KEY_IS_PATIENT_OR_DOCTOR="KeyIsPatientOrDoctor";
 }

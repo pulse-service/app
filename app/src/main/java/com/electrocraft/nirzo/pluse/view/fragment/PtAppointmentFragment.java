@@ -90,7 +90,7 @@ public class PtAppointmentFragment extends Fragment {
         mPatientId = SharePref.getPatientID(getActivity());
 
 
-        Log.d("Sala", " mPatientId:" + mPatientId  );
+        Log.d("Sala", " mPatientId:" + mPatientId);
         getPatientAppointment(mPatientId);
         return view;
     }
@@ -107,8 +107,9 @@ public class PtAppointmentFragment extends Fragment {
             public void onClick(View view, int position) {
 
 
-
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, true);
+                startActivity(intent);
             }
 
             @Override
@@ -118,10 +119,10 @@ public class PtAppointmentFragment extends Fragment {
         }));
     }
 
- /*   http://180.148.210.139:8081/pulse_api/api/saveCallRequest
-    receiverId:DR000000001
-    senderId:ECL-00000001
-    receiverType:Doctor*/
+    /*   http://180.148.210.139:8081/pulse_api/api/saveCallRequest
+       receiverId:DR000000001
+       senderId:ECL-00000001
+       receiverType:Doctor*/
     private void postCallRequestFromPatient(final String patientId) {
         String patient_login_tag = "doc_search_tag";
         pDialog = new ProgressDialog(getActivity());
@@ -192,7 +193,6 @@ public class PtAppointmentFragment extends Fragment {
                 params.put("receiverId", patientId);
                 params.put("senderId", patientId);
                 params.put("receiverType", "Doctor");
-
 
 
                 return params;
@@ -274,7 +274,6 @@ public class PtAppointmentFragment extends Fragment {
 
 
                 params.put("patienId", patientId);
-
 
 
                 return params;

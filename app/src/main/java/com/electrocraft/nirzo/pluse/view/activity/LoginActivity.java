@@ -122,9 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         // for internet check
         cd = new ConnectionDetector(this);
 
-     /*   if (ContextCompat.checkSelfPermission(mContext, CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestCameraPermission();
-        }*/
+
 
         loadLoginAsSpinner();
 
@@ -134,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
 
         } else {
 
-            Toast.makeText(this, "Permission already granted.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Permission already granted.", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -152,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void requestPermission() {
 
-        ActivityCompat.requestPermissions(this, new String[]{ RECORD_AUDIO,  CAMERA}, PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{RECORD_AUDIO, CAMERA}, PERMISSION_REQUEST_CODE);
 
     }
 
@@ -165,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                     boolean audioAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean cameraAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 
-                    if (audioAccepted && cameraAccepted){
+                    if (audioAccepted && cameraAccepted) {
 
                     }
 //                        Snackbar.make(view, "Permission Granted, Now you can access location data and camera.", Snackbar.LENGTH_LONG).show();
@@ -206,7 +204,7 @@ public class LoginActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void requestCameraPermission() {
+/*    private void requestCameraPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, CAMERA)) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -230,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             ActivityCompat.requestPermissions(this, new String[]{CAMERA}, CAMERA_PERMISSION_CODE);
         }
-    }
+    }*/
 
     @OnClick(R.id.btn_sub_login_doc)
     public void docLoginClick(View view) {
@@ -238,22 +236,7 @@ public class LoginActivity extends AppCompatActivity {
         isDoctorLogin = true;
     }
 
-    /* @OnCheckedChanged({R.id.rbPatient, R.id.rbDoctor})
-     public void onRadioButtonCheckChanged(CompoundButton button, boolean checked) {
-         if (checked) {
-             switch (button.getId()) {
-                 case R.id.rbPatient:
-                     // do stuff
-                     isDoctorLogin = false;
-                     break;
-                 case R.id.rbDoctor:
-                     // do stuff
-                     isDoctorLogin = true;
-                     break;
-             }
-         }
-     }
- */
+
     @OnClick(R.id.btn_sub_reg_doc)
     public void onDoctorRegistrationButton() {
         startActivity(new Intent(mContext, DocRegistrationActivity.class));
@@ -376,7 +359,6 @@ public class LoginActivity extends AppCompatActivity {
         isDoctorLogin = false;
     }
 
-
     private void viewVisibilityController() {
         if (loginLayout.getVisibility() == View.GONE) {
 
@@ -388,7 +370,10 @@ public class LoginActivity extends AppCompatActivity {
             loginLayout.setVisibility(View.GONE);
     }
 
-
+    /**
+     * @param phoneNo  phone number
+     * @param password
+     */
     private void loginPatient(final String phoneNo, final String password) {
         String patient_login_tag = "patient_log_in_tag";
 
@@ -454,18 +439,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * {
-     * "status": "success",
-     * "data": {
-     * "id": "DR000000001"
-     * },
-     * "msg": "login successful"
-     * }
-     *
-     * @param phoneNo  sdf
-     * @param password dsfd
-     */
     private void loginDoctor(final String phoneNo, final String password) {
         String patient_login_tag = "patient_log_in_tag";
 

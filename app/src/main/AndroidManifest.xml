@@ -32,10 +32,7 @@
             android:value="3" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.electrocraft.nirzo.pluse.model.dba.User,
-            com.electrocraft.nirzo.pluse.model.dba.PatientUser,
-             com.electrocraft.nirzo.pluse.model.deserialization.PatientShortInfo,
-            com.electrocraft.nirzo.pluse.model.deserialization.DocAppointments" />
+            android:value="com.electrocraft.nirzo.pluse.model.dba.User,             com.electrocraft.nirzo.pluse.model.dba.PatientUser,              com.electrocraft.nirzo.pluse.model.deserialization.PatientShortInfo,             com.electrocraft.nirzo.pluse.model.deserialization.DocAppointments" />
 
         <activity android:name=".view.MainActivity" />
         <activity
@@ -47,7 +44,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".view.activity.LoginActivity"
@@ -67,26 +63,25 @@
 
         <receiver android:name=".controller.receive.DoctorReceiver">
             <intent-filter>
-                <action android:name="com.tutorialspoint.CUSTOM_INTENT"></action>
+                <action android:name="com.tutorialspoint.CUSTOM_INTENT" />
             </intent-filter>
         </receiver>
 
-    <!--    //Register Service in manifest for Token Refresh-->
+        <!-- //Register Service in manifest for Token Refresh -->
 
-        <service
-            android:name=".controller.pusenotification.MyFirebaseInstanceIDService">
+        <service android:name=".controller.pusenotification.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         //Register Service in manifest to Receive Message
-
-        <service
-            android:name="controller.pusenotification.MyFirebaseMessagingService">
+        <service android:name="controller.pusenotification.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".view.activity.IsPatientOrDoctorActivity"></activity>
     </application>
 
 </manifest>

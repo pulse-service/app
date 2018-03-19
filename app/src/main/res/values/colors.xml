@@ -51,4 +51,7 @@
 
     <!--off white color -->
     <color name="off_white">#F5F5F5</color>
+
+    <color name="sign_in___register_as__color">#222222</color>
+    <color name="patient_1_color">#FFFFFF</color>
 </resources>

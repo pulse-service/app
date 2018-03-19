@@ -92,4 +92,11 @@
     <string name="appointment">Appointment</string>
     <string name="total_amount_payable">Total Amount Payable :</string>
     <string name="proceed_to_pay">Proceed to Pay</string>
+
+    <!-- 02 Select Login or Registration strings -->
+
+    <string name="ek_img_content">PSD Image</string>
+    <string name="sign_in_register_as_string">Sign in / Register as:</string>
+    <string name="patient_1_string">Patient</string>
+    <string name="doctor_1_string">Doctor</string>
 </resources>
