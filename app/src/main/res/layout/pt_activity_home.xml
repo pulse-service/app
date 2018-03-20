@@ -21,6 +21,9 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
+        android:background="@color/colorPrimary"
         android:id="@+id/pt_nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

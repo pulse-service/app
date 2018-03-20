@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.electrocraft.nirzo.pluse.R;
@@ -87,11 +88,11 @@ public class PatientHomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if (navigationView != null) {
-            LinearLayout mParent = (LinearLayout) navigationView.getHeaderView(0);
+            RelativeLayout mParent = (RelativeLayout) navigationView.getHeaderView(0);
             if (mParent != null) {
 
                 TextView userName = mParent.findViewById(R.id.nav_tvPatientNameNavBar);
-                userName.setText(intent.getStringExtra("PTName"));
+//                userName.setText(intent.getStringExtra("PTName"));
             }
         }
 
