@@ -13,7 +13,17 @@ public class DoctorAvailableTime {
    private String outTime_AMOrPM ;
    private String oat_code ;                // online available  time
 
-    public DoctorAvailableTime(String day, String inTime, String inTime_AMOrPM, String outTime, String outTime_AMOrPM,String oat_code) {
+    public boolean isCheck;
+
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
+
+    public DoctorAvailableTime(String day, String inTime, String inTime_AMOrPM, String outTime, String outTime_AMOrPM, String oat_code) {
         this.day = day;
         this.inTime = inTime;
         this.inTime_AMOrPM = inTime_AMOrPM;

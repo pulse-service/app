@@ -30,6 +30,12 @@ public class DoctorTimeSchAdapter extends RecyclerView.Adapter<DoctorTimeSchAdap
         String tem = time.getInTime() + " " + time.getInTime_AMOrPM() + " to " + time.getOutTime() + time.getOutTime_AMOrPM();
         holder.tv_DocTime.setText(tem);
 
+        if (time.isCheck())
+            holder.lr_iv_ClickButton.setImageResource(R.drawable.ic_radio_button_checked_black_24dp);
+        else
+            holder.lr_iv_ClickButton.setImageResource(R.drawable.ic_radio_button_unchecked_black_24dp);
+
+
     }
 
     private List<DoctorAvailableTime> timeList;
@@ -45,6 +51,9 @@ public class DoctorTimeSchAdapter extends RecyclerView.Adapter<DoctorTimeSchAdap
 
         @BindView(R.id.lr_tv_DocTime)
         TextView tv_DocTime;
+
+        @BindView(R.id.lr_iv_ClickButton)
+        ImageView lr_iv_ClickButton;
 
 
         private ViewHolder(View itemView) {
@@ -63,6 +72,7 @@ public class DoctorTimeSchAdapter extends RecyclerView.Adapter<DoctorTimeSchAdap
         mContext = parent.getContext();
         return new DoctorTimeSchAdapter.ViewHolder(itemView);
 
+
     }
 
 
@@ -70,5 +80,6 @@ public class DoctorTimeSchAdapter extends RecyclerView.Adapter<DoctorTimeSchAdap
     public int getItemCount() {
         return timeList.size();
     }
+
 
 }

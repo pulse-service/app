@@ -40,11 +40,11 @@
             android:name=".view.activity.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_Splash">
-            <intent-filter>
+  <!--          <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".view.activity.LoginActivity"
@@ -53,11 +53,11 @@
             android:name=".view.activity.patient.PatientHomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme" >
-       <!--     <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
 
         </activity>
         <activity android:name=".view.activity.patient.SignUpEmailActivity" />
@@ -66,7 +66,14 @@
         <activity android:name=".view.activity.doctor.DocRegistrationActivity" />
         <activity
             android:name=".view.fragment.PtSeeDoctorProfileActivity"
-            android:theme="@style/DefaultActivity" />
+            android:theme="@style/DefaultActivity" >
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+
+        </activity>
         <activity android:name=".view.activity.patient.PtAppointBookActivity" />
         <activity android:name=".view.activity.doctor.DoctorHomeActivity" />
         <activity android:name=".controller.network.NotifySMSReceived">

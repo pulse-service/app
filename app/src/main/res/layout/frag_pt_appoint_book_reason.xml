@@ -112,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="@string/pick_time_n_date"
+                android:text=""
                 android:textColor="@color/colorPrimary" />
 
              </RelativeLayout>

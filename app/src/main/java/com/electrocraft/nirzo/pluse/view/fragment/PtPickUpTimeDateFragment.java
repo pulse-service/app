@@ -27,6 +27,7 @@ import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.DoctorAvailableTime;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorTimeSchAdapter;
+import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 import com.electrocraft.nirzo.pluse.view.viewhelper.BKViewController;
 
@@ -104,6 +105,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
     private String mDocExpertise;
     private String mDocAmount;
     private DoctorTimeSchAdapter mAdapter;
+    int prevousId = 0;
 
 
     public PtPickUpTimeDateFragment() {
@@ -166,6 +168,24 @@ public class PtPickUpTimeDateFragment extends Fragment {
         recyVTime.setLayoutManager(mLayoutManager);
         recyVTime.setItemAnimator(new DefaultItemAnimator());
         recyVTime.setAdapter(mAdapter);
+
+        recyVTime.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyVTime, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+            /*    for (:mList)*/
+//                prevousId
+                mList.get(prevousId).setCheck(false);
+                mList.get(position).setCheck(true);
+                mAdapter.notifyDataSetChanged();
+                prevousId = position;
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
 //        recyVTime();
         return view;
     }
@@ -313,6 +333,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
                                     }
 
 //                                    setUpButton();
+                                    mAdapter.notifyDataSetChanged();
 
                                 }
 
@@ -397,18 +418,17 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
 
     }*/
-/*
-    @Optional
-    @OnClick({R.id.btn_pt_doc_PicTime_1, R.id.btn_pt_doc_PicTime_2, R.id.btn_pt_doc_PicTime_3,
-            R.id.btn_pt_doc_PicTime_4, R.id.btn_pt_doc_PicTime_5, R.id.btn_pt_doc_PicTime_6,
-            R.id.btn_pt_doc_PicTime_7, R.id.btn_pt_doc_PicTime_8, R.id.btn_pt_doc_PicTime_9})
+
+
+    @OnClick(R.id.btn_SaveAppointment)
     public void confirmAppointment(View view) {
 
-        Button button = (Button) view;
-        mOAT_code = mList.get((int) button.getTag()).getOat_code();
-        String ti = (String) button.getText();
+//        Button button = (Button) view;
+        DoctorAvailableTime time=mList.get(prevousId);
+        mOAT_code =time.getOat_code();
+        String ti = time.getInTime()+" "+time.getInTime_AMOrPM() ;
         showConfirmMessage(ti);
-    }*/
+    }
 
     private void showConfirmMessage(final String time) {
         AlertDialog ad = new AlertDialog.Builder(getActivity())
