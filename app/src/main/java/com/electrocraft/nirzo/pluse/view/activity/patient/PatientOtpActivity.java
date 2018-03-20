@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,8 +14,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,8 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
-import com.electrocraft.nirzo.pluse.view.fragment.DocProfileFragment;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
@@ -324,7 +319,7 @@ public class PatientOtpActivity extends AppCompatActivity implements View.OnFocu
                             id = object.getString("id");
 
                            /*  save patient id*/
-                            SharePref.savePatientID(mContext, id);
+                            AppSharePreference.savePatientID(mContext, id);
 
                             startActivity(new Intent(PatientOtpActivity.this, PatientHomeActivity.class));
                         }

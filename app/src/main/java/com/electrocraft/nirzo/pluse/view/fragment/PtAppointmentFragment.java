@@ -2,7 +2,6 @@ package com.electrocraft.nirzo.pluse.view.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,11 +22,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.AppointmentModel;
-import com.electrocraft.nirzo.pluse.model.DoctorSearch;
 import com.electrocraft.nirzo.pluse.view.MainActivity;
-import com.electrocraft.nirzo.pluse.view.adapter.DoctorSearchListAdapter;
 import com.electrocraft.nirzo.pluse.view.adapter.PatientsAppointmentListAdapter;
 import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
 import com.electrocraft.nirzo.pluse.view.util.Key;
@@ -44,7 +40,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * @author Faisal
@@ -87,7 +82,7 @@ public class PtAppointmentFragment extends Fragment {
         ButterKnife.bind(this, view);
        /* APPT_AppointmentDate*/
         setUpAdapter();
-        mPatientId = SharePref.getPatientID(getActivity());
+        mPatientId = AppSharePreference.getPatientID(getActivity());
 
 
         Log.d("Sala", " mPatientId:" + mPatientId);

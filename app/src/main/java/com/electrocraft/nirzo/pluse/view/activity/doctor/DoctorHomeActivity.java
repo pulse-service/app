@@ -1,12 +1,7 @@
 package com.electrocraft.nirzo.pluse.view.activity.doctor;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -24,7 +19,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,24 +28,20 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
-import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.fragment.DocAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocChamberFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocTodayAppointFragment;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.IllegalFormatCodePointException;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class DoctorHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -90,7 +80,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        mDoctorId = SharePref.getDoctorID(this);
+        mDoctorId = AppSharePreference.getDoctorID(this);
 //        timeConsume();
 
         Log.d("PLTO", " mDoctorId :" + mDoctorId);

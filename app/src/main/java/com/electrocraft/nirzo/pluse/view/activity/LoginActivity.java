@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,15 +14,8 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -35,22 +26,18 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.network.ConnectionDetector;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
-import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DocRegistrationActivity;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
-import com.electrocraft.nirzo.pluse.view.viewhelper.BKViewController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -60,6 +47,7 @@ import butterknife.OnClick;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.RECORD_AUDIO;
+
 public class LoginActivity extends AppCompatActivity {
 
     private boolean isDoctorLogin = false;
@@ -119,9 +107,6 @@ public class LoginActivity extends AppCompatActivity {
         cd = new ConnectionDetector(this);
 
 
-
-
-
         if (!checkPermission()) {
 
             requestPermission();
@@ -138,7 +123,6 @@ public class LoginActivity extends AppCompatActivity {
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA);
-
 
 
         return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
@@ -161,10 +145,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (audioAccepted && cameraAccepted) {
 
-                    }
-
-                    else {
-
+                    } else {
 
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -205,6 +186,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(mContext, DocRegistrationActivity.class));
     }
 
+    @OnClick(R.id.btn_login)
     public void onLoginClick(View view) {
 
         Log.d("wasi", "onLoginClick: ");
@@ -232,21 +214,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.tvRegistration)
     public void onRegistrationClick(View view) {
         if (!isDoctorLogin) {
             startActivity(new Intent(LoginActivity.this, SignUpEmailActivity.class));
         } else
             onDoctorRegistrationButton();
     }
-
-
-
-
-
-
-
-
-
 
 
     private void loginPatient(final String phoneNo, final String password) {
@@ -274,7 +248,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (!object.isNull("data")) {
                                     JSONObject obj = object.getJSONObject("data");
                                     id = obj.getString("id");
-                                    SharePref.savePatientID(mContext, id);
+                                    AppSharePreference.savePatientID(mContext, id);
                                     Intent intent = new Intent(LoginActivity.this, PatientHomeActivity.class);
                                     intent.putExtra(Key.KEY_PATIENT_ID, id);
                                     startActivity(intent);
@@ -342,7 +316,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                     id = obj.getString("id");
-                                    SharePref.saveDoctorID(mContext, id);
+                                    AppSharePreference.saveDoctorID(mContext, id);
 
 
                                     startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));
@@ -372,7 +346,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 params.put("phone_number", phoneNo);
                 params.put("password", password);
-//               params.put("password", SharePref.getFireBaseToken(LoginActivity.this));
+//               params.put("password", AppSharePreference.getFireBaseToken(LoginActivity.this));
 
                 return params;
             }
@@ -433,7 +407,7 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.network.ConnectionDetector;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DocRegistrationActivity;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
@@ -731,7 +705,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (!object.isNull("data")) {
                                     JSONObject obj = object.getJSONObject("data");
                                     id = obj.getString("id");
-                                    SharePref.savePatientID(mContext, id);
+                                    AppSharePreference.savePatientID(mContext, id);
                                     Intent intent = new Intent(LoginActivity.this, PatientHomeActivity.class);
                                     intent.putExtra(Key.KEY_PATIENT_ID, id);
                                     startActivity(intent);
@@ -800,7 +774,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                     id = obj.getString("id");
-                                    SharePref.saveDoctorID(mContext, id);
+                                    AppSharePreference.saveDoctorID(mContext, id);
                                     Intent intent = new Intent(LoginActivity.this, DoctorHomeActivity.class);
 //                                    intent.putExtra(Key.KEY_PATIENT_ID, id);
                                     startActivity(intent);

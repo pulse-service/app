@@ -23,7 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
@@ -177,7 +177,7 @@ public class PtPaymentModuleFragment extends Fragment {
                             if (jos.getString("status").equals("success")) {
                                 JSONObject data = jos.getJSONObject("data");
                                 id = data.getString("id");
-                                SharePref.saveAppointmentID(getActivity(), id);
+                                AppSharePreference.saveAppointmentID(getActivity(), id);
 
                                 AlertDialogManager.showSuccessDialog(getActivity(), msg);
 

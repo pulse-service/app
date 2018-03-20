@@ -26,7 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
@@ -367,7 +367,7 @@ public class DocOTPFragments extends Fragment implements View.OnFocusChangeListe
                                     id = object.getString("id");
 
                            /*  save patient id*/
-                                    SharePref.saveDoctorID(getActivity(), id);
+                                    AppSharePreference.saveDoctorID(getActivity(), id);
 
                                     Fragment frag = new DocProfileFragment();
                                     FragmentTransaction ft = getFragmentManager().beginTransaction();

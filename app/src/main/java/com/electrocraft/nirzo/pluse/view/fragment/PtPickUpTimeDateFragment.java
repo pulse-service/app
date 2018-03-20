@@ -21,9 +21,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.DoctorAvailableTime;
-import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 import com.electrocraft.nirzo.pluse.view.viewhelper.BKViewController;
 
@@ -34,9 +33,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -131,7 +128,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
         /**
          * get patient ID
          */
-        mPatientId = SharePref.getPatientID(getActivity());
+        mPatientId = AppSharePreference.getPatientID(getActivity());
 
         getAvailableTime(mDoctorId);
     /*    if (mDoctorId!=null && mDoctorId.length()>0)

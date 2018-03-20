@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.electrocraft.nirzo.pluse.R;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.adapter.ViewPagerAdapter;
 import com.electrocraft.nirzo.pluse.view.fragment.PtAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtDescribeProblemFragment;
@@ -63,7 +63,7 @@ public class PatientHomeActivity extends AppCompatActivity
          */
         Intent intent = getIntent();          // work in late
 
-        mPatientId = SharePref.getPatientID(this);
+        mPatientId = AppSharePreference.getPatientID(this);
 
         // toolbar
         setSupportActionBar(toolbar);

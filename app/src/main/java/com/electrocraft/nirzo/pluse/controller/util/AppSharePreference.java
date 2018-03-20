@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
  * Created by nirzo on 3/12/2018.
  */
 
-public class SharePref {
+public class AppSharePreference {
     private static final String FILE_NAME = "pulse_raw_data";
     private static final String KEY_PATIENT_APPOINTMENT_ID = "p_appointment_id";
     private static final String KEY_PATIENT_APPOINTMENT_DATE = "p_appointment_date";

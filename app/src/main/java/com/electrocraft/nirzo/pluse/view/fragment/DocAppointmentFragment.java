@@ -22,8 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.controller.network.NotifySMSReceived;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.AppointmentModel;
 import com.electrocraft.nirzo.pluse.view.MainActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorsAppointmentListAdapter;
@@ -85,7 +84,7 @@ public class DocAppointmentFragment extends Fragment {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c);
-        String mDoctorId = SharePref.getDoctorID(getActivity());
+        String mDoctorId = AppSharePreference.getDoctorID(getActivity());
         getDoctorAppointment(mDoctorId, formattedDate);
         return view;
     }

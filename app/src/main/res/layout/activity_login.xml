@@ -62,6 +62,7 @@
                     android:typeface="normal" />
 
                 <Button
+
                     android:id="@+id/btn_login"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -69,7 +70,7 @@
                     android:layout_below="@+id/edt_password"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/ripple_effect_reg"
-                    android:onClick="onLoginClick"
+
                     android:text="Log In"
                     android:textAllCaps="false"
                     android:textColor="@color/color_white" />
@@ -84,13 +85,14 @@
     </ScrollView>
 
     <TextView
+        android:id="@+id/tvRegistration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
         android:fontFamily="@font/robotoregular"
         android:gravity="center"
-        android:onClick="onRegistrationClick"
+
         android:paddingEnd="20dp"
         android:paddingLeft="10dp"
         android:paddingRight="20dp"

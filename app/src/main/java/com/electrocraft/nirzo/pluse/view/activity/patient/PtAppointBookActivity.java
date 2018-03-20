@@ -11,12 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.electrocraft.nirzo.pluse.R;
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfileFragment;
@@ -56,7 +55,7 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
         }
 
         showFragment();
-        mPatientId = SharePref.getPatientID(this);
+        mPatientId = AppSharePreference.getPatientID(this);
 
         // toolbar
         setSupportActionBar(toolbar);

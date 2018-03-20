@@ -3,7 +3,7 @@ package com.electrocraft.nirzo.pluse.fcm;
 import android.util.Log;
 
 
-import com.electrocraft.nirzo.pluse.controller.util.SharePref;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -35,7 +35,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     }
 
     public void saveFcmToken(String refreshedToken) {
-        SharePref.saveFireBaseToken(getApplicationContext(), refreshedToken);
+        AppSharePreference.saveFireBaseToken(getApplicationContext(), refreshedToken);
 
     }
 }
