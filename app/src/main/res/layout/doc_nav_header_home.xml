@@ -39,6 +39,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
+            android:textSize="11sp"
             android:id="@+id/tvForgetPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,6 +48,7 @@
             android:layout_toEndOf="@+id/imageView"
             android:text="01711766981" />
         <TextView
+            android:textSize="11sp"
             android:id="@+id/tvNavemail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

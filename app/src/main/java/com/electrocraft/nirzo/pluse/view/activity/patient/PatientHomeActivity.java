@@ -2,6 +2,7 @@ package com.electrocraft.nirzo.pluse.view.activity.patient;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,6 +87,8 @@ public class PatientHomeActivity extends AppCompatActivity
         toggle.syncState();
 
 
+        NavigationMenuView navMenuView = (NavigationMenuView) navigationView.getChildAt(0);
+        navMenuView.addItemDecoration(new DividerItemDecoration(PatientHomeActivity.this, DividerItemDecoration.VERTICAL));
         navigationView.setNavigationItemSelectedListener(this);
 
         if (navigationView != null) {
@@ -98,8 +102,6 @@ public class PatientHomeActivity extends AppCompatActivity
 
 
     }
-
-
 
 
     private void setupViewPager(ViewPager viewPager) {

@@ -9,31 +9,36 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_home"
             android:title="@string/home" />
-
+    </group>
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_appointment"
             android:icon="@drawable/ic_menu_date_range"
             android:title="@string/appointment" />
+    </group>
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_profile"
             android:title="@string/profile" />
+    </group>
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_health"
             android:icon="@drawable/ic_menu_heartbeat"
             android:title="@string/health" />
-<!-- for future work
-        <item
-            android:id="@+id/nav_family_member_prof"
-            android:icon="@drawable/ic_menu_family_group"
-            android:title="@string/family_member_profile" />-->
-
+    </group>
+    <!-- for future work
+            <item
+                android:id="@+id/nav_family_member_prof"
+                android:icon="@drawable/ic_menu_family_group"
+                android:title="@string/family_member_profile" />-->
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_exit_to_app"
             android:title="@string/logout" />
     </group>
-
 
 
 </menu>

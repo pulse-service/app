@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.electrocraft.nirzo.pluse.R;
@@ -75,7 +76,7 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
         navigationView.setNavigationItemSelectedListener(this);
 
         if (navigationView != null) {
-            LinearLayout mParent = (LinearLayout) navigationView.getHeaderView(0);
+            RelativeLayout mParent = (RelativeLayout) navigationView.getHeaderView(0);
             if (mParent != null) {
 
                 TextView userName = mParent.findViewById(R.id.nav_tvPatientNameNavBar);
