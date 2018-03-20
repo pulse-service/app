@@ -20,6 +20,7 @@ import com.electrocraft.nirzo.pluse.view.util.Key;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Optional;
 
 /**
  * Created by nirzo on 2/26/2018.
@@ -49,7 +50,7 @@ public class PtAppointBookReasonFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null&&getView()!=null)
+        if (imm != null && getView() != null)
             imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
@@ -60,12 +61,12 @@ public class PtAppointBookReasonFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_pt_appoint_book_reason, container, false);
         ButterKnife.bind(this, view);
 
-        Bundle agr=getArguments();
-        if (agr!=null){
+        Bundle agr = getArguments();
+        if (agr != null) {
 
-            mDoctorId=agr.getString(Key.KEY_DOCTOR_ID,"");
-            mDocExpertise=agr.getString(Key.KEY_DOCTOR_EXPERTISE,"");
-            mDocAmount=agr.getString(Key.KEY_DOCTOR_AMOUNT,"");
+            mDoctorId = agr.getString(Key.KEY_DOCTOR_ID, "");
+            mDocExpertise = agr.getString(Key.KEY_DOCTOR_EXPERTISE, "");
+            mDocAmount = agr.getString(Key.KEY_DOCTOR_AMOUNT, "");
 
 
         }
@@ -76,19 +77,20 @@ public class PtAppointBookReasonFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.cv)
+    @Optional
+    @OnClick({R.id.cv, R.id.btn_bookAppointment})
     public void onPickTimeClick() {
         Fragment fragment = new PtPickUpTimeDateFragment();
-        String shortDescribtion=edtShortDescribtion.getText().toString();
+        String shortDescribtion = edtShortDescribtion.getText().toString();
 
-      if (mDoctorId!=null &&mDoctorId.length()>0){
-          Bundle arg= new Bundle();
-          arg.putString(Key.KEY_DOCTOR_ID,mDoctorId);
-          arg.putString(Key.KEY_PATIENT_PROBLEM_SHORT_DES,shortDescribtion);
-          arg.putString(Key.KEY_DOCTOR_EXPERTISE,mDocExpertise);
-          arg.putString(Key.KEY_DOCTOR_AMOUNT,mDocAmount);
-          fragment.setArguments(arg);
-      }
+        if (mDoctorId != null && mDoctorId.length() > 0) {
+            Bundle arg = new Bundle();
+            arg.putString(Key.KEY_DOCTOR_ID, mDoctorId);
+            arg.putString(Key.KEY_PATIENT_PROBLEM_SHORT_DES, shortDescribtion);
+            arg.putString(Key.KEY_DOCTOR_EXPERTISE, mDocExpertise);
+            arg.putString(Key.KEY_DOCTOR_AMOUNT, mDocAmount);
+            fragment.setArguments(arg);
+        }
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame, fragment);
         ft.commit();

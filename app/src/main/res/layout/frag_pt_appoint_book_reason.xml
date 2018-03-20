@@ -58,6 +58,7 @@
 
 
     <android.support.v7.widget.CardView
+        android:layout_margin="@dimen/margin_def"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -70,7 +71,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp">
+            android:padding="5dp">
 
             <TextView
 

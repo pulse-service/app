@@ -111,7 +111,7 @@ public class PtSpecializationFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rvDocSearch.setLayoutManager(mLayoutManager);
         rvDocSearch.setItemAnimator(new DefaultItemAnimator());
-        rvDocSearch.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+    //    rvDocSearch.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         rvDocSearch.setAdapter(mAdapter);
         rvDocSearch.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rvDocSearch, new RecyclerTouchListener.ClickListener() {
             @Override

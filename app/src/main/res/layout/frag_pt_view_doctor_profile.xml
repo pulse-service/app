@@ -70,8 +70,8 @@
                 android:layout_alignParentEnd="true"
                 android:text="23 voted"
                 android:layout_marginRight="10dp"
-                android:textColor="@color/dark_gray"
-                android:textSize="15sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="11sp" />
 
             <TextView
                 android:textSize="11sp"
@@ -82,6 +82,7 @@
                 android:layout_below="@+id/tvDocName"
                 android:text="MD (CAD), MBS (USA)"/>
             <TextView
+                android:textColor="@color/black"
                 android:textSize="11sp"
                 android:id="@+id/doc_type"
                 android:layout_marginLeft="10dp"
@@ -90,9 +91,12 @@
                 android:layout_below="@+id/doc_education"
                 android:text="Cardiology"/>
             <android.support.design.widget.TabLayout
+                app:tabSelectedTextColor="@color/colorPrimaryDark"
+                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                 android:layout_marginTop="8dp"
                 android:layout_below="@+id/doc_type"
                 android:id="@+id/tabs"
+                app:tabTextColor="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabGravity="fill"
