@@ -95,31 +95,10 @@ public class PatientHomeActivity extends AppCompatActivity
             }
         }
 
-        initControls();
-        setNotificationData(getIntent().getExtras());
+
     }
 
-    private void initControls() {
-        tvNotificationDetails = (TextView) findViewById(R.id.tvNotificationDetails);
-    }
-    private void setNotificationData(Bundle extras) {
-        if (extras == null)
-            return;
-        StringBuilder text = new StringBuilder("");
-        text.append("Message Details:");
-        text.append("\n");
-        text.append("\n");
-        if (extras.containsKey("title")) {
-            text.append("Title: ");
-            text.append(extras.get("title"));
-        }
-        text.append("\n");
-        if (extras.containsKey("message")) {
-            text.append("Message: ");
-            text.append(extras.get("message"));
-        }
-//        tvNotificationDetails.setText(text);
-    }
+
 
 
     private void setupViewPager(ViewPager viewPager) {
@@ -132,8 +111,8 @@ public class PatientHomeActivity extends AppCompatActivity
         adapter.addFragment(new PtLocationBaseFragment(),
                 getResources().getString(R.string.location_base));
 
-        adapter.addFragment(new PtDescribeProblemFragment(),
-                getResources().getString(R.string.describe_problem));
+ /*       adapter.addFragment(new PtDescribeProblemFragment(),
+                getResources().getString(R.string.describe_problem));*/
 
         viewPager.setAdapter(adapter);
 
@@ -212,4 +191,6 @@ public class PatientHomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

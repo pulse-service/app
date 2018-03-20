@@ -104,7 +104,7 @@
             android:layout_alignStart="@+id/lr_iv_DocImage"
             android:text="TextView"
             android:textColor="@color/colorPrimary"
-            android:textSize="11sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:layout_marginEnd="@dimen/padding_def"

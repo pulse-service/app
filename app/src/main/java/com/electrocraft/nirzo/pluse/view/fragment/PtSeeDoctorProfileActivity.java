@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -88,6 +89,9 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
     @BindView(R.id.ivDoctorCoverPic)
     ImageView ivDocCoverPic;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     //    private boolean reDirEnable = false;
     List<SpinnerHelper> languageList = new ArrayList<>();
 
@@ -104,7 +108,12 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
         mDocExpertise = getIntent().getStringExtra(Key.KEY_DOCTOR_EXPERTISE);
         docSpecialization = getIntent().getStringExtra(Key.KEY_DOCTOR_SPECIALIZATION);
         mDocAmount = getIntent().getStringExtra(Key.KEY_DOCTOR_AMOUNT);
+        setSupportActionBar(toolbar);
 
+        if (getSupportActionBar() != null) {                                    // safety block
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         tabLayout.setupWithViewPager(viewPager);
 

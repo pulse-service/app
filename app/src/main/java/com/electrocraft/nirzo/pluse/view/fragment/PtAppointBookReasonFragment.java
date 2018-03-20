@@ -27,8 +27,8 @@ import butterknife.OnClick;
 
 public class PtAppointBookReasonFragment extends Fragment {
 
-    @BindView(R.id.btn_pickTime)
-    Button btnPickTime;
+/*    @BindView(R.id.btn_pickTime)
+    Button btnPickTime;*/
 
     @BindView(R.id.edtPatientDoctorAppointmentReason)
     EditText edtShortDescribtion;
@@ -76,7 +76,7 @@ public class PtAppointBookReasonFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.btn_pickTime)
+    @OnClick(R.id.cv)
     public void onPickTimeClick() {
         Fragment fragment = new PtPickUpTimeDateFragment();
         String shortDescribtion=edtShortDescribtion.getText().toString();

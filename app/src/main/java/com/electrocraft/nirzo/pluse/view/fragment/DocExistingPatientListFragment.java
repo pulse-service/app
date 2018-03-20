@@ -15,8 +15,8 @@ import butterknife.ButterKnife;
  * Created by nirzo on 3/5/2018.
  */
 
-public class DocExistingPatientList extends Fragment {
-    public DocExistingPatientList() {
+public class DocExistingPatientListFragment extends Fragment {
+    public DocExistingPatientListFragment() {
     }
 
     @Override

@@ -64,7 +64,7 @@ public class PtSpecializationFragment extends Fragment {
 
     @BindView(R.id.actv_specializationCat)
     AutoCompleteTextView actvLocationSearch;
-    private String mToken = "";
+
     private ProgressDialog pDialog;
 
     //String [] autoCtvHelper = {};
@@ -118,13 +118,8 @@ public class PtSpecializationFragment extends Fragment {
             public void onClick(View view, int position) {
                 DoctorSearch doctor = mList.get(position);
 
-          /*      Toast.makeText(getActivity(),"Hello",Toast.LENGTH_SHORT).show();
 
-                Fragment fragment = new DocProfileFragment();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.content_frame, fragment);
-                ft.commit();*/
-                //  Timber.d("hello Doc");
+
                 Intent intent = new Intent(getActivity(), PtSeeDoctorProfileActivity.class);
                 intent.putExtra(Key.DOCTOR_NAME_KEY, doctor.getName());
                 intent.putExtra(Key.KEY_DOCTOR_ID, doctor.getDrID());
@@ -225,20 +220,5 @@ public class PtSpecializationFragment extends Fragment {
         if (pDialog != null && pDialog.isShowing())
             pDialog.hide();
     }
-    /*
-     * load spinner of Doctor's Specialization
-     */
-   /* private void loadCategories() {
-        List<SpinnerHelper> bloodGroupList = new ArrayList<>();
-        for (int i = 0; i < catName.length; i++) {
-            SpinnerHelper helper = new SpinnerHelper(i, catCode[i], catName[i]);
-            bloodGroupList.add(helper);
-        }
-        ArrayAdapter<SpinnerHelper> adapter = new ArrayAdapter<>(getActivity(),
-                R.layout.rsc_spinner_text, bloodGroupList);
 
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
-
-        spSpecialCat.setAdapter(adapter);
-    }*/
 }

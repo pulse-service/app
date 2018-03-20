@@ -38,12 +38,12 @@
         <activity
             android:name=".view.activity.SplashScreen"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
+            android:theme="@style/AppTheme_Splash">
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".view.activity.LoginActivity"
@@ -51,15 +51,24 @@
         <activity
             android:name=".view.activity.patient.PatientHomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity android:name=".view.activity.patient.SignUpEmailActivity" />
         <activity android:name=".view.activity.patient.PatientOtpActivity" />
         <activity android:name=".view.activity.patient.SexNDobRegActivity" />
         <activity android:name=".view.activity.doctor.DocRegistrationActivity" />
-        <activity android:name=".view.fragment.PtSeeDoctorProfileActivity" />
+        <activity
+            android:name=".view.fragment.PtSeeDoctorProfileActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".view.activity.patient.PtAppointBookActivity" />
         <activity android:name=".view.activity.doctor.DoctorHomeActivity" />
-        <activity android:name=".controller.network.NotifySMSReceived" >
+        <activity android:name=".controller.network.NotifySMSReceived">
             <intent-filter>
                 <action android:name="click_action" />
                 <category android:name="android.intent.category.DEFAULT" />

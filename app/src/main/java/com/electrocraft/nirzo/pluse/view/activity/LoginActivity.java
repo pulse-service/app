@@ -278,7 +278,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 params.put("phone_number", phoneNo);
                 params.put("password", password);
-
+                params.put("device_token", AppSharePreference.getFireBaseToken(LoginActivity.this));
                 return params;
             }
         };
@@ -346,7 +346,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 params.put("phone_number", phoneNo);
                 params.put("password", password);
-//               params.put("password", AppSharePreference.getFireBaseToken(LoginActivity.this));
+               params.put("device_token", AppSharePreference.getFireBaseToken(LoginActivity.this));
 
                 return params;
             }

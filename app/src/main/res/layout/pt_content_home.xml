@@ -8,11 +8,11 @@
     tools:context=".view.activity.patient.PatientHomeActivity"
     tools:showIn="@layout/pt_app_bar_home">
 
-    <TextView
+<!--    <TextView
         android:id="@+id/tvNotificationDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Here notification details will be display" />
+        android:text="Here notification details will be display" />-->
     <FrameLayout
 
         android:id="@+id/mainFrame"

@@ -1,5 +1,6 @@
 package com.electrocraft.nirzo.pluse.view.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,18 +10,30 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
+import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.model.DoctorSearch;
 import com.electrocraft.nirzo.pluse.model.GeoLayR4Location;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorSearchListAdapter;
 import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
 import com.electrocraft.nirzo.pluse.view.util.Key;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +47,7 @@ import butterknife.ButterKnife;
 
 public class PtLocationBaseFragment extends Fragment {
 
+    private static final String TAG = "PtLocationBaseFragment";
     private DoctorSearchListAdapter mAdapter;
 
     @BindView(R.id.recyVLocationSearch)
@@ -45,6 +59,7 @@ public class PtLocationBaseFragment extends Fragment {
 
     List<String> autoCtvHelper = new ArrayList<>();
     private List<DoctorSearch> mList = new ArrayList<>();
+    private ProgressDialog pDialog;
 
     //private List<GeoLayR4Location> mList = new ArrayList<>();
 
@@ -65,30 +80,9 @@ public class PtLocationBaseFragment extends Fragment {
         ButterKnife.bind(this, view);
 
 
+        setUpAdapter();
 
-        mAdapter = new DoctorSearchListAdapter(mList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        rvDocSearch.setLayoutManager(mLayoutManager);
-        rvDocSearch.setItemAnimator(new DefaultItemAnimator());
-        rvDocSearch.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        rvDocSearch.setAdapter(mAdapter);
-        rvDocSearch.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rvDocSearch, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                DoctorSearch doctorSearch = mList.get(position);
-                //  Timber.d("hello Doc");
-     /*           Intent intent = new Intent(getActivity(), PtSeeDoctorProfileActivity.class);
-                intent.putExtra(Key.DOCTOR_NAME_KEY, doctorSearch.getName());
-                startActivity(intent);*/
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
-        prepareData();
+        getDoctorList();
         prepareLocationData();
 
         //Creating the instance of ArrayAdapter containing bloodGroupList of autoCtvHelper names
@@ -102,7 +96,38 @@ public class PtLocationBaseFragment extends Fragment {
         return view;
     }
 
-    private void prepareData() {
+    private void setUpAdapter() {
+        mAdapter = new DoctorSearchListAdapter(mList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        rvDocSearch.setLayoutManager(mLayoutManager);
+        rvDocSearch.setItemAnimator(new DefaultItemAnimator());
+        rvDocSearch.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        rvDocSearch.setAdapter(mAdapter);
+        rvDocSearch.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rvDocSearch, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                DoctorSearch doctor = mList.get(position);
+
+
+
+                Intent intent = new Intent(getActivity(), PtSeeDoctorProfileActivity.class);
+                intent.putExtra(Key.DOCTOR_NAME_KEY, doctor.getName());
+                intent.putExtra(Key.KEY_DOCTOR_ID, doctor.getDrID());
+                intent.putExtra(Key.KEY_DOCTOR_EXPERTISE, doctor.getExpertise());
+                intent.putExtra(Key.KEY_DOCTOR_SPECIALIZATION, doctor.getSpecialization());
+                intent.putExtra(Key.KEY_DOCTOR_AMOUNT, doctor.getAmount());
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+    }
+
+   /* private void prepareData() {
         DoctorSearch doctor = new DoctorSearch("Dr. Saleha", "Dhaka medical", true);
         mList.add(doctor);
 
@@ -119,6 +144,83 @@ public class PtLocationBaseFragment extends Fragment {
         mList.add(doctor);
 
         mAdapter.notifyDataSetChanged();
+    }*/
+
+    private void getDoctorList() {
+        String patient_login_tag = "doc_search_tag";
+        if (pDialog == null)
+            pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getdoctorslist",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("DIM", response);
+
+                        String DRI_ID = "";
+                        String DRI_DrName = "";
+                        String DCharge = "";
+                        String Expertise = "";
+                        String SPName = "";
+                        String Photo = "";
+
+
+                        closeDialog();
+                        try {
+                            JSONObject object = new JSONObject(response);
+
+
+                            if (!object.isNull("DoctorsLists")) {
+
+                                JSONArray array = object.getJSONArray("DoctorsLists");
+
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject jsonObject = array.getJSONObject(i);
+
+
+                                    DRI_ID = jsonObject.getString("DRI_ID");
+                                    DRI_DrName = jsonObject.getString("name");
+                                    Expertise = jsonObject.getString("Expertise");
+                                    SPName = jsonObject.getString("SPName");
+                                    DCharge = jsonObject.getString("amount");
+                                    Photo = jsonObject.getString("Photo");
+
+                                    DoctorSearch doctor = new DoctorSearch(DRI_ID, DRI_DrName, Expertise, SPName, DCharge, true, Photo);
+                                    mList.add(doctor);
+                                }
+
+                                mAdapter.notifyDataSetChanged();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                // hide the progress dialog
+                closeDialog();
+            }
+        });
+
+        AppController.getInstance().
+
+                addToRequestQueue(stringRequest, patient_login_tag);
+
+    }
+
+    private void closeDialog() {
+        if (pDialog != null && pDialog.isShowing())
+            pDialog.hide();
     }
 
     private void prepareLocationData() {

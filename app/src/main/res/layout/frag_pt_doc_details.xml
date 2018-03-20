@@ -4,6 +4,144 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/container_margin"
+        android:layout_marginStart="@dimen/container_margin">
+
+        <TextView
+            android:textSize="15sp"
+            android:id="@+id/tv_specialLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Specialist Tags"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:textSize="12sp"
+            android:id="@+id/tv_specialTag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_specialLbl" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/dark_gray"
+            app:layout_constraintTop_toBottomOf="@id/tv_specialTag"
+            />
+
+        <TextView
+            android:textSize="15sp"
+            android:id="@+id/tv_languageLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/language"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider1" />
+
+        <TextView
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:id="@+id/tv_Language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/english"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider1" />
+        <View
+            android:id="@+id/divider2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/dark_gray"
+            app:layout_constraintTop_toBottomOf="@id/tv_Language"
+            />
+        <TextView
+            android:id="@+id/tv_CallChargeLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/call_charges"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <TextView
+            android:id="@+id/tvCallCharges"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/_1200bdt"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/dark_gray"
+            app:layout_constraintTop_toBottomOf="@id/tvCallCharges"
+            />
+
+        <TextView
+            android:id="@+id/tvAvailableTimeLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/available_time"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/tvAvailableTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/available_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAvailableTimeLbl" />
+    </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>
+<!--
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
@@ -104,4 +242,4 @@
     </android.support.constraint.ConstraintLayout>
 
 
-</ScrollView>
+</ScrollView>-->

@@ -1,5 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.patient.SignUpEmailActivity">
+
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/top_icon"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/newlogo" />
+
+            <EditText
+                android:id="@+id/edit_name"
+                style="@style/edit_text_style_1"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="36dp"
+                android:hint="@string/name"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/edt_email"
+                style="@style/edit_text_style_1"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edit_name"
+                android:layout_marginTop="14dp"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:background="@drawable/spinner"
+                    android:id="@+id/spCountryCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/edt_email"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="3dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toStartOf="@+id/edt_phoneNo" />
+
+                <EditText
+                    android:id="@+id/edt_phoneNo"
+                    style="@style/edit_text_style_1"
+                    android:layout_width="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/edt_email"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:hint="@string/phone_no1"
+                    android:inputType="phone" />
+
+            </LinearLayout>
+
+
+
+            <EditText
+                android:id="@+id/edt_password"
+                style="@style/edit_text_style_1"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edt_phoneNo"
+                android:layout_marginTop="14dp"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+            <TextView
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/robotoregular"
+                android:gravity="center"
+                android:text="The System will send you a onetime passcode to verify the provided phone number"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:typeface="normal" />
+
+            <TextView
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/robotoregular"
+                android:gravity="center"
+                android:text="By continuing, you confirm that you accept our "
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:typeface="normal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoregular"
+                    android:gravity="center"
+                    android:text="Terms &amp; Conditions"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:typeface="normal"
+                    android:textColor="@color/colorPrimary"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoregular"
+                    android:gravity="center"
+                    android:text=" and"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:typeface="normal" />
+                <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoregular"
+                    android:gravity="center"
+                    android:text=" Privacy Policy"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:typeface="normal" />
+
+            </LinearLayout>
+
+            <Button
+                android:textAllCaps="false"
+                android:id="@+id/btnSignUpContinue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edt_password"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ripple_effect_reg"
+                android:text="@string/continu"
+                android:textColor="@color/color_white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/robotoregular"
+                android:gravity="center"
+                android:onClick="regFBLogin"
+                android:text="Facebook Login?"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorPrimary"
+                android:typeface="normal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/robotoregular"
+                android:gravity="center"
+                android:onClick="regLogin"
+                android:text="Already have an account ? Login"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorPrimary"
+                android:typeface="normal" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
+
+<!--
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -81,3 +274,4 @@
 
 
 </RelativeLayout>
+-->

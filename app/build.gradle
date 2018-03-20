@@ -60,7 +60,7 @@ dependencies {
     compile 'org.jitsi.react:jitsi-meet-sdk:1.9.0'
 
     //for round image
-    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'de.hdodenhof:circleimageview:2.2.0'
     // use this or use the latest compile version. In case u get bug.
 
     // compile 'dev.dworks.libs:volleyplus:+'

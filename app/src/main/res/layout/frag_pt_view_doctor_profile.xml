@@ -3,6 +3,135 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ededed">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/appbar_layout" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/white"
+        app:civ_circle_background_color="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/ivDoctorCoverPic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/toolbar"
+        android:src="@drawable/ic_doctor" />
+
+    <!--for the time being hide this view-->
+    <!--    <TextView
+            android:id="@+id/tv_docRatting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="29dp"
+            android:text="45%"
+            android:textColor="@color/yellow"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone" />-->
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/doc_card"
+        android:elevation="2dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:cardBackgroundColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/ivDoctorCoverPic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDocName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="10dp"
+                android:text="DR. ABC"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvDocName"
+                android:layout_alignBottom="@+id/tvDocName"
+                android:layout_alignParentEnd="true"
+                android:text="23 voted"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/dark_gray"
+                android:textSize="15sp" />
+
+            <TextView
+                android:textSize="11sp"
+                android:id="@+id/doc_education"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDocName"
+                android:text="MD (CAD), MBS (USA)"/>
+            <TextView
+                android:textSize="11sp"
+                android:id="@+id/doc_type"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doc_education"
+                android:text="Cardiology"/>
+            <android.support.design.widget.TabLayout
+                android:layout_marginTop="8dp"
+                android:layout_below="@+id/doc_type"
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabGravity="fill"
+                app:tabMode="fixed" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+
+    <Button
+        android:id="@+id/btn_appointBook"
+        style="@style/general_button_style"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_def"
+        android:layout_marginEnd="@dimen/margin_def"
+        android:layout_marginStart="@dimen/margin_def"
+        android:text="Appointment" />
+
+    <android.support.v4.view.ViewPager
+        android:layout_marginBottom="10dp"
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_appointBook"
+        android:layout_below="@+id/doc_card"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</RelativeLayout>
+
+<!--
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include
@@ -17,7 +146,7 @@
         android:layout_below="@+id/toolbar"
         android:background="@color/dark_gray" />
 
-    <!--for the time being hide this view-->
+    &lt;!&ndash;for the time being hide this view&ndash;&gt;
     <TextView
         android:id="@+id/tv_docRatting"
         android:layout_width="wrap_content"
@@ -79,3 +208,4 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </RelativeLayout>
+-->

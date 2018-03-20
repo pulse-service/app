@@ -160,4 +160,9 @@ public class SignUpEmailActivity extends AppCompatActivity {
     }
 
 
+    public void regFBLogin(View view) {
+    }
+
+    public void regLogin(View view) {
+    }
 }
