@@ -101,6 +101,8 @@ public class PtAppointmentFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
+                // todo sget patient Name from share Prefernce
+                postCallRequestFromPatient("hello",modelList.get(position).getDoctorDeviceToken());
 
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, true);
@@ -114,16 +116,43 @@ public class PtAppointmentFragment extends Fragment {
         }));
     }
 
-    /*   http://180.148.210.139:8081/pulse_api/api/saveCallRequest
-       receiverId:DR000000001
-       senderId:ECL-00000001
-       receiverType:Doctor*/
-    private void postCallRequestFromPatient(final String patientId) {
+    /*   "status": "success",
+    "data": {
+        "multicast_id": 7637276714948443578,
+        "success": 1,
+        "failure": 0,
+        "canonical_ids": 0,
+        "results": [
+            {
+                "message_id": "0:1521540027056677%146a579c146a579c"
+            }
+        ]
+    },
+    "msg": "successfull"
+
+
+    {
+    "status": "success",
+    "data": {
+        "multicast_id": 7641279507899944515,
+        "success": 0,
+        "failure": 1,
+        "canonical_ids": 0,
+        "results": [
+            {
+                "error": "InvalidRegistration"
+            }
+        ]
+    },
+    "msg": "successfull"
+}*/
+    private void postCallRequestFromPatient(final String patientName, final String docDeviceToken) {
         String patient_login_tag = "doc_search_tag";
-        pDialog = new ProgressDialog(getActivity());
+        if (pDialog == null)
+            pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "saveCallRequest",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "androidPushNotificationsForcall",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -133,34 +162,29 @@ public class PtAppointmentFragment extends Fragment {
 
                         closeDialog();
 
-                        String APPT_AppointmentDate;
-                        String InTime;
-                        String InTime_AMOrPM;
-                        String DRI_DrID;
-                        String DRI_DrName;
 
                         try {
                             JSONObject object = new JSONObject(response);
 
-                            if (object.getString("status").equals("success")) {
-                                if (!object.isNull("data")) {
-                                    JSONArray array = object.getJSONArray("data");
 
-                                    for (int i = 0; i < array.length(); i++) {
-                                        JSONObject jsonObject = array.getJSONObject(i);
+                            if (!object.isNull("data")) {
+                                JSONObject data = object.getJSONObject("data");
+                                int success = data.getInt("success");
+                                if (success == 1) {
+                                    if (data.isNull("results")) {
+                                        JSONArray results = data.getJSONArray("results");
 
-                                        APPT_AppointmentDate = jsonObject.getString("APPT_AppointmentDate");
-                                        InTime = jsonObject.getString("InTime");
-                                        InTime_AMOrPM = jsonObject.getString("InTime_AMOrPM");
-                                        DRI_DrID = jsonObject.getString("DRI_DrID");
-                                        DRI_DrName = jsonObject.getString("DRI_DrName");
+                                        for (int i = 0; i < results.length(); i++) {
+                                            JSONObject jsonObject = results.getJSONObject(i);
+                                            String message_id = jsonObject.getString("message_id");
 
-                                        AppointmentModel model = new AppointmentModel(APPT_AppointmentDate, InTime, InTime_AMOrPM, DRI_DrID, DRI_DrName);
-                                        modelList.add(model);
+                                            // todo  save this id
+                                        }
                                     }
 
-                                    mAdapter.notifyDataSetChanged();
                                 }
+
+
                             }
 
 
@@ -185,9 +209,9 @@ public class PtAppointmentFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
 
 
-                params.put("receiverId", patientId);
-                params.put("senderId", patientId);
-                params.put("receiverType", "Doctor");
+                params.put("name", patientName);
+                params.put("message", "join call");
+                params.put("device_token", docDeviceToken);
 
 
                 return params;
