@@ -19,8 +19,8 @@
     <string name="describe_problem">Describe problem</string>
     <string name="reg">Registration</string>
     <string name="forget_password">Forget Password ?</string>
-    <string name="name">* Name</string>
-    <string name="email">* Email</string>
+    <string name="name">Full Name</string>
+    <string name="email">E-mail Address</string>
     <string name="resend_otp">Resend OTP</string>
     <string name="doc_instruction_login">Log in or create an account for patient\'s treatment at your flexible plan</string>
     <string name="my_pulse">Patient</string>

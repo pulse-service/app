@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,7 @@ import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.DoctorAvailableTime;
+import com.electrocraft.nirzo.pluse.view.adapter.DoctorTimeSchAdapter;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 import com.electrocraft.nirzo.pluse.view.viewhelper.BKViewController;
 
@@ -58,7 +62,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
     @BindView(R.id.calendarView)
     CalendarView calendarView;
 
-    @BindView(R.id.btn_pt_doc_PicTime_7)
+    /*@BindView(R.id.btn_pt_doc_PicTime_7)
     Button btn_pt_doc_PicTime_7;
 
     @BindView(R.id.btn_pt_doc_PicTime_8)
@@ -85,7 +89,11 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
 
     @BindView(R.id.btn_pt_doc_PicTime_1)
-    Button btn_pt_doc_PicTime_1;
+    Button btn_pt_doc_PicTime_1;*/
+
+
+    @BindView(R.id.recyVTime)
+    RecyclerView recyVTime;
 
 
     private ProgressDialog pDialog;
@@ -95,6 +103,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
     private String mShortDescriptionOfProblem;
     private String mDocExpertise;
     private String mDocAmount;
+    private DoctorTimeSchAdapter mAdapter;
 
 
     public PtPickUpTimeDateFragment() {
@@ -152,19 +161,18 @@ public class PtPickUpTimeDateFragment extends Fragment {
         setUpCalender();
 
 
-
-  /*      mAdapter = new LocationSearchListAdapter(mList);
+        mAdapter = new DoctorTimeSchAdapter(mList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        rvLocationSearch.setLayoutManager(mLayoutManager);
-        rvLocationSearch.setItemAnimator(new DefaultItemAnimator());
-        rvLocationSearch.setAdapter(mAdapter);
-        prepareData();*/
+        recyVTime.setLayoutManager(mLayoutManager);
+        recyVTime.setItemAnimator(new DefaultItemAnimator());
+        recyVTime.setAdapter(mAdapter);
+//        recyVTime();
         return view;
     }
 
     public void disableAllButton() {
 
-        goneButton(btn_pt_doc_PicTime_1);
+/*        goneButton(btn_pt_doc_PicTime_1);
         goneButton(btn_pt_doc_PicTime_2);
         goneButton(btn_pt_doc_PicTime_3);
 //        goneButton(btn_pt_doc_PicTime_08_30);
@@ -173,7 +181,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
         goneButton(btn_pt_doc_PicTime_6);
         goneButton(btn_pt_doc_PicTime_7);
         goneButton(btn_pt_doc_PicTime_8);
-        goneButton(btn_pt_doc_PicTime_9);
+        goneButton(btn_pt_doc_PicTime_9);*/
 
     }
 
@@ -304,7 +312,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
                                         mList.add(availableTime);
                                     }
 
-                                    setUpButton();
+//                                    setUpButton();
 
                                 }
 
@@ -330,7 +338,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
         AppController.getInstance().addToRequestQueue(stringRequest, tag);
     }
 
-    private void setUpButton() {
+/*    private void setUpButton() {
         int i = 0;
         for (DoctorAvailableTime time : mList) {
 
@@ -388,8 +396,8 @@ public class PtPickUpTimeDateFragment extends Fragment {
         }
 
 
-    }
-
+    }*/
+/*
     @Optional
     @OnClick({R.id.btn_pt_doc_PicTime_1, R.id.btn_pt_doc_PicTime_2, R.id.btn_pt_doc_PicTime_3,
             R.id.btn_pt_doc_PicTime_4, R.id.btn_pt_doc_PicTime_5, R.id.btn_pt_doc_PicTime_6,
@@ -400,7 +408,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
         mOAT_code = mList.get((int) button.getTag()).getOat_code();
         String ti = (String) button.getText();
         showConfirmMessage(ti);
-    }
+    }*/
 
     private void showConfirmMessage(final String time) {
         AlertDialog ad = new AlertDialog.Builder(getActivity())

@@ -85,15 +85,28 @@
 
     <!--   A style for Edit Text     -->
 
-    <style name="edit_text_style_1">
+    <style name="edit_text_style_10">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">35dp</item>
         <!--    <item name="android:background">@drawable/border_edt_text</item>    -->
-            <item name="android:background">@drawable/border_general_edit_text</item>
+        <item name="android:background">@drawable/border_general_edit_text</item>
         <item name="android:ems">10</item>
         <item name="android:padding">2dp</item>
     </style>
 
+    <style name="edit_text_style_1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">35dp</item>
+        <!--    <item name="android:background">@drawable/border_edt_text</item>    -->
+        <item name="android:background">@drawable/border_general_edit_text</item>
+        <item name="android:ems">10</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:textSize">@dimen/date_picker_text_size</item>
+        <item name="android:maxLines">1</item>
+    </style>
 
     <!--spinner item style-->
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
@@ -187,7 +200,7 @@
         <item name="android:padding">@dimen/padding_def</item>
     </style>
 
-  <!--  Date Style picker-->
+    <!--  Date Style picker-->
     <style name="date_picker_view_style">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
