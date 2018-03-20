@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".view.activity.LoginActivity">
 
 
@@ -12,97 +13,102 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/my_toolbar">
 
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            >
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/top_icon"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/newlogo" />
+
+            <EditText
+                android:id="@+id/edtPhone"
+                style="@style/edit_text_style_1"
+                android:layout_below="@id/top_icon"
+                android:layout_marginTop="36dp"
+                android:ems="10"
+                android:hint="Mobile Number/E-mail Address"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/edtPassword"
+                style="@style/edit_text_style_1"
+                android:layout_below="@id/edtPhone"
+                android:layout_marginTop="14dp"
+                android:ems="10"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+            <TextView
+                android:id="@+id/forgot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:orientation="vertical">
+                android:layout_below="@id/edtPassword"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/robotoregular"
+                android:gravity="left"
+                android:paddingLeft="10dp"
+                android:paddingRight="20dp"
+                android:text="Forgot Password?"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorPrimary"
+                android:typeface="normal" />
 
-                <ImageView
-                    android:id="@+id/top_icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:src="@drawable/newlogo" />
+            <Button
+                android:layout_marginBottom="20dp"
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/forgot"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ripple_effect_reg"
 
-                <EditText
-                    android:id="@+id/edtPhone"
-                    style="@style/edit_text_style_1"
-                    android:layout_marginTop="36dp"
-                    android:ems="10"
-                    android:hint="Mobile Number/E-mail Address"
-                    android:inputType="textEmailAddress" />
+                android:text="Log In"
+                android:textAllCaps="false"
+                android:textColor="@color/color_white" />
 
-                <EditText
-                    android:id="@+id/edtPassword"
-                    style="@style/edit_text_style_1"
-                    android:layout_marginTop="14dp"
-                    android:ems="10"
-                    android:hint="@string/password"
-                    android:inputType="textPassword" />
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/fblogin"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_below="@id/btn_login"
+                android:src="@drawable/fblogin"
+                />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/robotoregular"
-                    android:gravity="left"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="20dp"
-                    android:text="Forgot Password?"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                    android:textColor="@color/colorPrimary"
-                    android:typeface="normal" />
-
-                <Button
-
-                    android:id="@+id/btn_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/edt_password"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/ripple_effect_reg"
-
-                    android:text="Log In"
-                    android:textAllCaps="false"
-                    android:textColor="@color/color_white" />
-
-
-            </LinearLayout>
-
+            <TextView
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/fblogin"
+                android:layout_gravity="bottom"
+                android:id="@+id/tvRegistration"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:fontFamily="@font/robotoregular"
+                android:gravity="bottom"
+                android:text="Create a new account !"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorPrimary"
+                android:typeface="normal" />
 
         </RelativeLayout>
 
 
     </ScrollView>
 
-    <TextView
-        android:id="@+id/tvRegistration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:fontFamily="@font/robotoregular"
-        android:gravity="center"
 
-        android:paddingEnd="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="20dp"
-        android:paddingStart="10dp"
-        android:text="Create a new account !"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="@color/colorPrimary"
-        android:typeface="normal" />
 </RelativeLayout>
-
 
 
     <!--
