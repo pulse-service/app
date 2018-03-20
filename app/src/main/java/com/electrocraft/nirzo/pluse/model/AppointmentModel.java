@@ -13,6 +13,15 @@ public class AppointmentModel {
     private String patientID;
     private String patientName;
     private String probShortDescribtion;
+    private String doctorDeviceToken;
+
+    public String getDoctorDeviceToken() {
+        return doctorDeviceToken;
+    }
+
+    public void setDoctorDeviceToken(String doctorDeviceToken) {
+        this.doctorDeviceToken = doctorDeviceToken;
+    }
 
     public String getProbShortDescribtion() {
         return probShortDescribtion;

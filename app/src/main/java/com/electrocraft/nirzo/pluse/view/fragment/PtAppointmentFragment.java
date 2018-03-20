@@ -221,6 +221,7 @@ public class PtAppointmentFragment extends Fragment {
                         String InTime_AMOrPM;
                         String DRI_DrID;
                         String DRI_DrName;
+                        String DIR_device_token;
 
                         try {
                             JSONObject object = new JSONObject(response);
@@ -237,8 +238,10 @@ public class PtAppointmentFragment extends Fragment {
                                         InTime_AMOrPM = jsonObject.getString("InTime_AMOrPM");
                                         DRI_DrID = jsonObject.getString("DRI_DrID");
                                         DRI_DrName = jsonObject.getString("DRI_DrName");
+                                        DIR_device_token = jsonObject.getString("DIR_device_token");
 
                                         AppointmentModel model = new AppointmentModel(APPT_AppointmentDate, InTime, InTime_AMOrPM, DRI_DrID, DRI_DrName);
+                                        model.setDoctorDeviceToken(DIR_device_token);
                                         modelList.add(model);
                                     }
 
