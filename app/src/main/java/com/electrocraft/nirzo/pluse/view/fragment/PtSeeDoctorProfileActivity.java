@@ -184,7 +184,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
     private void getDoctorProfile(final String doctorId) {
         String tag = "get_doc_profile_info";
 
-        pDialog = new ProgressDialog(this);
+        pDialog = new ProgressDialog(this,R.style.MyAlertDialogStyle);
         pDialog.setMessage("Loading...");
         pDialog.show();
 

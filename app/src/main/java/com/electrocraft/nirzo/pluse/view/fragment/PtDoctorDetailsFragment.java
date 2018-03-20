@@ -92,7 +92,7 @@ public class PtDoctorDetailsFragment extends Fragment {
     private void getAvailableTime(final String doctorId) {
         String tag = "get_doc_profile_info";
 
-        pDialog = new ProgressDialog(getActivity());
+        pDialog = new ProgressDialog(getActivity(),R.style.MyAlertDialogStyle);
         pDialog.setMessage("Loading...");
         pDialog.show();
 
@@ -119,7 +119,7 @@ public class PtDoctorDetailsFragment extends Fragment {
                                         String InTime_AMOrPM = object.getString("InTime_AMOrPM");
                                         String OutTime = object.getString("OutTime");
                                         String OutTime_AMOrPM = object.getString("OutTime_AMOrPM");
-                                        String tem = " " + Day + "    " + InTime + " " + InTime_AMOrPM + "  to  " + OutTime + " " + OutTime_AMOrPM + "\n";
+                                        String tem = Day + "    " + InTime + " " + InTime_AMOrPM + "  to  " + OutTime + " " + OutTime_AMOrPM + "\n";
                                         mAvailableDateString = mAvailableDateString + tem;
                                     }
                                     //                                   setupViewPager(viewPager);

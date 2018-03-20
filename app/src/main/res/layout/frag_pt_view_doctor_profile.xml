@@ -74,6 +74,7 @@
                 android:textSize="11sp" />
 
             <TextView
+                android:textColor="@color/gray"
                 android:textSize="11sp"
                 android:id="@+id/doc_education"
                 android:layout_marginLeft="10dp"

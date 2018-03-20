@@ -9,6 +9,21 @@
         <item name="android:colorControlNormal">@color/white</item>
     </style>
 
+    <style name="DefaultActivity" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:dialogLayout">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorControlNormal">@color/white</item>
+    </style>
+
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+    </style>
+
 
     <style name="AppTheme_Splash" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
