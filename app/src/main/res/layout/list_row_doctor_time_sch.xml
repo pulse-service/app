@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:padding="9dp"
     android:background="@drawable/border_edt1_text">
 
 
@@ -22,9 +22,8 @@
         android:layout_marginStart="12dp"
         android:layout_toEndOf="@+id/lr_iv_ClickButton"
         android:layout_toRightOf="@+id/lr_iv_ClickButton"
-
+        android:textColor="@color/black"
         android:text="Dr. Faisal Khali kjkdsjfl"
-
         android:textSize="15sp" />
 
     <!--    <ImageView

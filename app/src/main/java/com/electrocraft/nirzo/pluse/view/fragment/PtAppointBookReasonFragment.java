@@ -86,7 +86,7 @@ public class PtAppointBookReasonFragment extends Fragment {
     }
 
     @Optional
-    @OnClick({R.id.cv, R.id.btn_bookAppointment})
+    @OnClick({R.id.cv2, R.id.btn_bookAppointment})
     public void onPickTimeClick() {
         Fragment fragment = new PtPickUpTimeDateFragment();
         String shortDescribtion = edtShortDescribtion.getText().toString();
