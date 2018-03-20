@@ -127,7 +127,7 @@ public class DocTodayAppointFragment extends Fragment {
         @Override
         public void apply(@NonNull View view, int index) {
             view.setEnabled(true);
-        }
+        }yu
     };*/
 
 
