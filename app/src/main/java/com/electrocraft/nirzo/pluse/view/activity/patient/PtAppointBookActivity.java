@@ -26,7 +26,7 @@ import com.electrocraft.nirzo.pluse.view.util.Key;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PtAppointBookActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class PtAppointBookActivity extends AppCompatActivity/* implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     private String mDoctorId;
     private String mPatientId;
@@ -45,6 +45,11 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pt_appoint_book);
         ButterKnife.bind(this);
+
+        if (getSupportActionBar() != null) {                                    // safety block
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         if (getIntent().getExtras() != null) {
 
@@ -73,7 +78,7 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
         toggle.syncState();
 
 
-        navigationView.setNavigationItemSelectedListener(this);
+        /*navigationView.setNavigationItemSelectedListener(this);
 
         if (navigationView != null) {
             RelativeLayout mParent = (RelativeLayout) navigationView.getHeaderView(0);
@@ -82,7 +87,7 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
                 TextView userName = mParent.findViewById(R.id.nav_tvPatientNameNavBar);
 //                userName.setText(intent.getStringExtra("PTName"));
             }
-        }
+        }*/
     }
 
     private void showFragment() {
@@ -111,8 +116,8 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
+    //@SuppressWarnings("StatementWithEmptyBody")
+    /*@Override
     public boolean onNavigationItemSelected(MenuItem item) {
         Fragment fragment = null;
         String title = getString(R.string.app_name);
@@ -168,5 +173,5 @@ public class PtAppointBookActivity extends AppCompatActivity implements Navigati
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
+    }*/
 }

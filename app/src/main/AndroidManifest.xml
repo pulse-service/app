@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.electrocraft.nirzo.pluse">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,6 +19,7 @@
         android:required="true" />
 
     <application
+        tools:replace="android:icon"
         android:name=".controller.application.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
