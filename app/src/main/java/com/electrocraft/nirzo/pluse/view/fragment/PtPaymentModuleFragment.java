@@ -2,10 +2,12 @@ package com.electrocraft.nirzo.pluse.view.fragment;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +16,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,6 +32,7 @@ import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
+import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
@@ -104,7 +110,6 @@ public class PtPaymentModuleFragment extends Fragment {
         ButterKnife.bind(this, view);
 
 
-
         Bundle arg = getArguments();
         if (arg != null) {
             mDoctorId = arg.getString(Key.KEY_DOCTOR_ID, "");
@@ -123,11 +128,56 @@ public class PtPaymentModuleFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id. btnProcessToPayment)
-    public void paymentProccide(){
-        saveDoctorAppointmentTime(mPatientId,mDoctorId,mAppointmentDate,mOat, "", "",
+    @OnClick(R.id.btnProcessToPayment)
+    public void paymentProccide() {
+
+        setTrangectionID();
+      /*  saveDoctorAppointmentTime(mPatientId, mDoctorId, mAppointmentDate, mOat, "", "",
                 "0", mShortDescOfProblem, "0",
-                "", "", "", "", "");
+                "", "", "", "", "");*/
+    }
+
+    private void setTrangectionID() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle("Transaction ID");
+        alertDialog.setMessage("Enter Insert your transaction ID");
+
+        final EditText input = new EditText(getActivity());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+//        final EditText input = new EditText(getActivity());
+        alertDialog.setIcon(R.drawable.ic_account_balance);
+        final String pass = "123";
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String password = input.getText().toString();
+
+                        if (pass.equals(password)) {
+                            saveDoctorAppointmentTime(mPatientId, mDoctorId, mAppointmentDate, mOat, "", "",
+                                    "0", mShortDescOfProblem, "0",
+                                    "", "", "", "", "");
+//                            Toast.makeText(getActivity(), "Password Matched", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(getActivity(), "Please input correct transaction ID ", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialog.show();
     }
 
 
@@ -188,18 +238,26 @@ public class PtPaymentModuleFragment extends Fragment {
                                 //success
                                 AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
                                 builder1.setMessage("Your payment has been successful.");
-                                builder1.setCancelable(true);
+
 
                                 builder1.setPositiveButton(
                                         "OK",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
-                                                selectedDateTime="";
-                                                selectedTimeString="";
-                                                selectedDateString="";
+                                                selectedDateTime = "";
+                                                selectedTimeString = "";
+                                                selectedDateString = "";
                                                 getActivity().finish();
                                                 dialog.cancel();
-                                                //todo finish the previous activity
+                                                //todo finish the appoint fragment activity
+                                                Intent intent= new Intent(getActivity(), PatientHomeActivity.class);
+                                                intent.putExtra("redirfrom",true);
+                                                startActivity(intent);
+                                              /*  Fragment fragment = new PtAppointmentFragment();
+                                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                                ft.addToBackStack(null);
+                                                ft.replace(R.id.content_frame, fragment);
+                                                ft.commit();*/
 
                                             }
                                         });
@@ -218,9 +276,9 @@ public class PtPaymentModuleFragment extends Fragment {
                                         "OK",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
-                                                selectedDateTime="";
-                                                selectedTimeString="";
-                                                selectedDateString="";
+                                                selectedDateTime = "";
+                                                selectedTimeString = "";
+                                                selectedDateString = "";
                                                 dialog.cancel();
                                                 //todo finish the previous activity
 

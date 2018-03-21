@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     android:background="#ededed">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/appbar_layout" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         app:civ_border_width="3dp"
@@ -131,5 +128,3 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </RelativeLayout>
-
-

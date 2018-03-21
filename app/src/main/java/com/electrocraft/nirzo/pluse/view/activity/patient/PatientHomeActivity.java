@@ -104,6 +104,18 @@ public class PatientHomeActivity extends AppCompatActivity
             }
         }
 
+        if (getIntent().getBooleanExtra("redirfrom", false)) {
+            Bundle arg = new Bundle();
+            arg.putString(Key.KEY_PATIENT_ID, mPatientId);
+            Fragment fragment = new PtAppointmentFragment();
+            fragment.setArguments(arg);
+            viewPager.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+        }
+
 
     }
 
@@ -236,8 +248,8 @@ public class PatientHomeActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_logout:
-                AppSharePreference.saveDoctorID(this,"");
-                AppSharePreference.savePatientID(this,"");
+                AppSharePreference.saveDoctorID(this, "");
+                AppSharePreference.savePatientID(this, "");
                 Intent intent = new Intent(PatientHomeActivity.this, LoginAsActivity.class);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -53,5 +53,17 @@
         android:layout_marginTop="10dp"
         android:text="Call" />
 
+    <Button
+        android:layout_toStartOf="@+id/lr_btn_Call"
+        android:id="@+id/lr_btn_Pref"
+        style="@style/general_button_style"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+
+        android:layout_below="@+id/lr_tv_PatientName"
+        android:layout_marginEnd="13dp"
+        android:layout_marginTop="10dp"
+        android:text="Prescription" />
+
 
 </RelativeLayout>

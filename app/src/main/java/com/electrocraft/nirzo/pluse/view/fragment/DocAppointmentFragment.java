@@ -25,6 +25,7 @@ import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.AppointmentModel;
 import com.electrocraft.nirzo.pluse.view.MainActivity;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescription;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorsAppointmentListAdapter;
 import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
 import com.electrocraft.nirzo.pluse.view.util.Key;
@@ -90,13 +91,30 @@ public class DocAppointmentFragment extends Fragment {
     }
 
     private void setUpAdapter() {
-        mAdapter = new DoctorsAppointmentListAdapter(modelList);
+        mAdapter = new DoctorsAppointmentListAdapter(modelList, new DoctorsAppointmentListAdapter.EditClickListener() {
+            @Override
+            public void setEditClickListener(int position) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
+                startActivity(intent);
+                // call
+            }
+        }, new DoctorsAppointmentListAdapter.EditClickListener1() {
+            @Override
+            public void setEditClickListener(int position) {
+                Intent intent = new Intent(getActivity(), DoctorPrescription.class);
+//                intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
+                startActivity(intent);
+                // pescription
+            }
+        });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rcvAppointment.setLayoutManager(mLayoutManager);
         rcvAppointment.setItemAnimator(new DefaultItemAnimator());
         rcvAppointment.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         rcvAppointment.setAdapter(mAdapter);
-        rcvAppointment.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rcvAppointment, new RecyclerTouchListener.ClickListener() {
+
+       /* rcvAppointment.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rcvAppointment, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -110,6 +128,7 @@ public class DocAppointmentFragment extends Fragment {
 
             }
         }));
+    */
     }
 
     /**
@@ -140,7 +159,7 @@ public class DocAppointmentFragment extends Fragment {
         pDialog.setMessage("Loading...");
         pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "searchDoctorAppointment"
-               ,
+                ,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -174,7 +193,7 @@ public class DocAppointmentFragment extends Fragment {
                                         PRI_Name = jsonObject.getString("PRI_Name");
                                         APPT_ShortDescriptionOfProblem = jsonObject.getString("APPT_ShortDescriptionOfProblem");
 
-                                        AppointmentModel model = new AppointmentModel(APPT_AppointmentDate, InTime, InTime_AMOrPM, PRI_PTID, PRI_Name,APPT_ShortDescriptionOfProblem);
+                                        AppointmentModel model = new AppointmentModel(APPT_AppointmentDate, InTime, InTime_AMOrPM, PRI_PTID, PRI_Name, APPT_ShortDescriptionOfProblem);
                                         modelList.add(model);
                                     }
 

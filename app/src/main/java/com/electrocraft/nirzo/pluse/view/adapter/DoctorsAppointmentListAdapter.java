@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -16,6 +17,7 @@ import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.model.AppointmentModel;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,8 +39,10 @@ public class DoctorsAppointmentListAdapter extends RecyclerView.Adapter<DoctorsA
 
     private Context mContext;
 
-    public DoctorsAppointmentListAdapter(List<AppointmentModel> list) {
+    public DoctorsAppointmentListAdapter(List<AppointmentModel> list, EditClickListener listener, EditClickListener1 listener1) {
         this.list = list;
+        this.listener = listener;
+        this.listener1 = listener1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,13 +61,39 @@ public class DoctorsAppointmentListAdapter extends RecyclerView.Adapter<DoctorsA
         TextView tv_patientShortDes;
 
 
+
+        @BindView(R.id.lr_btn_Call)
+        Button lr_btn_Call;
+
+        @BindView(R.id.lr_btn_Pref)
+        Button lr_btn_Pref;
+
+
         private ViewHolder(View itemView) {
             super(itemView);
+            reference = new WeakReference<EditClickListener>(listener);
+            reference1 = new WeakReference<EditClickListener1>(listener1);
             ButterKnife.bind(this, itemView);
+
+            lr_btn_Call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    reference.get().setEditClickListener(getAdapterPosition());
+                }
+            });
+
+            lr_btn_Pref.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    reference1.get().setEditClickListener(getAdapterPosition());
+                }
+            });
 
         }
     }
 
+    WeakReference<EditClickListener> reference;
+    WeakReference<EditClickListener1> reference1;
 //    ViewHolder holder;
 
     @Override
@@ -93,5 +123,18 @@ public class DoctorsAppointmentListAdapter extends RecyclerView.Adapter<DoctorsA
         return list.size();
     }
 
+    public interface EditClickListener{
+
+        void setEditClickListener(int position);
+    }
+
+    EditClickListener listener;
+
+    public interface EditClickListener1{
+
+        void setEditClickListener(int position);
+    }
+
+    EditClickListener1 listener1;
 
 }

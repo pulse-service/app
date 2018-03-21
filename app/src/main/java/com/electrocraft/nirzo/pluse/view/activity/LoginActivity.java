@@ -360,7 +360,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void closeDialog() {
         if (pDialog != null && pDialog.isShowing())
-            pDialog.hide();
+            pDialog.dismiss();
     }
 
 }

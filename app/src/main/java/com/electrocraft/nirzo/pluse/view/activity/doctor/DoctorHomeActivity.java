@@ -37,6 +37,7 @@ import com.electrocraft.nirzo.pluse.view.fragment.DocAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocChamberFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocTodayAppointFragment;
+import com.electrocraft.nirzo.pluse.view.fragment.DoctorHomeFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -60,8 +61,6 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
     @BindView(R.id.doc_nav_view)
     NavigationView navigationView;
 
-    @BindView(R.id.iv_doc_cover_pic)
-    ImageView ivDocCoverPic;
 
     private ProgressDialog pDialog;
 
@@ -76,12 +75,16 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
 
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
         NavigationMenuView navMenuView = (NavigationMenuView) navigationView.getChildAt(0);
         navMenuView.addItemDecoration(new DividerItemDecoration(DoctorHomeActivity.this, DividerItemDecoration.VERTICAL));
         navigationView.setNavigationItemSelectedListener(this);
@@ -89,6 +92,14 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
 
 
         mDoctorId = AppSharePreference.getDoctorID(this);
+
+//        Fragment home = DoctorHomeFragment.newInstance("", "");
+        Fragment home = new DocAppointmentFragment();
+
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.doc_content_frame, home);
+        ft.commit();
 //        timeConsume();
 
         Log.d("PLTO", " mDoctorId :" + mDoctorId);
@@ -108,7 +119,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
         Fragment fragment = null;
         String title = getString(R.string.app_name);
 //        ButterKnife.apply(ivDocCoverPic, BKViewController.ENABLE);
-        ivDocCoverPic.setVisibility(View.GONE);
+
         switch (item.getItemId()) {
 
             case R.id.nav_home:
@@ -136,8 +147,8 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
 
             case R.id.nav_logout:
 
-                AppSharePreference.saveDoctorID(this,"");
-                AppSharePreference.savePatientID(this,"");
+                AppSharePreference.saveDoctorID(this, "");
+                AppSharePreference.savePatientID(this, "");
                 Intent intent = new Intent(DoctorHomeActivity.this, LoginAsActivity.class);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -176,7 +187,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
     }
 
 
-    private  void getPatientAppointment(final String doctorId) {
+    private void getPatientAppointment(final String doctorId) {
         String patient_login_tag = "doctor_s_appointment";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "searchCallRequestForDoctor?receiverid=" + doctorId,
@@ -309,7 +320,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
         ad.show();
     }*/
 
-    private void getDoctorImageRequest() {
+/*    private void getDoctorImageRequest() {
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -335,7 +346,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
                 });
         // Access the RequestQueue through your singleton class.
         AppController.getInstance().addToRequestQueue(request);
-    }
+    }*/
 
 
     private void timeConsume() {

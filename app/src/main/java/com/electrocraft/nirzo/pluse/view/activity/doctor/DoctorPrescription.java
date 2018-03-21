@@ -1,5 +1,6 @@
 package com.electrocraft.nirzo.pluse.view.activity.doctor;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,15 +24,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
+import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class DoctorPrescription extends AppCompatActivity {
     ArrayList<SymptomModel> symptomModelArrayList;
@@ -86,6 +93,7 @@ public class DoctorPrescription extends AppCompatActivity {
     DrugsAdapter drugsAdapter;
 
     private String savecode;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -343,7 +351,7 @@ public class DoctorPrescription extends AppCompatActivity {
                 .findViewById(R.id.doc_pres_RX_strength_spinner_edit);
         final Spinner mSpinner4 = (Spinner) promptsView
                 .findViewById(R.id.doc_pres_RX_days_spinner_edit);
-        final EditText signature = (EditText)promptsView.findViewById(R.id.doc_pres_sig_edit);
+        final EditText signature = (EditText) promptsView.findViewById(R.id.doc_pres_sig_edit);
         final Button mButtonOk = (Button) promptsView
                 .findViewById(R.id.doc_pres_rx_ok_button_edit);
 
@@ -572,7 +580,7 @@ public class DoctorPrescription extends AppCompatActivity {
 
     private void callGenWiseDrug(int i, String infoCode, final boolean fromEdit) {
 
-        Log.d("sss", "callGenWiseDrug: "+savecode);
+        Log.d("sss", "callGenWiseDrug: " + savecode);
 
         String url = "http://180.148.210.139:8081/pulse_api/api/getGenericWiseDrugList/";
         // Request a string response from the provided URL.
@@ -633,7 +641,7 @@ public class DoctorPrescription extends AppCompatActivity {
     private void callDrugWiseStrength(String drugCode, final boolean fromEdit) {
         String url = "http://180.148.210.139:8081/pulse_api/api/getDrugWiseStrengthList/";
 
-        Log.d("sss", "callDrugWiseStrength: "+url + savecode + "/" + drugCode);
+        Log.d("sss", "callDrugWiseStrength: " + url + savecode + "/" + drugCode);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + savecode + "/" + drugCode,
                 new Response.Listener<String>() {
@@ -658,7 +666,7 @@ public class DoctorPrescription extends AppCompatActivity {
                                 m.setStrengthName(jsonObjectInside);
                                 jsonObjectInside = jsonArray.getJSONObject(i).getString("SI_StrengthInfoCode");
                                 m.setStrengthCode(jsonObjectInside);
-                                Log.d("sss", "onResponse: "+m.getStrengthName());
+                                Log.d("sss", "onResponse: " + m.getStrengthName());
                                 if (fromEdit) {
                                     strengthArraylistEdit.add(m);
                                 } else {
@@ -669,9 +677,9 @@ public class DoctorPrescription extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } finally {
-                            if(fromEdit){
+                            if (fromEdit) {
                                 adapterStrengthEdit.notifyDataSetChanged();
-                            }else {
+                            } else {
                                 adapterStrength.notifyDataSetChanged();
                             }
 
@@ -723,6 +731,24 @@ public class DoctorPrescription extends AppCompatActivity {
     public void submit(View view) {
         String diagnosisField = diagnosis.getText().toString();
         String findingsField = findings.getText().toString();
+
+        ArrayList<String> sym = new ArrayList<>();
+        ArrayList<String> test = new ArrayList<>();
+
+        for (int i = 0; i < labTestModelArrayList.size(); i++) {
+            sym.add(labTestModelArrayList.get(i).getSymptomCode());
+            test.add(labTestModelArrayList.get(i).getTestCode());
+        }
+
+        savePatientHealthInfo(findingsField, diagnosisField, "00000001", "0", "34", ""
+                , "");
+
+       /* for(int i = 0; i<drugRVModelArrayList.size();i++){
+            sym.add(drugRVModelArrayList.get(i).g.getSymptomCode());
+            test.add(drugRVModelArrayList.get(i).getTestCode());
+        }*/
+
+
         /*String signatureField = signature.getText().toString();
         String symptomsField = symptomModelArrayList.get(symptomSpinner.getSelectedItemPosition()).getCode();
         String testField = symptomwiseTestArralist.get(testSpinner.getSelectedItemPosition()).getTestCode();
@@ -730,6 +756,119 @@ public class DoctorPrescription extends AppCompatActivity {
         String drugField = genericWiseDrugArralist.get(drugSpinner.getSelectedItemPosition()).getDrugCode();
         String strengthField = strengthArraylist.get(strengthSpinner.getSelectedItemPosition()).getStrengthCode();*/
 
+
+    }
+
+    private void savePatientHealthInfo(final String findings, final String diagnosis, final String docConsultratonCode,
+                                       final String di_DrugCode,
+                                       final String si_SymptomCode, final String nextFollowUpDate,
+                                       final String lt_LabTestCode) {
+        String tag = "patient_health_info_save";
+
+
+        if (pDialog == null)
+            pDialog = new ProgressDialog(DoctorPrescription.this);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "savedoctorPrescriptioninfo",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        String id = "";
+                        String msg = "";
+                        Log.d("MOR", response);
+                        closeDialog();
+                        try {
+                            JSONObject jos = new JSONObject(response);
+
+//                            msg = jos.getString("msg");
+
+
+//                            AlertDialogManager.showSuccessDialog(DoctorPrescription.this, msg);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("More", response);
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Timber.d("Error: " + error.getMessage());
+
+                closeDialog();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+       /*         DrConsultationCode:CI-00000001
+                Findings:Findings
+                Diagnosis:Diagnosis
+                NextFollowUpDate:
+                SI_SymptomCode[]:SC001
+                LT_LabTestCode[]:LT001
+                DrugSignature:ok
+                DI_DrugCode[]:SC001
+                DI_Strength[]:DI_001
+                DI_Days[]:25*/
+
+     /*           params.put("DrConsultationCode", docConsultratonCode);
+                params.put("Findings", findings);
+                params.put("Diagnosis", diagnosis);
+                params.put("NextFollowUpDate", nextFollowUpDate);
+                params.put("SI_SymptomCode[]", si_SymptomCode);
+                params.put("LT_LabTestCode[]", lt_LabTestCode);
+                params.put("DrugSignature", "ok");
+                params.put("DI_DrugCode[]", di_DrugCode);
+                params.put("DI_Strength[]", di_Strength);
+                params.put("DI_Days[]", di_Days);*/
+
+
+                params.put("DrConsultationCode", docConsultratonCode);
+                params.put("Findings", findings);
+                params.put("Diagnosis", diagnosis);
+                params.put("NextFollowUpDate", nextFollowUpDate);
+//                params.put("SI_SymptomCode[]", si_SymptomCode);
+//                params.put("LT_LabTestCode[]", lt_LabTestCode);
+                params.put("DrugSignature", "ok");
+
+
+
+
+        /*        ArrayList<String> numbers = new ArrayList<String>();
+                numbers.add("431111");
+                numbers.add("432222");
+
+                int i=0;
+                for(String object: numbers){
+                    params.put("DI_Days["+(i++)+"]", object);
+                    params.put("DI_Strength["+(i++)+"]", object);
+                    params.put("DI_DrugCode["+(i++)+"]", object);
+                    params.put("SI_SymptomCode["+(i++)+"]", object);
+                    params.put("LT_LabTestCode["+(i++)+"]", object);
+
+                    // you first send both data with same param name as friendnr[] ....  now send with params friendnr[0],friendnr[1] ..and so on
+                }
+*/
+
+
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest, tag);
+    }
+
+    private void closeDialog() {
+        if (pDialog != null && pDialog.isShowing())
+            pDialog.hide();
 
     }
 }
