@@ -9,6 +9,8 @@ import android.os.Bundle;
 import com.electrocraft.nirzo.pluse.view.MainActivity;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by nirzo on 3/17/2018.
  */
@@ -25,23 +27,45 @@ public class NotifySMSReceived extends Activity {
     }
 
     private void displayAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("You have a call !").setCancelable(
-                false).setPositiveButton("Accept",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+
+        new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText("Calling")
+                .setContentText("You have a call !")
+                .setConfirmText("Accept")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
                         Intent intent = new Intent(NotifySMSReceived.this, MainActivity.class);
                         intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
                         startActivity(intent);
                     }
-                }).setNegativeButton("Reject",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                })
+                .setCancelButton("Reject", new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
                     }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+                })
+                .show();
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("You have a call !").setCancelable(
+//                false).setPositiveButton("Accept",
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                        Intent intent = new Intent(NotifySMSReceived.this, MainActivity.class);
+//                        intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
+//                        startActivity(intent);
+//                    }
+//                }).setNegativeButton("Reject",
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        AlertDialog alert = builder.create();
+//        alert.show();
     }
 }

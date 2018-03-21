@@ -231,7 +231,7 @@ public class PtPaymentModuleFragment extends Fragment {
     private void loadMobilePaymentWay() {
         List<SpinnerHelper> list = new ArrayList<>();
         SpinnerHelper helper;
-        helper = new SpinnerHelper(0, "001", "Please select One");
+        helper = new SpinnerHelper(0, "001", "Select payment type");
         list.add(helper);
         helper = new SpinnerHelper(1, "001", "Bkash");
         list.add(helper);

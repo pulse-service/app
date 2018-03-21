@@ -235,7 +235,7 @@ public class PtSpecializationFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
- 
+
 
                 params.put("spname", specializeName);
 
