@@ -1,8 +1,10 @@
 package com.electrocraft.nirzo.pluse.view.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +12,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.model.AppointmentModel;
 import com.electrocraft.nirzo.pluse.model.DoctorSearch;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,10 +46,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PatientsAppointmentListAdapter extends RecyclerView.Adapter<PatientsAppointmentListAdapter.ViewHolder> {
 
-
+    private static final String TAG = "PatientsAppointmentListAdapter";
     private List<AppointmentModel> list;
 
     private Context mContext;
+    private ProgressDialog pDialog;
 
     public PatientsAppointmentListAdapter(List<AppointmentModel> list) {
         this.list = list;
@@ -84,13 +96,11 @@ public class PatientsAppointmentListAdapter extends RecyclerView.Adapter<Patient
     public void onBindViewHolder(ViewHolder holder, int position) {
         AppointmentModel model = list.get(position);
         holder.docName.setText(model.getDoctorName());
-        holder.tv_AppointmentDateNTime.setText(model.getAppointmentDate()+" ("+model.getInTime()+")");
-//        holder.docInstitution.setText(doctor.getExpertise());
-//        holder.docConsultPrice.setText("Consult online for " + doctor.getAmount() + " BDT");
-////        if (doctor.getPhoto() != null)
-//            getDoctorImageRequest(doctor.getPhoto(), holder);
-//        if (doctor.isAvailableFlag())
-//            holder.docAvailable.setImageResource(R.drawable.ic_online);
+        holder.tv_AppointmentDateNTime.setText(model.getAppointmentDate() + " (" + model.getInTime() + ")");
+
+        if (model.getDoctorID() != null)
+            getDoctorProfile(model.getDoctorID(),holder);
+
 
     }
 
@@ -104,8 +114,6 @@ public class PatientsAppointmentListAdapter extends RecyclerView.Adapter<Patient
 /*    pDialog = new ProgressDialog(mContext);
         pDialog.setMessage("Loading...");
         pDialog.show();*/
-
-
 
 
 // Retrieves an image specified by the URL, displays it in the UI.
@@ -127,4 +135,75 @@ public class PatientsAppointmentListAdapter extends RecyclerView.Adapter<Patient
         AppController.getInstance().addToRequestQueue(request);
     }
 
+    /**
+     *
+     * @param doctorId
+     * @param holder
+     */
+
+    private void getDoctorProfile(final String doctorId, final ViewHolder holder) {
+        String patient_login_tag = "doc_profile_tag";
+        if (pDialog == null)
+            pDialog = new ProgressDialog(mContext);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getdoctorProfileView/" + doctorId,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        AppController.getInstance().getRequestQueue().getCache().clear();
+                        Log.d("DIM", response);
+
+
+                        closeDialog();
+
+                        String Photo = "";
+
+
+                        try {
+                            JSONObject object = new JSONObject(response);
+
+                            if (object.getString("status").equals("success")) {
+                                if (!object.isNull("data")) {
+                                    JSONArray array = object.getJSONArray("data");
+
+                                    for (int i = 0; i < array.length(); i++) {
+                                        JSONObject jsonObject = array.getJSONObject(i);
+
+                                        Photo = jsonObject.getString("Photo");
+
+                                    }
+                                    getDoctorImageRequest(Photo, holder);
+
+                                }
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                // hide the progress dialog
+                closeDialog();
+            }
+        });
+
+        AppController.getInstance().
+
+                addToRequestQueue(stringRequest, patient_login_tag);
+
+    }
+
+    private void closeDialog() {
+        if (pDialog != null && pDialog.isShowing())
+            pDialog.hide();
+    }
 }

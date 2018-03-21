@@ -92,7 +92,10 @@ public class PtAppointmentFragment extends Fragment {
 
     private void setUpAdapter() {
         mAdapter = new PatientsAppointmentListAdapter(modelList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
         rcvAppointment.setLayoutManager(mLayoutManager);
         rcvAppointment.setItemAnimator(new DefaultItemAnimator());
         rcvAppointment.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
@@ -102,7 +105,7 @@ public class PtAppointmentFragment extends Fragment {
             public void onClick(View view, int position) {
 
                 // todo sget patient Name from share Prefernce
-                postCallRequestFromPatient("hello",modelList.get(position).getDoctorDeviceToken());
+                postCallRequestFromPatient("hello", modelList.get(position).getDoctorDeviceToken());
 
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, true);

@@ -6,14 +6,6 @@
     android:background="@color/white"
     android:layout_height="wrap_content">
 
-    <!--    <ImageView
-            android:id="@+id/lr_iv_DocImage"
-            android:layout_width="@dimen/doctor_thumbnail_width"
-            android:layout_height="@dimen/doctor_thumbnail_height"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/ic_doctor" />-->
 
     <de.hdodenhof.circleimageview.CircleImageView
 
@@ -21,7 +13,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/ic_doctor"
-        app:civ_border_color="#FF000000"
+        app:civ_border_color="#FFFF"
         app:civ_border_width="2dp" />
 
     <TextView
@@ -44,6 +36,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:paddingLeft="@dimen/padding_def"
         android:id="@+id/lr_tv_Specialization"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
