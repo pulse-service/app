@@ -34,7 +34,7 @@
         android:text="Doctor Nam,e"
         android:textSize="16sp"
         android:textStyle="bold" />
- 
+
     <TextView
         android:paddingLeft="@dimen/padding_def"
         android:id="@+id/lr_tv_Specialization"

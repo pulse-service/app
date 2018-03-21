@@ -2,11 +2,18 @@ package com.electrocraft.nirzo.pluse.controller.network;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.electrocraft.nirzo.pluse.view.MainActivity;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -28,44 +35,50 @@ public class NotifySMSReceived extends Activity {
 
     private void displayAlert() {
 
-        new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText("Calling")
-                .setContentText("You have a call !")
-                .setConfirmText("Accept")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.dismissWithAnimation();
-                        Intent intent = new Intent(NotifySMSReceived.this, MainActivity.class);
-                        intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
-                        startActivity(intent);
-                    }
-                })
-                .setCancelButton("Reject", new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.dismissWithAnimation();
-                    }
-                })
-                .show();
 
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("You have a call !").setCancelable(
-//                false).setPositiveButton("Accept",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.cancel();
-//                        Intent intent = new Intent(NotifySMSReceived.this, MainActivity.class);
-//                        intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
-//                        startActivity(intent);
-//                    }
-//                }).setNegativeButton("Reject",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.cancel();
-//                    }
-//                });
-//        AlertDialog alert = builder.create();
-//        alert.show();
+        try {
+            Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+            final MediaPlayer mMediaPlayer = new MediaPlayer();
+            mMediaPlayer.setDataSource(this, alert);
+            final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            if (audioManager.getStreamVolume(AudioManager.STREAM_RING) != 0) {
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
+                mMediaPlayer.setLooping(true);
+                mMediaPlayer.prepare();
+                mMediaPlayer.start();
+            }
+
+            new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText("Calling")
+                    .setContentText("You have a call !")
+                    .setConfirmText("Accept")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            mMediaPlayer.stop();
+                            sDialog.dismissWithAnimation();
+                            Intent intent = new Intent(NotifySMSReceived.this, MainActivity.class);
+                            intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
+                            startActivity(intent);
+                        }
+                    })
+                    .setCancelButton("Reject", new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+
+                            mMediaPlayer.stop();
+                            sDialog.dismissWithAnimation();
+
+                            Intent intent = new Intent(NotifySMSReceived.this, DoctorHomeActivity.class);
+
+                            startActivity(intent);
+                        }
+                    })
+                    .show();
+        } catch (Exception e) {
+        }
+
+
+
     }
 }

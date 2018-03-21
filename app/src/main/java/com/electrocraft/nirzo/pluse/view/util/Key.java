@@ -36,4 +36,5 @@ public class Key {
     public static final String KEY_OAT="KeyOat";
 
     public static final String KEY_IS_PATIENT_OR_DOCTOR="KeyIsPatientOrDoctor";
+    public static final String KEY_IS_PATIENT="KeyIsPatientOrDoctor";
 }
