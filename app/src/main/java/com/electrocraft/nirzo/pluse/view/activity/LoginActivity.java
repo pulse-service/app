@@ -251,7 +251,9 @@ public class LoginActivity extends AppCompatActivity {
                                     AppSharePreference.savePatientID(mContext, id);
                                     Intent intent = new Intent(LoginActivity.this, PatientHomeActivity.class);
                                     intent.putExtra(Key.KEY_PATIENT_ID, id);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
+
 
                                 }
                             } else
@@ -317,9 +319,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                     id = obj.getString("id");
                                     AppSharePreference.saveDoctorID(mContext, id);
-
-
-                                    startActivity(new Intent(LoginActivity.this, DoctorHomeActivity.class));
+                                    Intent intent = new Intent(LoginActivity.this, DoctorHomeActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
 
                                 }
                             } else
