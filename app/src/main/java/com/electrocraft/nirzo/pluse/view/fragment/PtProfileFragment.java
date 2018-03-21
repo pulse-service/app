@@ -73,8 +73,8 @@ public class PtProfileFragment extends Fragment {
      */
     private String mPatientId;
 
-    @BindView(R.id.iv_doc_image_thumbel)
-    ImageView ivImage;
+/*    @BindView(R.id.iv_doc_image_thumbel)
+    ImageView ivImage;*/
 
     private String mfatherName = "";
     private String mMotherName = "";
@@ -95,19 +95,19 @@ public class PtProfileFragment extends Fragment {
     EditText edtPtMotherName;
 
 
-    @BindView(R.id.edtPtPresentAddress)
+    @BindView(R.id.adress)
     EditText edtPtPresentAddress;
 
 
-    @BindView(R.id.tvPtAge)
-    TextView tvPtAge;
+/*    @BindView(R.id.tvPtAge)
+    TextView tvPtAge;*/
     private ProgressDialog pDialog;
 
 
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private Calendar calendar = Calendar.getInstance();
-    @BindView(R.id.tvPatientDOB)
-    public TextView tvPatientDOB;
+    @BindView(R.id.dob)
+    public EditText tvPatientDOB;
     private String imageFilePath;
 
     /**
@@ -117,11 +117,11 @@ public class PtProfileFragment extends Fragment {
         tvPatientDOB.setText(format.format(calendar.getTime()));
     }
 
-    public void setDate() {
+    /*public void setDate() {
         new DatePickerDialog(getActivity(), d, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
+    }*/
 
-    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+    /*DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -129,15 +129,17 @@ public class PtProfileFragment extends Fragment {
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             updateDate();
+*//*
             tvPtAge.setText(getAge(year, monthOfYear, dayOfMonth));
+*//*
         }
-    };
+    };*/
 
 
-    @OnClick(R.id.tvPatientDOB)
+/*    @OnClick(R.id.tvPatientDOB)
     public void patientDobClick() {
         setDate();
-    }
+    }*/
 
     public PtProfileFragment() {
     }
@@ -154,7 +156,9 @@ public class PtProfileFragment extends Fragment {
         ButterKnife.bind(this, view);
         mPatientId = getArguments().getString(Key.KEY_PATIENT_ID, "");
 
+/*
         tvPtAge.setText("0");
+*/
         getPatientPersonalInfo(mPatientId);
 
 
@@ -181,7 +185,9 @@ public class PtProfileFragment extends Fragment {
         setDataToView(mPresentAddress, edtPtPresentAddress);
 
         tvPatientDOB.setText(mPatientDateOfBirth);
+/*
         tvPtAge.setText(mAge);
+*/
 
 
     }
@@ -192,10 +198,13 @@ public class PtProfileFragment extends Fragment {
         String motherName = edtPtMotherName.getText().toString();
         String presentAddress = edtPtPresentAddress.getText().toString();
         String patientDateOfBirth = tvPatientDOB.getText().toString();
+/*
         String age = tvPtAge.getText().toString();
+*/
+        String age = "0";
 
         savePatientPersonalInfo(mPatientId, fatherName, motherName, patientDateOfBirth, age, presentAddress);
-        saveProfileAccount(mPatientId, fatherName, motherName, patientDateOfBirth, age, presentAddress);
+       // saveProfileAccount(mPatientId, fatherName, motherName, patientDateOfBirth, age, presentAddress);
     }
 
     /**
@@ -448,7 +457,9 @@ public class PtProfileFragment extends Fragment {
                 Map<String, DataPart> params = new HashMap<>();
                 // file name could found file base or direct access from real path
                 // for now just get bitmap data from ImageView
+/*
                 params.put("image", new DataPart("file_avatar.jpg", AppHelper.getFileDataFromDrawable(getActivity(), ivImage.getDrawable()), "image/jpeg"));
+*/
 //                params.put("cover", new DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(getActivity(), mCoverImage.getDrawable()), "image/jpeg"));
 
                 return params;
@@ -459,11 +470,11 @@ public class PtProfileFragment extends Fragment {
 //        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
     }
 
-
+/*
     @OnClick(R.id.ivFolder)
     public void galleryIntent() {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image*//*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"), PICK_IMAGE_REQUEST);
     }
@@ -542,6 +553,6 @@ public class PtProfileFragment extends Fragment {
 
             }
         }
-    }
+    }*/
 
 }

@@ -1,5 +1,6 @@
 package com.electrocraft.nirzo.pluse.view.activity.patient;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
+import com.electrocraft.nirzo.pluse.view.activity.LoginAsActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.ViewPagerAdapter;
 import com.electrocraft.nirzo.pluse.view.fragment.PtAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfileFragment;
@@ -53,6 +56,7 @@ public class PatientHomeActivity extends AppCompatActivity
 
     String mPatientId;
     private TextView tvNotificationDetails;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,8 +172,37 @@ public class PatientHomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("Are you sure you want to exit?");
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "Yes",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            backButton();
+                            dialog.cancel();
+                        }
+                    });
+
+            builder1.setNegativeButton(
+                    "No",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+
+
         }
+    }
+
+    public void backButton() {
+        super.onBackPressed();
+
     }
 
 
@@ -203,8 +236,9 @@ public class PatientHomeActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_logout:
-
-                Intent intent = new Intent(Intent.ACTION_MAIN);
+                AppSharePreference.saveDoctorID(this,"");
+                AppSharePreference.savePatientID(this,"");
+                Intent intent = new Intent(PatientHomeActivity.this, LoginAsActivity.class);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);

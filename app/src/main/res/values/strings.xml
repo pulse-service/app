@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Pulse</string>
     <string name="phone_no">Phone No</string>
-    <string name="phone_no1">* Phone No</string>
+    <string name="phone_no1">Phone No</string>
     <string name="password">Password</string>
     <string name="doctor">Doctor</string>
     <string name="patient">Patient</string>
@@ -47,7 +47,7 @@
     <string name="mother_name">Mother Name</string>
     <string name="present_address">Present Address</string>
     <string name="health">Health</string>
-    <string name="weight">* Weight</string>
+    <string name="weight">Weight</string>
     <string name="bp">BP (upper/lower)</string>
     <string name="family_disease_history">Family Disease History</string>
     <string name="existing_medical_report">Existing Medical Report</string>
@@ -84,10 +84,10 @@
     <string name="doc_otp_msg">Pulse verification code :</string>
     <string name="reasonLabel">Reason For the Appointment</string>
     <string name="family_member_profile">Family members Profile</string>
-    <string name="full_name">* Full Name</string>
+    <string name="full_name">Full Name</string>
     <string name="already_have_an_account_login">Already have an account ! Login</string>
     <string name="app_logo">app_logo</string>
-    <string name="height">* Height</string>
+    <string name="height">Height</string>
     <string name="home">Home</string>
     <string name="appointment">Appointment</string>
     <string name="total_amount_payable">Total Amount Payable :</string>

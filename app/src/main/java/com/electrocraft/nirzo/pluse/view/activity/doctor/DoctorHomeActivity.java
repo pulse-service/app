@@ -31,6 +31,7 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
+import com.electrocraft.nirzo.pluse.view.activity.LoginAsActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.fragment.DocAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocChamberFragment;
@@ -135,7 +136,9 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
 
             case R.id.nav_logout:
 
-                Intent intent = new Intent(Intent.ACTION_MAIN);
+                AppSharePreference.saveDoctorID(this,"");
+                AppSharePreference.savePatientID(this,"");
+                Intent intent = new Intent(DoctorHomeActivity.this, LoginAsActivity.class);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
