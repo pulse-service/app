@@ -1,10 +1,12 @@
 package com.electrocraft.nirzo.pluse.view.fragment;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
+
+import static com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment.selectedDateString;
+import static com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment.selectedDateTime;
+import static com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment.selectedTimeString;
 
 /**
  * Created by nirzo on 3/17/2018.
@@ -179,10 +185,51 @@ public class PtPaymentModuleFragment extends Fragment {
                                 id = data.getString("id");
                                 AppSharePreference.saveAppointmentID(getActivity(), id);
 
-                                AlertDialogManager.showSuccessDialog(getActivity(), msg);
+                                //success
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                                builder1.setMessage("Your payment has been successful.");
+                                builder1.setCancelable(true);
+
+                                builder1.setPositiveButton(
+                                        "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                selectedDateTime="";
+                                                selectedTimeString="";
+                                                selectedDateString="";
+                                                getActivity().finish();
+                                                dialog.cancel();
+                                                //todo finish the previous activity
+
+                                            }
+                                        });
+
+                                AlertDialog alert11 = builder1.create();
+                                alert11.setCancelable(false);
+                                alert11.show();
 
                             } else {
-                                AlertDialogManager.showErrorDialog(getActivity(), msg);
+                                //failed
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                                builder1.setMessage("Your payment has been unsuccessful.");
+                                builder1.setCancelable(true);
+
+                                builder1.setPositiveButton(
+                                        "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                selectedDateTime="";
+                                                selectedTimeString="";
+                                                selectedDateString="";
+                                                dialog.cancel();
+                                                //todo finish the previous activity
+
+                                            }
+                                        });
+
+                                AlertDialog alert11 = builder1.create();
+                                alert11.setCancelable(false);
+                                alert11.show();
                             }
 
 

@@ -16,6 +16,10 @@ import com.electrocraft.nirzo.pluse.view.util.Key;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment.selectedDateString;
+import static com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment.selectedDateTime;
+import static com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment.selectedTimeString;
+
 public class PtAppointBookActivity extends AppCompatActivity/* implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     private String mDoctorId;
@@ -169,6 +173,15 @@ public class PtAppointBookActivity extends AppCompatActivity/* implements Naviga
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }*/
+
+    @Override
+    protected void onResume() {
+        selectedDateTime="";
+        selectedTimeString="";
+        selectedDateString="";
+        super.onResume();
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
