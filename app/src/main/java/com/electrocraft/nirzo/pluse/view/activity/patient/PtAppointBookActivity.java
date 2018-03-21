@@ -169,7 +169,7 @@ public class PtAppointBookActivity extends AppCompatActivity/* implements Naviga
             getSupportActionBar().setTitle(title);
         }
 
-
+//
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }*/
