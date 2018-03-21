@@ -46,6 +46,11 @@ import butterknife.OnClick;
 import butterknife.Optional;
 import timber.log.Timber;
 
+import static com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment.mOAT_codeString;
+import static com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment.selectedDateString;
+import static com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment.selectedDateTime;
+import static com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment.selectedTimeString;
+
 /**
  * Created by nirzo on 2/26/2018.
  */
@@ -426,6 +431,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
 //        Button button = (Button) view;
         DoctorAvailableTime time=mList.get(prevousId);
         mOAT_code =time.getOat_code();
+        mOAT_codeString=mOAT_code+"";
         String ti = time.getInTime()+" "+time.getInTime_AMOrPM() ;
         showConfirmMessage(ti);
     }
@@ -439,7 +445,10 @@ public class PtPickUpTimeDateFragment extends Fragment {
         final String selectedDate = sdf.format(new Date(calendarView.getDate()));
         ad.setCancelable(false);
         ad.setTitle("You have Selected");
+        selectedDateString=selectedDate+"";
+        selectedTimeString=time+"";
         ad.setMessage("Your Date :" + selectedDate + "\n time : " + time);
+        selectedDateTime = selectedDate + " "+time;
         ad.setButton("Confirm", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
@@ -448,7 +457,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
                 dialog.dismiss();
 
 
-                Fragment fragment = new PtPaymentModuleFragment();
+                /*Fragment fragment = new PtPaymentModuleFragment();
                 Bundle arg = new Bundle();
                 arg.putString(Key.KEY_DOCTOR_ID, mDoctorId);
                 arg.putString(Key.KEY_PATIENT_ID, mPatientId);
@@ -459,15 +468,25 @@ public class PtPickUpTimeDateFragment extends Fragment {
                 arg.putString(Key.KEY_DOCTOR_EXPERTISE, mDocExpertise);
                 arg.putString(Key.KEY_DOCTOR_AMOUNT, mDocAmount);
                 fragment.setArguments(arg);
-/*          *//*      String shortDescribtion=edtShortDescribtion.getText().toString();
-*//*
+*//*          *//**//*      String shortDescribtion=edtShortDescribtion.getText().toString();
+*//**//*
 //                if (mDoctorId!=null &&mDoctorId.length()>0){
 
 
-                }*/
+                }*//*
+
+
+
+
+
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, fragment);
                 ft.commit();
+*/
+
+                getActivity().onBackPressed();
+
+
 
            /*     saveDoctorAppointmentTime(mPatientId, mDoctorId, selectedDate, mOAT_code, "", "",
                         "0", mShortDescriptionOfProblem, "0",
