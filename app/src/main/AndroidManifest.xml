@@ -61,7 +61,7 @@
         <activity android:name=".view.activity.patient.SexNDobRegActivity" />
         <activity android:name=".view.activity.doctor.DocRegistrationActivity" />
         <activity
-            android:name=".view.fragment.PtSeeDoctorProfileActivity"
+            android:name=".view.activity.patient.PtSeeDoctorProfileActivity"
             android:theme="@style/DefaultActivity" >
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />

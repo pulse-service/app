@@ -1,4 +1,4 @@
-package com.electrocraft.nirzo.pluse.view.fragment;
+package com.electrocraft.nirzo.pluse.view.activity.patient;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -24,6 +24,9 @@ import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.model.SpinnerHelper;
 import com.electrocraft.nirzo.pluse.view.activity.patient.PtAppointBookActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.ViewPagerAdapter;
+import com.electrocraft.nirzo.pluse.view.fragment.PtDocBlogFragment;
+import com.electrocraft.nirzo.pluse.view.fragment.PtDocServiceDetailsFragment;
+import com.electrocraft.nirzo.pluse.view.fragment.PtDoctorDetailsFragment;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import org.json.JSONArray;
