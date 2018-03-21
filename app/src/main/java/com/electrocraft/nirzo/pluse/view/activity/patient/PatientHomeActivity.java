@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,7 +25,6 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.adapter.ViewPagerAdapter;
 import com.electrocraft.nirzo.pluse.view.fragment.PtAppointmentFragment;
-import com.electrocraft.nirzo.pluse.view.fragment.PtDescribeProblemFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtLocationBaseFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtProfileFragment;
@@ -81,7 +79,7 @@ public class PatientHomeActivity extends AppCompatActivity
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
-
+        wrapTabIndicatorToTitle(tabLayout, 20, 20);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -104,6 +102,7 @@ public class PatientHomeActivity extends AppCompatActivity
 
 
     }
+
     public void wrapTabIndicatorToTitle(TabLayout tabLayout, int externalMargin, int internalMargin) {
         View tabStrip = tabLayout.getChildAt(0);
         if (tabStrip instanceof ViewGroup) {
@@ -118,16 +117,16 @@ public class PatientHomeActivity extends AppCompatActivity
                 // setting custom margin between tabs
                 if (tabView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                     ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) tabView.getLayoutParams();
-                   /* if (i == 0) {
+                    if (i == 0) {
                         // left
-                        setMargin(layoutParams, externalMargin, internalMargin);
+                        settingMargin(layoutParams, externalMargin, internalMargin);
                     } else if (i == childCount - 1) {
                         // right
-                        setMargin(layoutParams, internalMargin, externalMargin);
+                        settingMargin(layoutParams, internalMargin, externalMargin);
                     } else {
                         // internal
-                        setMargin(layoutParams, internalMargin, internalMargin);
-                    }*/
+                        settingMargin(layoutParams, internalMargin, internalMargin);
+                    }
                 }
             }
 
