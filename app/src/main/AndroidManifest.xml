@@ -42,11 +42,11 @@
             android:name=".view.activity.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_Splash">
-    <!--        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.activity.LoginActivity"
@@ -81,16 +81,16 @@
             />
         <activity android:name=".view.activity.doctor.DoctorHomeActivity" />
         <activity android:name=".controller.network.NotifySMSReceived">
-         <!--   <intent-filter>
+            <intent-filter>
                 <action android:name="click_action" />
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>-->
+            </intent-filter>
 
-            <intent-filter>
+    <!--        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
 
         </activity>
 
