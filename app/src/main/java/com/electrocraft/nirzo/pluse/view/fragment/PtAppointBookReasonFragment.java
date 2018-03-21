@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -12,8 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.view.util.Key;
@@ -36,7 +36,8 @@ public class PtAppointBookReasonFragment extends Fragment {
     EditText edtShortDescribtion;
 
 
-
+    @BindView(R.id.reason_date_time)
+    TextView dateTime;
 
     @BindView(R.id.cv_4)
     CardView cv_4;
@@ -86,7 +87,7 @@ public class PtAppointBookReasonFragment extends Fragment {
     }
 
     @Optional
-    @OnClick({R.id.cv2, R.id.btn_bookAppointment})
+    @OnClick(R.id.cv2)
     public void onPickTimeClick() {
         Fragment fragment = new PtPickUpTimeDateFragment();
         String shortDescribtion = edtShortDescribtion.getText().toString();
@@ -100,8 +101,14 @@ public class PtAppointBookReasonFragment extends Fragment {
             fragment.setArguments(arg);
         }
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frame, fragment);
+        ft.add(R.id.content_frame, fragment, "PickDate");
+        ft.addToBackStack(null);
         ft.commit();
 
+    }
+
+    @OnClick(R.id.btn_bookAppointment)
+    public void proceed() {
+        Toast.makeText(getActivity(), "Goind to proceed", Toast.LENGTH_SHORT).show();
     }
 }

@@ -2,7 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -15,6 +17,10 @@
               layout="@layout/appbar_layout" />-->
 
         <CalendarView
+            style="@style/CalenderViewCustom"
+            android:weekDayTextAppearance="@style/CalenderViewDateCustomText"
+            android:weekNumberColor="@style/CalenderViewDateCustomText"
+            android:focusedMonthDateColor="@color/black"
             android:background="#eeeeee"
             android:id="@+id/calendarView"
             android:layout_width="match_parent"

@@ -19,14 +19,14 @@
         android:required="true" />
 
     <application
-        tools:replace="android:icon"
         android:name=".controller.application.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
         <meta-data
             android:name="AA_DB_NAME"
             android:value="pulse_db.db" />
@@ -54,12 +54,12 @@
         <activity
             android:name=".view.activity.patient.PatientHomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme" >
-               <!--   <intent-filter>
-                            <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/AppTheme">
+            <!--   <intent-filter>
+                         <action android:name="android.intent.action.MAIN" />
 
-                            <category android:name="android.intent.category.LAUNCHER" />
-                        </intent-filter>-->
+                         <category android:name="android.intent.category.LAUNCHER" />
+                     </intent-filter>-->
 
         </activity>
         <activity android:name=".view.activity.patient.SignUpEmailActivity" />
@@ -68,7 +68,7 @@
         <activity android:name=".view.activity.doctor.DocRegistrationActivity" />
         <activity
             android:name=".view.activity.patient.PtSeeDoctorProfileActivity"
-            android:theme="@style/DefaultActivity" >
+            android:theme="@style/DefaultActivity">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -76,7 +76,9 @@
             </intent-filter>-->
 
         </activity>
-        <activity android:name=".view.activity.patient.PtAppointBookActivity" />
+        <activity
+            android:name=".view.activity.patient.PtAppointBookActivity"
+            />
         <activity android:name=".view.activity.doctor.DoctorHomeActivity" />
         <activity android:name=".controller.network.NotifySMSReceived">
             <intent-filter>
