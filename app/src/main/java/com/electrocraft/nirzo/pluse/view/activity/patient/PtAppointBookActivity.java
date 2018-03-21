@@ -1,26 +1,16 @@
 package com.electrocraft.nirzo.pluse.view.activity.patient;
 
-import android.content.Intent;
-import android.support.design.widget.NavigationView;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.fragment.PtAppointBookReasonFragment;
-import com.electrocraft.nirzo.pluse.view.fragment.PtAppointmentFragment;
-import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfileFragment;
-import com.electrocraft.nirzo.pluse.view.fragment.PtProfileFragment;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import butterknife.BindView;
@@ -31,12 +21,15 @@ public class PtAppointBookActivity extends AppCompatActivity/* implements Naviga
     private String mDoctorId;
     private String mPatientId;
 
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.pt_drawer_layout)
-    DrawerLayout drawer;
-    @BindView(R.id.pt_nav_view)
+    /*    @BindView(R.id.pt_drawer_layout)
+        DrawerLayout drawer;*/
+/*    @BindView(R.id.pt_nav_view)
+
     NavigationView navigationView;
+*/
     private String mDocExpertise;
     private String mDocAmount;
 
@@ -72,10 +65,10 @@ public class PtAppointBookActivity extends AppCompatActivity/* implements Naviga
         }
 
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+/*        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
 
 
         /*navigationView.setNavigationItemSelectedListener(this);
@@ -108,11 +101,13 @@ public class PtAppointBookActivity extends AppCompatActivity/* implements Naviga
     @Override
     public void onBackPressed() {
 
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+/*        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
+        }*/
+        getFragmentManager().popBackStack();
+        super.onBackPressed();
     }
 
 
@@ -174,4 +169,14 @@ public class PtAppointBookActivity extends AppCompatActivity/* implements Naviga
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) // Press Back Icon
+        {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
