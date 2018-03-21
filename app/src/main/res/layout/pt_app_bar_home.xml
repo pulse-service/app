@@ -21,6 +21,10 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <android.support.design.widget.TabLayout
+
+            app:tabPadding="0dp"
+            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorHeight="2dp"
             android:id="@+id/tabs"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
             android:layout_width="match_parent"
@@ -28,6 +32,10 @@
             app:tabTextColor="@color/white"
             app:tabGravity="fill"
             app:tabMode="fixed" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@color/colorPrimary"/>
 
     </android.support.design.widget.AppBarLayout>
 
