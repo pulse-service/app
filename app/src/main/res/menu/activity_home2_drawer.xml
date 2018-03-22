@@ -18,6 +18,12 @@
     </group>
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_prescription"
+            android:icon="@drawable/ic_cloud_download_black_24dp"
+            android:title="@string/prescription" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_profile"
             android:title="@string/profile" />

@@ -105,6 +105,7 @@
     <!--Facebook SDK id-->
     <string name="facebook_app_id">174854333152076</string>
     <string name="fb_login_protocol_scheme">fb174854333152076</string>
+    <string name="prescription">Prescription</string>
 
 
 </resources>

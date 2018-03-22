@@ -34,6 +34,7 @@ import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.activity.LoginAsActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.ViewPagerAdapter;
+import com.electrocraft.nirzo.pluse.view.fragment.PatientPrescriptionFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtLocationBaseFragment;
@@ -269,6 +270,10 @@ public class PatientHomeActivity extends AppCompatActivity
                 title = "";
                 break;
 
+            case R.id.nav_prescription:
+                fragment = new PatientPrescriptionFragment();
+                title = "";
+                break;
             case R.id.nav_logout:
                 AppSharePreference.saveDoctorID(this, "");
                 AppSharePreference.savePatientID(this, "");
