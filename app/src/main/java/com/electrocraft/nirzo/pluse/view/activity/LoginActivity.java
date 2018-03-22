@@ -442,6 +442,7 @@ private  CallbackManager mCallbackManager;
     private void closeDialog() {
         if (pDialog != null && pDialog.isShowing())
             pDialog.dismiss();
+        
     }
 
 
