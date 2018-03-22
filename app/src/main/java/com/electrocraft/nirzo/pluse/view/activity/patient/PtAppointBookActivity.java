@@ -1,5 +1,6 @@
 package com.electrocraft.nirzo.pluse.view.activity.patient;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -24,16 +25,12 @@ public class PtAppointBookActivity extends AppCompatActivity/* implements Naviga
 
     private String mDoctorId;
     private String mPatientId;
+    public static Activity fa;
 
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    /*    @BindView(R.id.pt_drawer_layout)
-        DrawerLayout drawer;*/
-/*    @BindView(R.id.pt_nav_view)
 
-    NavigationView navigationView;
-*/
     private String mDocExpertise;
     private String mDocAmount;
 
@@ -42,7 +39,7 @@ public class PtAppointBookActivity extends AppCompatActivity/* implements Naviga
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pt_appoint_book);
         ButterKnife.bind(this);
-
+        fa = this;
         if (getSupportActionBar() != null) {                                    // safety block
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);

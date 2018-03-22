@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,24 +52,31 @@ public class PatientsAppointmentListAdapter extends RecyclerView.Adapter<Patient
 
     private Context mContext;
     private ProgressDialog pDialog;
+    EditClickListener setEditClickListener;
 
-    public PatientsAppointmentListAdapter(List<AppointmentModel> list) {
+
+    public interface EditClickListener {
+        void OnClick(int position);
+    }
+    public PatientsAppointmentListAdapter(List<AppointmentModel> list, EditClickListener setEditClickListener) {
         this.list = list;
+        this.setEditClickListener = setEditClickListener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        private WeakReference<EditClickListener> listenerRef;
         @BindView(R.id.lr_iv_DocImage)
         CircleImageView docImage;
         @BindView(R.id.lr_tv_DocName)
         TextView docName;
         @BindView(R.id.lr_tv_AppointmentDateNTime)
         TextView tv_AppointmentDateNTime;
-
+        @BindView(R.id.lr_btn_Call)
+        Button callButton;
         @BindView(R.id.lr_tv_Specialization)
         TextView lr_tv_Specialization;
 
-     /*   @BindView(R.id.lr_btn_book)
+        /*   @BindView(R.id.lr_btn_book)
         Button btnBook;
         @BindView(R.id.lr_iv_DocAvailableStatus)
         ImageView docAvailable;*/
@@ -76,7 +84,13 @@ public class PatientsAppointmentListAdapter extends RecyclerView.Adapter<Patient
         private ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
+            listenerRef = new WeakReference<>(setEditClickListener);
+            callButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listenerRef.get().OnClick(getAdapterPosition());
+                }
+            });
         }
     }
 

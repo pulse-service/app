@@ -8,6 +8,7 @@ import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -184,31 +185,36 @@ public class PatientHomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-            builder1.setMessage("Are you sure you want to exit?");
-            builder1.setCancelable(true);
+            FragmentManager fm = getSupportFragmentManager();
+            if(fm.getBackStackEntryCount()>0){
+                fm.popBackStack();
+            }else {
 
-            builder1.setPositiveButton(
-                    "Yes",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            backButton();
-                            dialog.cancel();
-                        }
-                    });
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setMessage("Are you sure you want to exit?");
+                builder1.setCancelable(true);
 
-            builder1.setNegativeButton(
-                    "No",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                backButton();
+                                dialog.cancel();
+                            }
+                        });
 
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
 
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
 
+            }
         }
     }
 
@@ -231,7 +237,8 @@ public class PatientHomeActivity extends AppCompatActivity
 
 
             case R.id.nav_home:
-                startActivity(new Intent(this, PatientHomeActivity.class));
+                onBackPressed();
+                /*startActivity(new Intent(this, PatientHomeActivity.class));*/
                 break;
             case R.id.nav_appointment:
                 fragment = new PtAppointmentFragment();
@@ -267,7 +274,8 @@ public class PatientHomeActivity extends AppCompatActivity
             viewPager.setVisibility(View.GONE);
             tabLayout.setVisibility(View.GONE);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment);
+            ft.addToBackStack(null);
+            ft.add(R.id.content_frame, fragment);
             ft.commit();
         }
 
