@@ -151,7 +151,7 @@ public class PtLocationBaseFragment extends Fragment {
         if (pDialog == null)
             pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
-        pDialog.show();
+        //pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getdoctorslist",
                 new Response.Listener<String>() {
                     @Override

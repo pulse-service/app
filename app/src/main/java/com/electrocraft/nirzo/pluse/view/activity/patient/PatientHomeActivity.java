@@ -18,12 +18,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -68,7 +66,6 @@ public class PatientHomeActivity extends AppCompatActivity
     NavigationView navigationView;
 
     String mPatientId;
-
 
 
     @Override
@@ -200,9 +197,9 @@ public class PatientHomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             FragmentManager fm = getSupportFragmentManager();
-            if(fm.getBackStackEntryCount()>0){
+            if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
-            }else {
+            } else {
 
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setMessage("Are you sure you want to exit?");
@@ -251,8 +248,12 @@ public class PatientHomeActivity extends AppCompatActivity
 
 
             case R.id.nav_home:
-                onBackPressed();
-                /*startActivity(new Intent(this, PatientHomeActivity.class));*/
+
+                //Todo need to migrate the functionalities of this class to a fragment and load it from this activity. This activity will contain the navigation system
+
+                Intent intenT = new Intent(PatientHomeActivity.this, PatientHomeActivity.class);
+                intenT.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intenT);
                 break;
             case R.id.nav_appointment:
                 fragment = new PtAppointmentFragment();
@@ -317,7 +318,7 @@ public class PatientHomeActivity extends AppCompatActivity
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            View hView =  navigationView.getHeaderView(0);
+                            View hView = navigationView.getHeaderView(0);
 
                             TextView pat_name = hView.findViewById(R.id.nav_tvPatientNameNavBar);
 
@@ -354,6 +355,7 @@ public class PatientHomeActivity extends AppCompatActivity
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
+
 
 
 }
