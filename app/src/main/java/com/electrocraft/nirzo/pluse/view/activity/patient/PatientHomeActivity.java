@@ -8,6 +8,7 @@ import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -20,9 +21,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.activity.LoginAsActivity;
@@ -33,6 +40,10 @@ import com.electrocraft.nirzo.pluse.view.fragment.PtLocationBaseFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment;
 import com.electrocraft.nirzo.pluse.view.util.Key;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,13 +66,13 @@ public class PatientHomeActivity extends AppCompatActivity
     NavigationView navigationView;
 
     String mPatientId;
-    private TextView tvNotificationDetails;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pt_activity_home);
+        queue = Volley.newRequestQueue(this);
 
         ButterKnife.bind(this);
 
@@ -95,14 +106,14 @@ public class PatientHomeActivity extends AppCompatActivity
         navMenuView.addItemDecoration(new DividerItemDecoration(PatientHomeActivity.this, DividerItemDecoration.VERTICAL));
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (navigationView != null) {
+        /*if (navigationView != null) {
             RelativeLayout mParent = (RelativeLayout) navigationView.getHeaderView(0);
             if (mParent != null) {
 
-                TextView userName = mParent.findViewById(R.id.nav_tvPatientNameNavBar);
+                //TextView userName = mParent.findViewById(R.id.nav_tvPatientNameNavBar);
 //                userName.setText(intent.getStringExtra("PTName"));
             }
-        }
+        }*/
 
         if (getIntent().getBooleanExtra("redirfrom", false)) {
             Bundle arg = new Bundle();
@@ -116,6 +127,7 @@ public class PatientHomeActivity extends AppCompatActivity
             ft.commit();
         }
 
+        callPatientInfo();
 
     }
 
@@ -184,31 +196,36 @@ public class PatientHomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-            builder1.setMessage("Are you sure you want to exit?");
-            builder1.setCancelable(true);
+            FragmentManager fm = getSupportFragmentManager();
+            if (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStack();
+            } else {
 
-            builder1.setPositiveButton(
-                    "Yes",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            backButton();
-                            dialog.cancel();
-                        }
-                    });
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setMessage("Are you sure you want to exit?");
+                builder1.setCancelable(true);
 
-            builder1.setNegativeButton(
-                    "No",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                backButton();
+                                dialog.cancel();
+                            }
+                        });
 
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
 
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
 
+            }
         }
     }
 
@@ -231,7 +248,12 @@ public class PatientHomeActivity extends AppCompatActivity
 
 
             case R.id.nav_home:
-                startActivity(new Intent(this, PatientHomeActivity.class));
+
+                //Todo need to migrate the functionalities of this class to a fragment and load it from this activity. This activity will contain the navigation system
+
+                Intent intenT = new Intent(PatientHomeActivity.this, PatientHomeActivity.class);
+                intenT.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intenT);
                 break;
             case R.id.nav_appointment:
                 fragment = new PtAppointmentFragment();
@@ -267,7 +289,8 @@ public class PatientHomeActivity extends AppCompatActivity
             viewPager.setVisibility(View.GONE);
             tabLayout.setVisibility(View.GONE);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment);
+            ft.addToBackStack(null);
+            ft.add(R.id.content_frame, fragment);
             ft.commit();
         }
 
@@ -280,6 +303,59 @@ public class PatientHomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    RequestQueue queue;
+
+    private void callPatientInfo() {
+        String url = "http://180.148.210.139:8081/pulse_api/api/patientregistration/";
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + AppSharePreference.getPatientID(this),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            View hView = navigationView.getHeaderView(0);
+
+                            TextView pat_name = hView.findViewById(R.id.nav_tvPatientNameNavBar);
+
+                            TextView pat_number = hView.findViewById(R.id.tvPatNumber);
+
+                            TextView pat_email = hView.findViewById(R.id.tvpatemail);
+
+                            ImageView pat_img = hView.findViewById(R.id.imageView);
+                            String jsonObjectInside;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("PRI_PTName");
+                                pat_name.setText(jsonObjectInside);
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("PRI_Phone");
+                                pat_number.setText(jsonObjectInside);
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("PRI_Email");
+                                pat_email.setText(jsonObjectInside);
+
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } finally {
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
 
 
 }

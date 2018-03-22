@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescription;
 import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
@@ -57,18 +58,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onConferenceJoined(Map<String, Object> data) {
                 super.onConferenceJoined(data);
-                Toast.makeText(MainActivity.this, "Joined", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Joined", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onConferenceLeft(Map<String, Object> data) {
                 super.onConferenceLeft(data);
-//                Toast.makeText(MainActivity.this, "Left", Toast.LENGTH_SHORT).show();
+
                 Intent intent;
                 if (isPatient)
                     intent= new Intent(MainActivity.this, PatientHomeActivity.class);
                 else
-                    intent= new Intent(MainActivity.this, DoctorHomeActivity.class);
+                    intent= new Intent(MainActivity.this, DoctorPrescription.class);
 
                 startActivity(intent);
             }

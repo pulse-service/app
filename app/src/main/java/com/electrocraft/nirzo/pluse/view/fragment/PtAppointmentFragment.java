@@ -91,7 +91,16 @@ public class PtAppointmentFragment extends Fragment {
     }
 
     private void setUpAdapter() {
-        mAdapter = new PatientsAppointmentListAdapter(modelList);
+        mAdapter = new PatientsAppointmentListAdapter(modelList, new PatientsAppointmentListAdapter.EditClickListener() {
+            @Override
+            public void OnClick(int position) {
+                postCallRequestFromPatient("hello", modelList.get(position).getDoctorDeviceToken());
+
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, true);
+                startActivity(intent);
+            }
+        });
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mLayoutManager.setReverseLayout(true);
@@ -100,23 +109,19 @@ public class PtAppointmentFragment extends Fragment {
         rcvAppointment.setItemAnimator(new DefaultItemAnimator());
         rcvAppointment.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         rcvAppointment.setAdapter(mAdapter);
-        rcvAppointment.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rcvAppointment, new RecyclerTouchListener.ClickListener() {
+        /*rcvAppointment.addOnItemTouchListener(new RecyclerTouchListener(getContext(), rcvAppointment, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
 
                 // todo sget patient Name from share Prefernce
-                postCallRequestFromPatient("hello", modelList.get(position).getDoctorDeviceToken());
 
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, true);
-                startActivity(intent);
             }
 
             @Override
             public void onLongClick(View view, int position) {
 
             }
-        }));
+        }));*/
     }
 
     /*   "status": "success",

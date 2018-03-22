@@ -172,7 +172,7 @@ public class PtSpecializationFragment extends Fragment {
         if (pDialog == null)
             pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
-        pDialog.show();
+        //pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "searchdoctorslist",
                 new Response.Listener<String>() {
                     @Override
@@ -254,7 +254,7 @@ public class PtSpecializationFragment extends Fragment {
         String patient_login_tag = "doc_all_search_tag";
         if (pDialog == null)
             pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Loading...");
+        //pDialog.setMessage("Loading...");
         pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getdoctorslist",
                 new Response.Listener<String>() {

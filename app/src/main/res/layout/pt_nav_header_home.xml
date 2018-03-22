@@ -38,7 +38,7 @@
 
         <TextView
             android:textSize="11sp"
-            android:id="@+id/tvForgetPassword"
+            android:id="@+id/tvPatNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/nav_tvPatientNameNavBar"
@@ -48,10 +48,10 @@
 
         <TextView
             android:textSize="11sp"
-            android:id="@+id/tv"
+            android:id="@+id/tvpatemail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvForgetPassword"
+            android:layout_below="@+id/tvPatNumber"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/imageView"
             android:text="android.studio@android.com" />
