@@ -307,7 +307,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
         pDialog.setMessage("Loading...");
         pDialog.show();
-
+        Log.e("SSS", "getAvailableTime: "+ AppConfig.LIVE_API_LINK + "getdoctorProfileView/" + doctorId);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getdoctorProfileView/" + doctorId,
                 new Response.Listener<String>() {

@@ -12,10 +12,10 @@
             android:id="@+id/btn_ptn_healthProfile"
             style="@style/general_button_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/margin_def"
+            android:layout_marginBottom="20dp"
             android:text="@string/save" />
 
 
@@ -24,95 +24,69 @@
 
             android:id="@+id/spinner_layout"
             style="@style/spinner_border_style"
-            android:layout_below="@+id/tvLabel">
+            android:layout_below="@+id/tvLabel"
+            android:layout_marginBottom="12dp">
 
             <Spinner
+                android:paddingLeft="10dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:id="@+id/spBloodGroup"
-                style="@style/spinner_style" />
+                android:background="@drawable/spinner" />
 
-            <ImageView style="@style/spinner_image_style" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvLable2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/spinner_layout"
-            android:layout_marginBottom="@dimen/margin_def"
-            android:layout_marginTop="@dimen/margin_def"
-            android:text="Weight" />
 
-        <EditText
+
+        <EditText android:layout_marginBottom="12dp"
+            style="@style/edit_text_style_1"
             android:id="@+id/edtWeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvLable2"
+            android:layout_below="@+id/spinner_layout"
             android:ems="10"
             android:hint="@string/weight"
             android:inputType="number" />
 
-        <TextView
-            android:id="@+id/tvLable3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/edtWeight"
-            android:layout_marginBottom="@dimen/margin_def"
-            android:layout_marginTop="@dimen/margin_def"
-            android:text="Height" />
 
-        <EditText
 
+        <EditText android:layout_marginBottom="12dp"
+            style="@style/edit_text_style_1"
             android:id="@+id/edtHeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvLable3"
+            android:layout_below="@+id/edtWeight"
             android:ems="10"
             android:hint="@string/height"
             android:inputType="number" />
 
-        <TextView
-            android:id="@+id/tvLable4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            android:layout_below="@+id/edtHeight"
-            android:layout_marginBottom="@dimen/margin_def"
-            android:layout_marginTop="@dimen/margin_def"
-            android:text="@string/bp" />
-
-        <EditText
+        <EditText android:layout_marginBottom="12dp"
+            style="@style/edit_text_style_1"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:id="@+id/edtBp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvLable4"
+            android:layout_below="@+id/edtHeight"
             android:ems="10"
             android:hint="@string/bp"
             android:inputType="text" />
 
-        <TextView
-            android:id="@+id/tvLable5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/edtBp"
-            android:layout_marginBottom="@dimen/margin_def"
-            android:layout_marginTop="@dimen/margin_def"
-            android:text="@string/family_disease_history" />
 
         <EditText
+            style="@style/edit_text_style_1"
+            android:layout_marginBottom="12dp"
             android:id="@+id/edtFamilyDiseaseHistory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvLable5"
+            android:layout_below="@+id/edtBp"
             android:ems="10"
             android:hint="@string/family_disease_history"
             android:inputType="text" />
 
 
         <EditText
+            style="@style/edit_text_style_1"
             android:id="@+id/edtExistingMedicalReport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
