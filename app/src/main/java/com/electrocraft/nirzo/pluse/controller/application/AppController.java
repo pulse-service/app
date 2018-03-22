@@ -1,14 +1,25 @@
 package com.electrocraft.nirzo.pluse.controller.application;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+
 import com.electrocraft.nirzo.pluse.controller.util.LruBitmapCache;
 import com.electrocraft.nirzo.pluse.view.util.Key;
+import com.facebook.FacebookSdk;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
 
 import timber.log.Timber;
 
@@ -39,6 +50,10 @@ public class AppController extends com.activeandroid.app.Application {
         mInstance = this;
         Timber.plant(new Timber.DebugTree());
 
+        printHashKey(getApplicationContext());
+
+//        Log.d("AppLog", "key:" + FacebookSdk.getApplicationSignature(this));
+//        AndroidNetworking.initialize(getApplicationContext());
         // todo: eta ke single class e ante hobe
         SharedPreferences preferences = getSharedPreferences(Key.APP_PREFERENCE, MODE_PRIVATE);
         boolean isFirstRun = preferences.getBoolean(Key.KEY_IS_FIRST_TIME, false);
@@ -85,6 +100,22 @@ public class AppController extends com.activeandroid.app.Application {
     public void cancelPendingRequests(Object tag) {
         if (mRequestQueue != null) {
             mRequestQueue.cancelAll(tag);
+        }
+    }
+
+    public void printHashKey(Context pContext) {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (android.content.pm.Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i(TAG, "printHashKey() Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e(TAG, "printHashKey()", e);
         }
     }
 }

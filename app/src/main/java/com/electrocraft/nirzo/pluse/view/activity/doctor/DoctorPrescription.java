@@ -2,6 +2,7 @@ package com.electrocraft.nirzo.pluse.view.activity.doctor;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,8 +22,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
@@ -740,7 +743,8 @@ public class DoctorPrescription extends AppCompatActivity {
             test.add(labTestModelArrayList.get(i).getTestCode());
         }
 
-        savePatientHealthInfo(findingsField, diagnosisField, "00000001", "0", "34", ""
+//        savePatientHealthInfo(findingsField, diagnosisField, "00000001", "0", "34", ""
+        savePatientHealthInfoPostAPICall(findingsField, diagnosisField, "00000001", "0", "34", ""
                 , "");
 
        /* for(int i = 0; i<drugRVModelArrayList.size();i++){
@@ -759,6 +763,136 @@ public class DoctorPrescription extends AppCompatActivity {
 
     }
 
+    //    {"DrConsultationCode":"CI-00000002",
+//            "Findings":"Findings",
+//            "Diagnosis":"Diagnosis",
+//            "NextFollowUpDate":"2018-03-04",
+//            "SI_SymptomCode":["DI_001","DI_002"],
+//        "LT_LabTestCode":["LT001","DI_001"],
+//        "DrugSignature":"",
+//            "DI_DrugCode":["SC001","DI_001"],
+//        "DI_Strength":["DI_001","DI_002"],
+//        "DI_Days":["25","54"]
+//    }
+    private void savePatientHealthInfoPostAPICall(String findingsField, String diagnosisField, String s, String s1, String s2, String s3, String s4) {
+
+
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("DrConsultationCode", "00000002");
+            jsonObject.put("Findings", "Findings");
+            jsonObject.put("Diagnosis", "Diagnosis");
+            jsonObject.put("NextFollowUpDate", "2018-03-04");
+            jsonObject.put("DrugSignature", "");
+
+
+            // jsonArraySymptom
+            JSONArray jsonArraySymptom = new JSONArray();
+
+            for (int i = 0; i < labTestModelArrayList.size(); i++) {
+
+
+                jsonArraySymptom.put(labTestModelArrayList.get(i).getSymptomCode());
+            }
+
+            jsonObject.put("SI_SymptomCode", jsonArraySymptom);
+
+
+            //jsonArrayLabTestCode
+            JSONArray jsonArrayLabTestCode = new JSONArray();
+
+            for (int i = 0; i < labTestModelArrayList.size(); i++) {
+
+
+                jsonArrayLabTestCode.put(labTestModelArrayList.get(i).getTestCode());
+            }
+
+            jsonObject.put("LT_LabTestCode", jsonArrayLabTestCode);
+
+
+            //jsonArrayDIDrugCode
+            JSONArray jsonArrayDIDrugCode = new JSONArray();
+
+            for (int i = 0; i < drugRVModelArrayList.size(); i++) {
+
+
+                jsonArrayDIDrugCode.put(drugRVModelArrayList.get(i).getDrugsCode());
+            }
+
+
+            jsonObject.put("DI_DrugCode", jsonArrayDIDrugCode);
+
+            //jsonArrayDIStrength
+
+            JSONArray jsonArrayDIStrength = new JSONArray();
+
+            for (int i = 0; i < drugRVModelArrayList.size(); i++) {
+
+
+                jsonArrayDIStrength.put(drugRVModelArrayList.get(i).getStrengthCode());
+            }
+
+            jsonObject.put("DI_Strength", jsonArrayDIStrength);
+
+
+            //jsonArrayDIDays
+
+            JSONArray jsonArrayDIDays = new JSONArray();
+
+            for (int i = 0; i < drugRVModelArrayList.size(); i++) {
+
+
+                jsonArrayDIDays.put(drugRVModelArrayList.get(i).getDays());
+            }
+            jsonObject.put("DI_Days", jsonArrayDIDays);
+
+
+            Log.e("Json", jsonObject.toString());
+
+            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    "http://180.148.210.139:8081/pulse_api/api/savedoctorPrescriptioninfo", jsonObject,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            Log.d("Json_reques", response.toString());
+                            //  YOUR RESPONSE
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+
+                }
+            });
+//            mRequestQueue.add(jsonObjReq);
+            AppController.getInstance().addToRequestQueue(jsonObjReq, "tag");
+//            AndroidNetworking.post("http://180.148.210.139:8081/pulse_api/api/savedoctorPrescriptioninfo")
+//                    .addJSONObjectBody(jsonObject) // posting json
+//                    .setTag("test")
+//                    .setPriority(Priority.MEDIUM)
+//                    .build()
+//                    .getAsJSONObject(new JSONObjectRequestListener() {
+//                        @Override
+//                        public void onResponse(JSONObject response) {
+//
+//                            Log.e("onResponse", response.toString());
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(ANError error) {
+//                            // handle error
+//                        }
+//                    });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void savePatientHealthInfo(final String findings, final String diagnosis, final String docConsultratonCode,
                                        final String di_DrugCode,
                                        final String si_SymptomCode, final String nextFollowUpDate,
@@ -770,7 +904,7 @@ public class DoctorPrescription extends AppCompatActivity {
             pDialog = new ProgressDialog(DoctorPrescription.this);
         pDialog.setMessage("Loading...");
         pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.LIVE_API_LINK + "savedoctorPrescriptioninfo",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://requestbin.fullcontact.com/144rz4f1",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -806,37 +940,50 @@ public class DoctorPrescription extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
+                ArrayList<String> symptomCOdes = new ArrayList<>();
 
 
-       /*         DrConsultationCode:CI-00000001
-                Findings:Findings
-                Diagnosis:Diagnosis
-                NextFollowUpDate:
-                SI_SymptomCode[]:SC001
-                LT_LabTestCode[]:LT001
-                DrugSignature:ok
-                DI_DrugCode[]:SC001
-                DI_Strength[]:DI_001
-                DI_Days[]:25*/
+                symptomCOdes.add("DSI_014");
+                symptomCOdes.add("DSI_013");
 
-     /*           params.put("DrConsultationCode", docConsultratonCode);
-                params.put("Findings", findings);
-                params.put("Diagnosis", diagnosis);
-                params.put("NextFollowUpDate", nextFollowUpDate);
-                params.put("SI_SymptomCode[]", si_SymptomCode);
-                params.put("LT_LabTestCode[]", lt_LabTestCode);
-                params.put("DrugSignature", "ok");
-                params.put("DI_DrugCode[]", di_DrugCode);
-                params.put("DI_Strength[]", di_Strength);
-                params.put("DI_Days[]", di_Days);*/
 
+                for (int i = 0; i < symptomCOdes.size(); i++) {
+
+
+                }
+
+//                ArrayList<String> symptomCOdes = putSymptomCodes(params);
+//                ArrayList<String> symptomCOdes = putSymptomCodes(params);
+//
+//
+//
+//
+//                params.put("DI_Strength[]", symptomCOdes.get(i));
+//                params.put("DI_Days[]", symptomCOdes.get(i));
+
+                ArrayList<String> drugCodes = new ArrayList<>();
+                drugCodes.add("DI_001");
+                drugCodes.add("DI_002");
+
+
+                for (int i = 0; i < drugCodes.size(); i++) {
+
+//                    params.put("DI_DrugCode[]", drugCodes.get(i));
+
+                }
+
+                params.put("SI_SymptomCode[]", String.valueOf(symptomCOdes.size()));
+
+                params.put("DI_DrugCode[]", String.valueOf(drugCodes.size()));
 
                 params.put("DrConsultationCode", docConsultratonCode);
                 params.put("Findings", findings);
                 params.put("Diagnosis", diagnosis);
                 params.put("NextFollowUpDate", nextFollowUpDate);
 //                params.put("SI_SymptomCode[]", si_SymptomCode);
-//                params.put("LT_LabTestCode[]", lt_LabTestCode);
+                params.put("LT_LabTestCode[]", "");
+                params.put("DI_Strength[]", "");
+                params.put("DI_Days[]", "");
                 params.put("DrugSignature", "ok");
 
 
@@ -865,6 +1012,7 @@ public class DoctorPrescription extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(stringRequest, tag);
     }
+
 
     private void closeDialog() {
         if (pDialog != null && pDialog.isShowing())
