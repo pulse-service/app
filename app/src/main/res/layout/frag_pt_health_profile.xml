@@ -21,73 +21,74 @@
 
         <!--Spinner-->
         <RelativeLayout
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/spinner_layout"
-            style="@style/spinner_border_style"
-            android:layout_below="@+id/tvLabel"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="@dimen/action_bar_height">
 
             <Spinner
-                android:paddingLeft="10dp"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
                 android:id="@+id/spBloodGroup"
-                android:background="@drawable/spinner" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner"
+                android:paddingLeft="10dp" />
 
         </RelativeLayout>
 
 
-
-        <EditText android:layout_marginBottom="12dp"
-            style="@style/edit_text_style_1"
+        <EditText
             android:id="@+id/edtWeight"
-
+            style="@style/edit_text_style_1"
             android:layout_alignParentStart="true"
+
             android:layout_below="@+id/spinner_layout"
+            android:layout_marginBottom="12dp"
             android:ems="10"
             android:hint="@string/weight"
             android:inputType="number" />
 
 
-
-        <EditText android:layout_marginBottom="12dp"
-            style="@style/edit_text_style_1"
+        <EditText
             android:id="@+id/edtHeight"
-
+            style="@style/edit_text_style_1"
             android:layout_alignParentStart="true"
+
             android:layout_below="@+id/edtWeight"
+            android:layout_marginBottom="12dp"
             android:ems="10"
             android:hint="@string/height"
             android:inputType="number" />
 
 
-        <EditText android:layout_marginBottom="12dp"
-            style="@style/edit_text_style_1"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
+        <EditText
             android:id="@+id/edtBp"
+            style="@style/edit_text_style_1"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/edtHeight"
+            android:layout_marginBottom="12dp"
             android:ems="10"
             android:hint="@string/bp"
-            android:inputType="text" />
+            android:inputType="text"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp" />
 
 
         <EditText
-            style="@style/edit_text_style_1"
-            android:layout_marginBottom="12dp"
             android:id="@+id/edtFamilyDiseaseHistory"
-
+            style="@style/edit_text_style_1"
             android:layout_alignParentEnd="true"
+
             android:layout_below="@+id/edtBp"
+            android:layout_marginBottom="12dp"
             android:ems="10"
             android:hint="@string/family_disease_history"
             android:inputType="text" />
 
 
         <EditText
-            style="@style/edit_text_style_1"
             android:id="@+id/edtExistingMedicalReport"
+            style="@style/edit_text_style_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
