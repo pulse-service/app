@@ -96,6 +96,10 @@ public class DocAppointmentFragment extends Fragment {
             public void setEditClickListener(int position) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
+
+                intent.putExtra("appointCode", "APPT-00000001");
+                intent.putExtra("patientId", modelList.get(position).getPatientID());
+
                 startActivity(intent);
                 // call
             }
@@ -175,6 +179,7 @@ public class DocAppointmentFragment extends Fragment {
                         String PRI_PTID;
                         String PRI_Name;
                         String APPT_ShortDescriptionOfProblem;
+                        String DRI_DrID;
 
                         try {
                             JSONObject object = new JSONObject(response);
@@ -192,8 +197,10 @@ public class DocAppointmentFragment extends Fragment {
                                         PRI_PTID = jsonObject.getString("PRI_PTID");
                                         PRI_Name = jsonObject.getString("PRI_Name");
                                         APPT_ShortDescriptionOfProblem = jsonObject.getString("APPT_ShortDescriptionOfProblem");
+                                        DRI_DrID = jsonObject.getString("DRI_DrID");
 
                                         AppointmentModel model = new AppointmentModel(APPT_AppointmentDate, InTime, InTime_AMOrPM, PRI_PTID, PRI_Name, APPT_ShortDescriptionOfProblem);
+                                        model.setDoctorID(DRI_DrID);
                                         modelList.add(model);
                                     }
 
