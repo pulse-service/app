@@ -18,12 +18,20 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.activity.LoginAsActivity;
@@ -34,6 +42,10 @@ import com.electrocraft.nirzo.pluse.view.fragment.PtLocationBaseFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment;
 import com.electrocraft.nirzo.pluse.view.util.Key;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,13 +68,14 @@ public class PatientHomeActivity extends AppCompatActivity
     NavigationView navigationView;
 
     String mPatientId;
-    private TextView tvNotificationDetails;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pt_activity_home);
+        queue = Volley.newRequestQueue(this);
 
         ButterKnife.bind(this);
 
@@ -96,14 +109,14 @@ public class PatientHomeActivity extends AppCompatActivity
         navMenuView.addItemDecoration(new DividerItemDecoration(PatientHomeActivity.this, DividerItemDecoration.VERTICAL));
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (navigationView != null) {
+        /*if (navigationView != null) {
             RelativeLayout mParent = (RelativeLayout) navigationView.getHeaderView(0);
             if (mParent != null) {
 
-                TextView userName = mParent.findViewById(R.id.nav_tvPatientNameNavBar);
+                //TextView userName = mParent.findViewById(R.id.nav_tvPatientNameNavBar);
 //                userName.setText(intent.getStringExtra("PTName"));
             }
-        }
+        }*/
 
         if (getIntent().getBooleanExtra("redirfrom", false)) {
             Bundle arg = new Bundle();
@@ -117,6 +130,7 @@ public class PatientHomeActivity extends AppCompatActivity
             ft.commit();
         }
 
+        callPatientInfo();
 
     }
 
@@ -287,6 +301,58 @@ public class PatientHomeActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    RequestQueue queue;
+
+    private void callPatientInfo() {
+        String url = "http://180.148.210.139:8081/pulse_api/api/patientregistration/";
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + AppSharePreference.getPatientID(this),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            View hView =  navigationView.getHeaderView(0);
+
+                            TextView pat_name = hView.findViewById(R.id.nav_tvPatientNameNavBar);
+
+                            TextView pat_number = hView.findViewById(R.id.tvPatNumber);
+
+                            TextView pat_email = hView.findViewById(R.id.tvpatemail);
+
+                            ImageView pat_img = hView.findViewById(R.id.imageView);
+                            String jsonObjectInside;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("PRI_PTName");
+                                pat_name.setText(jsonObjectInside);
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("PRI_Phone");
+                                pat_number.setText(jsonObjectInside);
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("PRI_Email");
+                                pat_email.setText(jsonObjectInside);
+
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } finally {
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 
 
