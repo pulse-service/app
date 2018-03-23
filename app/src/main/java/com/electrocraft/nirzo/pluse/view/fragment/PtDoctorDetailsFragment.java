@@ -94,7 +94,7 @@ public class PtDoctorDetailsFragment extends Fragment {
 
         pDialog = new ProgressDialog(getActivity(),R.style.MyAlertDialogStyle);
         pDialog.setMessage("Loading...");
-        pDialog.show();
+        //pDialog.show();
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "getDoctorAvailableTime/" + doctorId,

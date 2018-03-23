@@ -81,53 +81,6 @@ public class PatientPrescriptionFragment extends Fragment {
         webView.loadUrl("http://docs.google.com/gview?embedded=true&url=http://180.148.210.139:8081/pulse_api/api/prescriptionpdf/DP-00000018");
         return view;
     }
-/*    private class CustomWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-    }*/
 
-/*    private class DownloadFile extends AsyncTask<String, Void, Void>{
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showpDialog();
-        }
-
-        @Override
-        protected Void doInBackground(String... strings) {
-
-            String fileUrl = strings[0];
-// -> https://letuscsolutions.files.wordpress.com/2015/07/five-point-someone-chetan-bhagat_ebook.pdf
-            String fileName = strings[1];
-// ->five-point-someone-chetan-bhagat_ebook.pdf
-            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-            File folder = new File(extStorageDirectory, "PDF DOWNLOAD");
-            folder.mkdir();
-
-            File pdfFile = new File(folder, fileName);
-
-            try{
-                pdfFile.createNewFile();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-            FileDownloader.downloadFile(fileUrl, pdfFile);
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            hidepDialog();
-            Toast.makeText(getApplicationContext(), "Download PDf successfully", Toast.LENGTH_SHORT).show();
-
-            Log.d("Download complete", "----------");
-        }
-    }*/
 
 }

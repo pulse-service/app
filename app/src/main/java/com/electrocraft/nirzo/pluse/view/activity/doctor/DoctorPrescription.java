@@ -785,7 +785,7 @@ public class DoctorPrescription extends AppCompatActivity {
             jsonObject.put("Diagnosis", "Diagnosis");
             jsonObject.put("NextFollowUpDate", "2018-03-04");
             jsonObject.put("DrugSignature", "");
-
+            //TODO optimize the for loop
 
             // jsonArraySymptom
             JSONArray jsonArraySymptom = new JSONArray();

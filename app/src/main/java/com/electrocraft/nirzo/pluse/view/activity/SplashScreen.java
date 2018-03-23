@@ -21,8 +21,10 @@ public Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("gosh", "onCreate: ");
         context=this;
         setContentView(R.layout.activity_splash_screen);
+        Log.d("sss", " in here: ");
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -30,6 +32,8 @@ public Context context;
                 try {
 
                     AppSharePreference.getDoctorID(context);
+                    Log.d("sss", " in here: ");
+
                     Log.d("sss", "docid: "+AppSharePreference.getDoctorID(context));
                     Log.d("sss", "patid: "+AppSharePreference.getPatientID(context));
 
@@ -43,6 +47,7 @@ public Context context;
                     }
                 }catch (Exception e){
                     Log.d("sss", "error: ");
+
                 }
 
                 finish();
