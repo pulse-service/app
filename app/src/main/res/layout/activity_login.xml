@@ -44,7 +44,7 @@
                 android:layout_below="@id/edtPhone"
                 android:layout_marginTop="14dp"
                 android:ems="10"
-                android:hint="@string/password"
+                android:hint="Password (6 Digits)"
                 android:inputType="textPassword" />
 
             <TextView

@@ -109,7 +109,6 @@ public class PtSpecializationFragment extends Fragment {
 
         actvSpecialization.setThreshold(1);                                                         //will start working from first character
         actvSpecialization.setAdapter(mSpecAdapter);                                                     //setting the adapter data into the AutoCompleteTextView
-        actvSpecialization.setTextColor(Color.GREEN);
 
         getSpecializationType();
         actvSpecialization.addTextChangedListener(new TextWatcher() {
