@@ -27,7 +27,7 @@
                 android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/newlogo" />
+                android:src="@drawable/newlogo_notag" />
 
             <EditText
                 android:id="@+id/edtPhone"
