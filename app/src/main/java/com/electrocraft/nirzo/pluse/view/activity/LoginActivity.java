@@ -295,7 +295,7 @@ private  CallbackManager mCallbackManager;
 
     }
 
-    @OnClick(R.id.tvRegistration)
+    @OnClick(R.id.btn_signup)
     public void onRegistrationClick(View view) {
         if (!isDoctorLogin) {
             startActivity(new Intent(LoginActivity.this, SignUpEmailActivity.class));
