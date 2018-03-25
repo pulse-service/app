@@ -400,7 +400,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginDoctor(final String phoneNo, final String password) {
         String patient_login_tag = "patient_log_in_tag";
-
+        Log.d("wasi", "loginDoctor(): ");
         if (pDialog == null) {
             pDialog = new ProgressDialog(this);
             pDialog.setMessage("Loading...");
@@ -448,6 +448,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 // hide the progress dialog
+                Log.d("wasi", "loginDoctor()error: ");
+
                 closeDialog();
             }
         }) {
