@@ -147,7 +147,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
             }
         }));
-
+        calendarView.setMinDate(System.currentTimeMillis() - 1000);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
@@ -352,7 +352,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
         ad.setTitle("You have Selected");
         selectedDateString = selectedDate + "";
         selectedTimeString = time + "";
-        ad.setMessage("Your Date :" + selectedDate + "\n time : " + time);
+        ad.setMessage("Your Date :" + selectedDate + "\n Time : " + time);
         selectedDateTime = selectedDate + " " + time;
         ad.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
 
