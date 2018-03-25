@@ -59,16 +59,7 @@ public class PatientPrescriptionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_pt_prescription, container, false);
         ButterKnife.bind(this, view);
-//        donwloadPDF();
-//        downloadFileFromURL.execute("http://180.148.210.139:8081/pulse_api/api/prescriptionpdf/DP-00000018");
-//        pdfView.fromUri(myUri);
 
-//        WebView htmlWebView = (WebView)findViewById(R.id.webView);
-/*        pdfView.setWebViewClient(new CustomWebViewClient());
-        WebSettings webSetting = pdfView.getSettings();
-        webSetting.setJavaScriptEnabled(true);
-        webSetting.setDisplayZoomControls(true);
-        pdfView.loadUrl("http://180.148.210.139:8081/pulse_api/api/prescriptionpdf/DP-00000018");*/
 
 
       /*  down vote

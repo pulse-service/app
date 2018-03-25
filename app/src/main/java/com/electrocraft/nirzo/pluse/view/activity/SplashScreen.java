@@ -16,17 +16,18 @@ import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 public class SplashScreen extends AppCompatActivity {
 
     private final int SPLASH_TIME_OUT = 3000;
-public Context context;
+    public Context context;
+    Handler mHandler;
+    Runnable mRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("gosh", "onCreate: ");
-        context=this;
+        context = this;
         setContentView(R.layout.activity_splash_screen);
         Log.d("sss", " in here: ");
-
-        new Handler().postDelayed(new Runnable() {
+        mRunnable=new Runnable() {
             @Override
             public void run() {
                 try {
@@ -34,25 +35,35 @@ public Context context;
                     AppSharePreference.getDoctorID(context);
                     Log.d("sss", " in here: ");
 
-                    Log.d("sss", "docid: "+AppSharePreference.getDoctorID(context));
-                    Log.d("sss", "patid: "+AppSharePreference.getPatientID(context));
+                    Log.d("sss", "docid: " + AppSharePreference.getDoctorID(context));
+                    Log.d("sss", "patid: " + AppSharePreference.getPatientID(context));
 
-                    if(AppSharePreference.getDoctorID(context).equals("")&&AppSharePreference.getPatientID(context).equals("")){
+                    if (AppSharePreference.getDoctorID(context).equals("") && AppSharePreference.getPatientID(context).equals("")) {
                         startActivity(new Intent(SplashScreen.this, LoginAsActivity.class));
-                    }else if(AppSharePreference.getDoctorID(context).equals("") && !AppSharePreference.getPatientID(context).equals("")){
+                    } else if (AppSharePreference.getDoctorID(context).equals("") && !AppSharePreference.getPatientID(context).equals("")) {
                         startActivity(new Intent(SplashScreen.this, PatientHomeActivity.class));
-                    }else if(AppSharePreference.getDoctorID(context).equals("") && !AppSharePreference.getPatientID(context).equals("")){
+                    } else if (!AppSharePreference.getDoctorID(context).equals("") && AppSharePreference.getPatientID(context).equals("")) {
                         startActivity(new Intent(SplashScreen.this, DoctorHomeActivity.class));
 
                     }
-                }catch (Exception e){
+
+
+                } catch (Exception e) {
                     Log.d("sss", "error: ");
 
                 }
 
                 finish();
             }
-        }, SPLASH_TIME_OUT);
+        };
+        mHandler = new Handler();
+        mHandler.postDelayed(mRunnable,SPLASH_TIME_OUT);
+    }
+
+    @Override
+    public void finish() {
+        mHandler.removeCallbacks(mRunnable);
+        super.finish();
     }
 }
 

@@ -85,7 +85,8 @@ public class DocAppointmentFragment extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c);
         String mDoctorId = AppSharePreference.getDoctorID(getActivity());
-        getDoctorAppointment(mDoctorId, formattedDate);
+//        getDoctorAppointment(mDoctorId, formattedDate);
+        getDoctorAppointment(mDoctorId, "2018-03-29");
         return view;
     }
 
@@ -98,6 +99,9 @@ public class DocAppointmentFragment extends Fragment {
 
                 intent.putExtra("appointCode", "APPT-00000001");
                 intent.putExtra("patientId", modelList.get(position).getPatientID());
+                intent.putExtra("doctorId", modelList.get(position).getDoctorID());
+                intent.putExtra("consultationDate", modelList.get(position).getAppointmentDate());
+                intent.putExtra("consultation_am_pm", modelList.get(position).getInTime_AMOrPM());
 
                 startActivity(intent);
                 // call
