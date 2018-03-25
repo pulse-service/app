@@ -147,7 +147,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
             }
         }));
-
+        calendarView.setMinDate(System.currentTimeMillis() - 1000);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
