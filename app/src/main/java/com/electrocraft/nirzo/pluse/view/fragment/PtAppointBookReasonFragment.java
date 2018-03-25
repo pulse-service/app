@@ -52,10 +52,11 @@ public class PtAppointBookReasonFragment extends Fragment {
     private String mDocAmount;
     private String mPatientId;
 
-    public static String selectedDateTime="";
-    public static String selectedTimeString="";
-    public static String selectedDateString="";
-    public static String mOAT_codeString="";
+    public static String selectedDateTime = "";
+    public static String selectedTimeString = "";
+    public static String selectedDateString = "";
+    public static String mOAT_codeString = "";
+
     public PtAppointBookReasonFragment() {
     }
 
@@ -89,11 +90,11 @@ public class PtAppointBookReasonFragment extends Fragment {
 
         }
 
-        if(selectedDateTime.equals("")){
+        if (selectedDateTime.equals("")) {
             cv_4.setVisibility(View.GONE);
-        }else {
+        } else {
             cv_4.setVisibility(View.VISIBLE);
-            String temp = "Your appointment is booked at "+selectedTimeString+ " \nDate: " + selectedDateString;
+            String temp = "Your appointment is booked at " + selectedTimeString + " \nDate: " + selectedDateString;
             selectedDate.setText(temp);
         }
         // hide the soft input
@@ -127,14 +128,18 @@ public class PtAppointBookReasonFragment extends Fragment {
     public void proceed() {
         if (selectedDate.getText().toString().equals("")) {
             Toast.makeText(getActivity(), "Select date and time first", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
 
+            String shortDes = edtShortDescribtion.getText().toString();
+
+            if (shortDes.length() == 0)
+                shortDes = "N/A";
 
             Fragment fragment = new PtPaymentModuleFragment();
             Bundle arg = new Bundle();
             arg.putString(Key.KEY_DOCTOR_ID, mDoctorId);
             arg.putString(Key.KEY_PATIENT_ID, mPatientId);
-            arg.putString(Key.KEY_PATIENT_PROBLEM_SHORT_DES, edtShortDescribtion.getText().toString());
+            arg.putString(Key.KEY_PATIENT_PROBLEM_SHORT_DES, shortDes);
             arg.putString(Key.KEY_APPOINTMENT_DATE, selectedDateString);
             arg.putString(Key.KEY_APPOINTMENT_TIME, selectedTimeString);
             arg.putString(Key.KEY_OAT, mOAT_codeString);
@@ -149,13 +154,12 @@ public class PtAppointBookReasonFragment extends Fragment {
                 }*/
 
 
-
-
-
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.addToBackStack(null);
-            ft.replace(R.id.content_frame, fragment);
-            ft.commit();
+            if (getFragmentManager() != null) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.addToBackStack(null);
+                ft.replace(R.id.content_frame, fragment);
+                ft.commit();
+            }
 
 
         }

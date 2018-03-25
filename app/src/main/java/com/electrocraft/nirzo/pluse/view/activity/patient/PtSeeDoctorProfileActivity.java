@@ -96,6 +96,10 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+
+    @BindView(R.id.doc_type)
+    TextView tv_doc_type;
+
     //    private boolean reDirEnable = false;
     List<SpinnerHelper> languageList = new ArrayList<>();
 
@@ -104,10 +108,12 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frag_pt_view_doctor_profile);
         ButterKnife.bind(this);
+
+
         doctorId = getIntent().getStringExtra(Key.KEY_DOCTOR_ID);
         getDoctorProfile(doctorId);
 
-         mDoctorName = getIntent().getStringExtra(Key.DOCTOR_NAME_KEY);
+        mDoctorName = getIntent().getStringExtra(Key.DOCTOR_NAME_KEY);
 
         mDocExpertise = getIntent().getStringExtra(Key.KEY_DOCTOR_EXPERTISE);
         docSpecialization = getIntent().getStringExtra(Key.KEY_DOCTOR_SPECIALIZATION);
@@ -119,6 +125,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
+        tv_doc_type.setText(docSpecialization);
         tabLayout.setupWithViewPager(viewPager);
 
 //        reDirEnable = false;
@@ -188,7 +195,7 @@ public class PtSeeDoctorProfileActivity extends AppCompatActivity {
     private void getDoctorProfile(final String doctorId) {
         String tag = "get_doc_profile_info";
 
-        pDialog = new ProgressDialog(this,R.style.MyAlertDialogStyle);
+        pDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         pDialog.setMessage("Loading...");
         pDialog.show();
 

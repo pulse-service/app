@@ -12,6 +12,7 @@ public class DoctorAvailableTime {
    private String outTime;
    private String outTime_AMOrPM ;
    private String oat_code ;                // online available  time
+   private String isAlreadyBooked ;                // online available  time
 
     public boolean isCheck;
 
@@ -23,13 +24,22 @@ public class DoctorAvailableTime {
         isCheck = check;
     }
 
-    public DoctorAvailableTime(String day, String inTime, String inTime_AMOrPM, String outTime, String outTime_AMOrPM, String oat_code) {
+    public String getIsAlreadyBooked() {
+        return isAlreadyBooked;
+    }
+
+    public void setIsAlreadyBooked(String isAlreadyBooked) {
+        this.isAlreadyBooked = isAlreadyBooked;
+    }
+
+    public DoctorAvailableTime(String day, String inTime, String inTime_AMOrPM, String outTime, String outTime_AMOrPM, String oat_code, String isAlreadyBooked) {
         this.day = day;
         this.inTime = inTime;
         this.inTime_AMOrPM = inTime_AMOrPM;
         this.outTime = outTime;
         this.outTime_AMOrPM = outTime_AMOrPM;
         this.oat_code = oat_code;
+        this.isAlreadyBooked = isAlreadyBooked;
     }
 
     public String getOat_code() {

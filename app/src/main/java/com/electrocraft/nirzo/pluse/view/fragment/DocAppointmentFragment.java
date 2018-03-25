@@ -27,6 +27,7 @@ import com.electrocraft.nirzo.pluse.model.AppointmentModel;
 import com.electrocraft.nirzo.pluse.view.MainActivity;
 import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescriptionActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorsAppointmentListAdapter;
+import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import org.json.JSONArray;
@@ -85,8 +86,8 @@ public class DocAppointmentFragment extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c);
         String mDoctorId = AppSharePreference.getDoctorID(getActivity());
-//        getDoctorAppointment(mDoctorId, formattedDate);
-        getDoctorAppointment(mDoctorId, "2018-03-29");
+        getDoctorAppointment(mDoctorId, formattedDate);
+//        getDoctorAppointment(mDoctorId, "2018-04-19");
         return view;
     }
 
@@ -109,9 +110,10 @@ public class DocAppointmentFragment extends Fragment {
         }, new DoctorsAppointmentListAdapter.EditClickListener1() {
             @Override
             public void setEditClickListener(int position) {
-                Intent intent = new Intent(getActivity(), DoctorPrescriptionActivity.class);
+                AlertDialogManager.showWarnigDialog(getActivity(),"Please call the patient before generating prescription");
+/*                Intent intent = new Intent(getActivity(), DoctorPrescriptionActivity.class);
 //                intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
-                startActivity(intent);
+                startActivity(intent);*/
                 // pescription
             }
         });
