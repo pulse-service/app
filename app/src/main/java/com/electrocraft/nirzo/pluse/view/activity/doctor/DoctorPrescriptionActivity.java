@@ -2,7 +2,6 @@ package com.electrocraft.nirzo.pluse.view.activity.doctor;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -27,9 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.electrocraft.nirzo.pluse.R;
-import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class DoctorPrescription extends AppCompatActivity {
+public class DoctorPrescriptionActivity extends AppCompatActivity {
     ArrayList<SymptomModel> symptomModelArrayList;
     ArrayList<TestModel> symptomwiseTestArralist;
     ArrayList<TestModel> symptomwiseTestArralistEdit;
@@ -901,7 +898,7 @@ public class DoctorPrescription extends AppCompatActivity {
 
 
         if (pDialog == null)
-            pDialog = new ProgressDialog(DoctorPrescription.this);
+            pDialog = new ProgressDialog(DoctorPrescriptionActivity.this);
         pDialog.setMessage("Loading...");
         pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://requestbin.fullcontact.com/144rz4f1",
@@ -919,7 +916,7 @@ public class DoctorPrescription extends AppCompatActivity {
 //                            msg = jos.getString("msg");
 
 
-//                            AlertDialogManager.showSuccessDialog(DoctorPrescription.this, msg);
+//                            AlertDialogManager.showSuccessDialog(DoctorPrescriptionActivity.this, msg);
 
 
                         } catch (JSONException e) {

@@ -25,9 +25,8 @@ import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.AppointmentModel;
 import com.electrocraft.nirzo.pluse.view.MainActivity;
-import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescription;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescriptionActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorsAppointmentListAdapter;
-import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import org.json.JSONArray;
@@ -106,7 +105,7 @@ public class DocAppointmentFragment extends Fragment {
         }, new DoctorsAppointmentListAdapter.EditClickListener1() {
             @Override
             public void setEditClickListener(int position) {
-                Intent intent = new Intent(getActivity(), DoctorPrescription.class);
+                Intent intent = new Intent(getActivity(), DoctorPrescriptionActivity.class);
 //                intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
                 startActivity(intent);
                 // pescription

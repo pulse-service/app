@@ -15,7 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescription;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescriptionActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (!data.isNull("id")) {
                                     id = data.getString("id");
 
-                                    Intent intent = new Intent(MainActivity.this, DoctorPrescription.class);
+                                    Intent intent = new Intent(MainActivity.this, DoctorPrescriptionActivity.class);
                                     intent.putExtra("consult_id", id);
                                 }
 

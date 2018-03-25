@@ -132,7 +132,7 @@
         </service>
 
         <activity android:name=".view.activity.LoginAsActivity"></activity>
-        <activity android:name=".view.activity.doctor.DoctorPrescription" />
+        <activity android:name=".view.activity.doctor.DoctorPrescriptionActivity" />
     </application>
 
 </manifest>
