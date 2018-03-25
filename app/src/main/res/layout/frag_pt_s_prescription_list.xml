@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white"
+    android:layout_marginTop="@dimen/action_bar_height">
+
+     <android.support.v7.widget.RecyclerView
+         android:id="@+id/recyPres"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_below="@+id/actv_specializationCat"
+         android:scrollbars="vertical" />
+
+<!--    <de.hdodenhof.circleimageview.CircleImageView
+
+        android:id="@+id/lr_iv_DocImage"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_doctor"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp" />
+
+    <TextView
+        android:id="@+id/lr_tv_AppointmentDateNTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+
+        android:layout_marginTop="20dp"
+        android:text="Date:2018-03-19 Time:09:00 pm" />
+
+    <TextView
+        android:id="@+id/lr_tv_DocName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lr_iv_DocImage"
+        android:padding="@dimen/padding_def"
+        android:text="Dr Niloy"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lr_tv_Specialization"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lr_tv_DocName"
+        android:text="Dentiest"
+        android:textStyle="bold" />
+
+
+    <Button
+        android:id="@+id/lr_btn_Call"
+        style="@style/general_button_style"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/lr_tv_DocName"
+        android:layout_marginEnd="13dp"
+        android:layout_marginTop="30dp"
+        android:text="Call" />-->
+</RelativeLayout>
