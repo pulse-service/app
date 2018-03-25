@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -69,35 +70,6 @@ public class PtPickUpTimeDateFragment extends Fragment {
     @BindView(R.id.calendarView)
     CalendarView calendarView;
 
-    /*@BindView(R.id.btn_pt_doc_PicTime_7)
-    Button btn_pt_doc_PicTime_7;
-
-    @BindView(R.id.btn_pt_doc_PicTime_8)
-    Button btn_pt_doc_PicTime_8;
-
-    @BindView(R.id.btn_pt_doc_PicTime_9)
-    Button btn_pt_doc_PicTime_9;
-
-    @BindView(R.id.btn_pt_doc_PicTime_6)
-    Button btn_pt_doc_PicTime_6;
-
-    @BindView(R.id.btn_pt_doc_PicTime_5)
-    Button btn_pt_doc_PicTime_5;
-
-    @BindView(R.id.btn_pt_doc_PicTime_4)
-    Button btn_pt_doc_PicTime_4;
-
-    @BindView(R.id.btn_pt_doc_PicTime_3)
-    Button btn_pt_doc_PicTime_3;
-
-
-    @BindView(R.id.btn_pt_doc_PicTime_2)
-    Button btn_pt_doc_PicTime_2;
-
-
-    @BindView(R.id.btn_pt_doc_PicTime_1)
-    Button btn_pt_doc_PicTime_1;*/
-
 
     @BindView(R.id.recyVTime)
     RecyclerView recyVTime;
@@ -112,6 +84,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
     private String mDocAmount;
     private DoctorTimeSchAdapter mAdapter;
     int prevousId = 0;
+    private String mSlectedAppointedDate;
 
 
     public PtPickUpTimeDateFragment() {
@@ -150,8 +123,9 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd ");
-        String strDate = mdformat.format(calendar.getTime());
-        getAvailableTimeNewApi(mDoctorId, strDate);
+        String currentDate = mdformat.format(calendar.getTime());
+        getAvailableTimeNewApi(mDoctorId, currentDate);
+        mSlectedAppointedDate = currentDate;
 
         mAdapter = new DoctorTimeSchAdapter(mList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -176,16 +150,27 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                 String dateSelected = "";
+
+                // reset the global variable
+                mSlectedAppointedDate = "";
+
+                // clear the doctor available time slot
                 mList.clear();
+
+                // notify the Adapter to change as list
                 mAdapter.notifyDataSetChanged();
-                if (i1 + 1 < 10) {
-                    dateSelected = i + "-0" + (1 + i1) + "-" + i2;
+                if (month + 1 < 10) {
+                    dateSelected = year + "-0" + (1 + month) + "-" + dayOfMonth;
                 } else {
-                    dateSelected = i + "-" + (1 + i1) + "-" + i2;
+                    dateSelected = year + "-" + (1 + month) + "-" + dayOfMonth;
                 }
                 getAvailableTimeNewApi(mDoctorId, dateSelected);
+
+                mSlectedAppointedDate = dateSelected;
+
+
             }
         });
 
@@ -194,18 +179,9 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
     public void disableAllButton() {
 
-/*        goneButton(btn_pt_doc_PicTime_1);
-        goneButton(btn_pt_doc_PicTime_2);
-        goneButton(btn_pt_doc_PicTime_3);
-//        goneButton(btn_pt_doc_PicTime_08_30);
-        goneButton(btn_pt_doc_PicTime_4);
-        goneButton(btn_pt_doc_PicTime_5);
-        goneButton(btn_pt_doc_PicTime_6);
-        goneButton(btn_pt_doc_PicTime_7);
-        goneButton(btn_pt_doc_PicTime_8);
-        goneButton(btn_pt_doc_PicTime_9);*/
 
     }
+
     //Todo what is the purpose???
     private void getCurrentDate() {
         String tag = "get_current_date_month_year";
@@ -354,8 +330,6 @@ public class PtPickUpTimeDateFragment extends Fragment {
     }
 
 
-
-
     @OnClick(R.id.btn_SaveAppointment)
     public void confirmAppointment(View view) {
 
@@ -363,24 +337,24 @@ public class PtPickUpTimeDateFragment extends Fragment {
         DoctorAvailableTime time = mList.get(prevousId);
         mOAT_code = time.getOat_code();
         mOAT_codeString = mOAT_code + "";
-        String ti = time.getInTime() + " " + time.getInTime_AMOrPM();
-        showConfirmMessage(ti);
+        String selectedTime = time.getInTime() + " " + time.getInTime_AMOrPM();
+        showConfirmMessage(selectedTime, mSlectedAppointedDate);
     }
 
-    private void showConfirmMessage(final String time) {
+    private void showConfirmMessage(final String time, final String selectedDate) {
         AlertDialog ad = new AlertDialog.Builder(getActivity())
                 .create();
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        final String selectedDate = sdf.format(new Date(calendarView.getDate()));
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        final String selectedDate = sdf.format(new Date(calendarView.getDate()));
         ad.setCancelable(true);
         ad.setTitle("You have Selected");
         selectedDateString = selectedDate + "";
         selectedTimeString = time + "";
         ad.setMessage("Your Date :" + selectedDate + "\n time : " + time);
         selectedDateTime = selectedDate + " " + time;
-        ad.setButton(DialogInterface.BUTTON_POSITIVE,"Confirm", new DialogInterface.OnClickListener() {
+        ad.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -389,7 +363,7 @@ public class PtPickUpTimeDateFragment extends Fragment {
             }
         });
 
-        ad.setButton(DialogInterface.BUTTON_NEGATIVE,"Cancel", new DialogInterface.OnClickListener() {
+        ad.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -471,74 +445,5 @@ public class PtPickUpTimeDateFragment extends Fragment {
 
         AppController.getInstance().addToRequestQueue(stringRequest, tag);
     }*/
-/*    private void setUpButton() {
-        int i = 0;
-        for (DoctorAvailableTime time : mList) {
-
-            String inTime = time.getInTime().substring(0, 5) + " " + time.getInTime_AMOrPM();
-            switch (i) {
-                case 0:
-                    btn_pt_doc_PicTime_1.setTag(0);
-                    btn_pt_doc_PicTime_1.setText(inTime);
-                    visibleButton(btn_pt_doc_PicTime_1);
-                    break;
-                case 1:
-                    btn_pt_doc_PicTime_2.setTag(1);
-                    btn_pt_doc_PicTime_2.setText(inTime);
-                    visibleButton(btn_pt_doc_PicTime_2);
-                    break;
-                case 2:
-                    btn_pt_doc_PicTime_3.setTag(2);
-                    btn_pt_doc_PicTime_3.setText(inTime);
-                    visibleButton(btn_pt_doc_PicTime_3);
-                    break;
-                case 3:
-                    btn_pt_doc_PicTime_4.setTag(3);
-                    btn_pt_doc_PicTime_4.setText(inTime);
-                    visibleButton(btn_pt_doc_PicTime_4);
-                    break;
-                case 4:
-                    btn_pt_doc_PicTime_5.setTag(4);
-                    btn_pt_doc_PicTime_5.setText(inTime);
-                    visibleButton(btn_pt_doc_PicTime_5);
-                    break;
-                case 5:
-                    btn_pt_doc_PicTime_6.setTag(5);
-                    btn_pt_doc_PicTime_6.setText(inTime);
-                    visibleButton(btn_pt_doc_PicTime_6);
-                    break;
-
-                case 6:
-                    btn_pt_doc_PicTime_7.setTag(6);
-                    btn_pt_doc_PicTime_7.setText(inTime);
-                    visibleButton(btn_pt_doc_PicTime_7);
-                    break;
-                case 7:
-                    btn_pt_doc_PicTime_8.setTag(7);
-                    btn_pt_doc_PicTime_8.setText(inTime);
-                    visibleButton(btn_pt_doc_PicTime_8);
-                    break;
-                case 8:
-                    btn_pt_doc_PicTime_9.setTag(8);
-                    btn_pt_doc_PicTime_9.setText(inTime);
-                    visibleButton(btn_pt_doc_PicTime_9);
-                    break;
-
-            }
-            i++;
-        }
 
 
-    }*/
-/*
-
-    private void goneButton(View view) {
-
-        ButterKnife.apply(view, BKViewController.GONE);
-    }
-
-
-    private void visibleButton(View view) {
-
-        ButterKnife.apply(view, BKViewController.VISIBLE);
-    }*/
