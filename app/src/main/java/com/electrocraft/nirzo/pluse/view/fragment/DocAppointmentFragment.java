@@ -86,7 +86,7 @@ public class DocAppointmentFragment extends Fragment {
         String formattedDate = df.format(c);
         String mDoctorId = AppSharePreference.getDoctorID(getActivity());
 //        getDoctorAppointment(mDoctorId, formattedDate);
-        getDoctorAppointment(mDoctorId, "2018-03-29");
+        getDoctorAppointment(mDoctorId, "2018-04-19");
         return view;
     }
 
