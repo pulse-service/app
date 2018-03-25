@@ -33,7 +33,7 @@
     <string name="_30">30%</string>
     <string name="lbl_disease_symptom">Write down your symptom of the disease</string>
     <string name="dot">...................................</string>
-    <string name="profile">profile</string>
+    <string name="profile">Profile</string>
     <string name="doc_profileInfo">Personal Information</string>
     <string name="doc_chamberInfo">Chamber Information</string>
     <string name="doc_bankInfo">Bank Information</string>

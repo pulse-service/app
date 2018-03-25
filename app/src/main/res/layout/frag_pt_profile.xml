@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment">
+    tools:context="com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment"
+    android:layout_marginTop="@dimen/action_bar_height">
 
 
     <RelativeLayout style="@style/container_style_2">

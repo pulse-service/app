@@ -181,7 +181,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 getResources().getString(R.string.specialization));
 
         adapter.addFragment(new PtLocationBaseFragment(),
-                getResources().getString(R.string.location_base));
+                "Name");
 
  /*       adapter.addFragment(new PtDescribeProblemFragment(),
                 getResources().getString(R.string.describe_problem));*/
