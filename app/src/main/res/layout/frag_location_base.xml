@@ -23,6 +23,7 @@
             android:padding="10dp">
 
             <AutoCompleteTextView
+                android:textColor="@color/black"
                 android:id="@+id/actv_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

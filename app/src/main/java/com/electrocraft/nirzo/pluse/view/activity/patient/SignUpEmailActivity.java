@@ -2,13 +2,15 @@ package com.electrocraft.nirzo.pluse.view.activity.patient;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.util.AssetUtils;
@@ -105,7 +107,8 @@ public class SignUpEmailActivity extends AppCompatActivity {
             }
         });
     }
-
+    @BindView(R.id.i_agree)
+    AppCompatCheckBox checkBox;
     @OnClick(R.id.btnSignUpContinue)
     public void onSignContinueClick(View view) {
         Context context = SignUpEmailActivity.this;
@@ -135,7 +138,9 @@ public class SignUpEmailActivity extends AppCompatActivity {
 
         else if (password.length() < 6)
             AlertDialogManager.showErrorDialog(context, "Password must be 6 digit");
-        else {
+        else if (!checkBox.isChecked()) {
+            Toast.makeText(context, "You need to agree to the terms and condition", Toast.LENGTH_SHORT).show();
+        } else {
 
             gotoOtpPage(patientName, email, phoneNo, password, valueCountryCode);
 

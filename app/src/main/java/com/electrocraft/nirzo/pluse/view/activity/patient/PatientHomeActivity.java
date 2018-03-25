@@ -181,7 +181,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 getResources().getString(R.string.specialization));
 
         adapter.addFragment(new PtLocationBaseFragment(),
-                getResources().getString(R.string.location_base));
+                "Name");
 
  /*       adapter.addFragment(new PtDescribeProblemFragment(),
                 getResources().getString(R.string.describe_problem));*/
@@ -197,11 +197,12 @@ public class PatientHomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            FragmentManager fm = getSupportFragmentManager();
+        /*    FragmentManager fm = getSupportFragmentManager();
             if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
+                super.onBackPressed();
             } else {
-
+*/
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setMessage("Are you sure you want to exit?");
                 builder1.setCancelable(true);
@@ -226,7 +227,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
 
-            }
+
         }
     }
 
@@ -294,8 +295,7 @@ public class PatientHomeActivity extends AppCompatActivity
             viewPager.setVisibility(View.GONE);
             tabLayout.setVisibility(View.GONE);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.addToBackStack(null);
-            ft.add(R.id.content_frame, fragment);
+            ft.replace(R.id.content_frame, fragment);
             ft.commit();
         }
 

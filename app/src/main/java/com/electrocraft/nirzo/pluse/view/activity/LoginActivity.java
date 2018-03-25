@@ -1,22 +1,25 @@
 package com.electrocraft.nirzo.pluse.view.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,27 +38,22 @@ import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.SignUpEmailActivity;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 import com.electrocraft.nirzo.pluse.view.util.Key;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
     private String strLoginORegAs;
     private String codeLoginORegAsCode;
 
-private  CallbackManager mCallbackManager;
+    private CallbackManager mCallbackManager;
 
 
 
@@ -118,13 +116,42 @@ private  CallbackManager mCallbackManager;
         ButterKnife.bind(this);
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
-        LoginButton loginButton = findViewById(R.id.fblogin);
-        loginButton.setReadPermissions("email", "public_profile");
+        final LoginButton loginButton = findViewById(R.id.fblogin);
+        loginButton.setReadPermissions(Arrays.asList("email"));
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d("fb_token", "onSuccess:" + loginResult.getAccessToken().getToken());
-                handleFacebookAccessToken(loginResult.getAccessToken());
+            public void onSuccess(final LoginResult loginResult) {
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                // Application code
+                                Log.d("wasiun", ": " + response.getRawResponse());
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.getRawResponse());
+                                    Log.d("wasiun", ": " + jsonObject.optString("name"));
+                                    Log.d("wasiun", ": " + jsonObject.optString("email"));
+                                    JSONObject jsonObject1 = jsonObject.getJSONObject("picture").getJSONObject("data");
+                                    Log.d("wasiun", ": " + jsonObject1.optString("url"));
+                                    Toast.makeText(mContext, "Welcome "+jsonObject.optString("name"), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "Sorry, you'll have to login using your mobile number for now.", Toast.LENGTH_LONG).show();
+
+                                    //showDialog(LoginActivity.this, jsonObject.optString("name") + "\n " + jsonObject.optString("email" + " \n" + jsonObject.optString("id")), jsonObject1.optString("url"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,link,email,picture");
+                request.setParameters(parameters);
+                request.executeAsync();
+
             }
 
             @Override
@@ -136,6 +163,7 @@ private  CallbackManager mCallbackManager;
             @Override
             public void onError(FacebookException error) {
                 Log.d(TAG, "facebook:onError", error);
+                Toast.makeText(mContext, "Sorry, couldn't login", Toast.LENGTH_SHORT).show();
                 // ...
             }
         });
@@ -172,7 +200,7 @@ private  CallbackManager mCallbackManager;
         // Pass the activity result back to the Facebook SDK
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    private void handleFacebookAccessToken(AccessToken token) {
+   /* private void handleFacebookAccessToken(AccessToken token) {
 
 
         Log.d("token", "handleFacebookAccessToken:" + token);
@@ -198,7 +226,7 @@ private  CallbackManager mCallbackManager;
                         // ...
                     }
                 });
-    }
+    }*/
 
 
     private boolean checkPermission() {
@@ -295,7 +323,7 @@ private  CallbackManager mCallbackManager;
 
     }
 
-    @OnClick(R.id.tvRegistration)
+    @OnClick(R.id.btn_signup)
     public void onRegistrationClick(View view) {
         if (!isDoctorLogin) {
             startActivity(new Intent(LoginActivity.this, SignUpEmailActivity.class));
@@ -332,7 +360,7 @@ private  CallbackManager mCallbackManager;
                                     AppSharePreference.savePatientID(mContext, id);
                                     Intent intent = new Intent(LoginActivity.this, PatientHomeActivity.class);
                                     intent.putExtra(Key.KEY_PATIENT_ID, id);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
 
 
@@ -372,7 +400,7 @@ private  CallbackManager mCallbackManager;
 
     private void loginDoctor(final String phoneNo, final String password) {
         String patient_login_tag = "patient_log_in_tag";
-
+        Log.d("wasi", "loginDoctor(): ");
         if (pDialog == null) {
             pDialog = new ProgressDialog(this);
             pDialog.setMessage("Loading...");
@@ -401,7 +429,7 @@ private  CallbackManager mCallbackManager;
                                     id = obj.getString("id");
                                     AppSharePreference.saveDoctorID(mContext, id);
                                     Intent intent = new Intent(LoginActivity.this, DoctorHomeActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
 
                                 }
@@ -420,6 +448,8 @@ private  CallbackManager mCallbackManager;
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 // hide the progress dialog
+                Log.d("wasi", "loginDoctor()error: ");
+
                 closeDialog();
             }
         }) {
@@ -429,7 +459,7 @@ private  CallbackManager mCallbackManager;
 
                 params.put("phone_number", phoneNo);
                 params.put("password", password);
-               params.put("device_token", AppSharePreference.getFireBaseToken(LoginActivity.this));
+                params.put("device_token", AppSharePreference.getFireBaseToken(LoginActivity.this));
 
                 return params;
             }
@@ -465,6 +495,7 @@ private  CallbackManager mCallbackManager;
         startActivity(intent);
         finish();
     }
+
 
 
 }

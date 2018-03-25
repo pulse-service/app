@@ -25,9 +25,8 @@ import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.model.AppointmentModel;
 import com.electrocraft.nirzo.pluse.view.MainActivity;
-import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescription;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescriptionActivity;
 import com.electrocraft.nirzo.pluse.view.adapter.DoctorsAppointmentListAdapter;
-import com.electrocraft.nirzo.pluse.view.adapter.RecyclerTouchListener;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import org.json.JSONArray;
@@ -86,7 +85,8 @@ public class DocAppointmentFragment extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c);
         String mDoctorId = AppSharePreference.getDoctorID(getActivity());
-        getDoctorAppointment(mDoctorId, formattedDate);
+//        getDoctorAppointment(mDoctorId, formattedDate);
+        getDoctorAppointment(mDoctorId, "2018-03-29");
         return view;
     }
 
@@ -99,6 +99,9 @@ public class DocAppointmentFragment extends Fragment {
 
                 intent.putExtra("appointCode", "APPT-00000001");
                 intent.putExtra("patientId", modelList.get(position).getPatientID());
+                intent.putExtra("doctorId", modelList.get(position).getDoctorID());
+                intent.putExtra("consultationDate", modelList.get(position).getAppointmentDate());
+                intent.putExtra("consultation_am_pm", modelList.get(position).getInTime_AMOrPM());
 
                 startActivity(intent);
                 // call
@@ -106,7 +109,7 @@ public class DocAppointmentFragment extends Fragment {
         }, new DoctorsAppointmentListAdapter.EditClickListener1() {
             @Override
             public void setEditClickListener(int position) {
-                Intent intent = new Intent(getActivity(), DoctorPrescription.class);
+                Intent intent = new Intent(getActivity(), DoctorPrescriptionActivity.class);
 //                intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
                 startActivity(intent);
                 // pescription

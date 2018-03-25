@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/off_white">
+    android:background="@color/off_white"
+    android:layout_marginTop="@dimen/action_bar_height">
 
      <android.support.v7.widget.RecyclerView
          android:id="@+id/recyAppointment"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:layout_below="@+id/actv_specializationCat"
-         android:layout_marginTop="20dp"
          android:scrollbars="vertical" />
 
 <!--    <de.hdodenhof.circleimageview.CircleImageView

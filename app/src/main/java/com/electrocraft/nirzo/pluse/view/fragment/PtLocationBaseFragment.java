@@ -92,7 +92,6 @@ public class PtLocationBaseFragment extends Fragment {
 
         actvLocationSearch.setThreshold(1);                                                         //will start working from first character
         actvLocationSearch.setAdapter(adapter);                                                     //setting the adapter data into the AutoCompleteTextView
-        actvLocationSearch.setTextColor(Color.RED);
         return view;
     }
 

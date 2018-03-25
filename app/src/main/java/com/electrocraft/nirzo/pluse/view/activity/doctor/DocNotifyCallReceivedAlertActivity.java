@@ -1,29 +1,27 @@
-package com.electrocraft.nirzo.pluse.controller.network;
+package com.electrocraft.nirzo.pluse.view.activity.doctor;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import com.electrocraft.nirzo.pluse.view.MainActivity;
-import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorHomeActivity;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
- * Created by nirzo on 3/17/2018.
+ *
+ * @author Faisal
+ * @since 3/17/2018.
  */
 
-public class NotifySMSReceived extends Activity {
-    private static final String LOG_TAG = "SMSReceiver";
+public class DocNotifyCallReceivedAlertActivity extends Activity {
+    private static final String LOG_TAG = "DocNotifyCallReceivedAlertActivity";
 
 
     @Override
@@ -57,7 +55,7 @@ public class NotifySMSReceived extends Activity {
                         public void onClick(SweetAlertDialog sDialog) {
                             mMediaPlayer.stop();
                             sDialog.dismissWithAnimation();
-                            Intent intent = new Intent(NotifySMSReceived.this, MainActivity.class);
+                            Intent intent = new Intent(DocNotifyCallReceivedAlertActivity.this, MainActivity.class);
                             intent.putExtra(Key.KEY_IS_PATIENT_OR_DOCTOR, false);
                             startActivity(intent);
                         }
@@ -69,7 +67,7 @@ public class NotifySMSReceived extends Activity {
                             mMediaPlayer.stop();
                             sDialog.dismissWithAnimation();
 
-                            Intent intent = new Intent(NotifySMSReceived.this, DoctorHomeActivity.class);
+                            Intent intent = new Intent(DocNotifyCallReceivedAlertActivity.this, DoctorHomeActivity.class);
 
                             startActivity(intent);
                         }

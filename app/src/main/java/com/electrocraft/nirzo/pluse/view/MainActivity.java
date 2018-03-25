@@ -15,7 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
-import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescription;
+import com.electrocraft.nirzo.pluse.view.activity.doctor.DoctorPrescriptionActivity;
 import com.electrocraft.nirzo.pluse.view.activity.patient.PatientHomeActivity;
 import com.electrocraft.nirzo.pluse.view.util.Key;
 
@@ -26,6 +26,9 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,11 +66,24 @@ public class MainActivity extends AppCompatActivity {
 
         if (!isPatient) {
             mAppointCode = getIntent().getStringExtra("appointCode");
-                /*     mPatientId=getIntent().getStringExtra("patientId");
+            mPatientId=getIntent().getStringExtra("patientId");
+            mDoctorId=getIntent().getStringExtra("doctorId");
+            mCosultrationDate=getIntent().getStringExtra("consultationDate");
+            mCi_AM_PM=getIntent().getStringExtra("consultation_am_pm");
+      /*      intent.putExtra("appointCode", "APPT-00000001");
+            intent.putExtra("patientId", modelList.get(position).getPatientID());
+            intent.putExtra("doctorId", modelList.get(position).getDoctorID());
+            intent.putExtra("consultationDate", modelList.get(position).getAppointmentDate());
+            intent.putExtra("consultation_am_pm", modelList.get(position).getInTime_AMOrPM());
+                *//*
                     , mDoctorId
                     , "MT002", mCosultrationDate,
                     mConStartTime, mConEndTime,
                     mCi_AM_PM*/
+
+            DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+            mConStartTime  = dfTime.format(Calendar.getInstance().getTime());
+
         }
 
         jitsiMeetView = new JitsiMeetView(this);
@@ -95,10 +111,18 @@ public class MainActivity extends AppCompatActivity {
                 if (isPatient) {
                     intent = new Intent(MainActivity.this, PatientHomeActivity.class);
                     startActivity(intent);
-                } else
+                } else {
+                    DateFormat dfTime = new SimpleDateFormat("HH:mm:ss");
+                    mConEndTime  = dfTime.format(Calendar.getInstance().getTime());
+
                     saveDoctorConsultation(mAppointCode, mPatientId, mDoctorId, "MT002", mCosultrationDate,
                             mConStartTime, mConEndTime,
                             mCi_AM_PM, "58");
+
+                /*    intent = new Intent(MainActivity.this, DoctorPrescriptionActivity.class);
+                    intent.putExtra("consult_id", "999");
+                    startActivity(intent);*/
+                }
 
 
             }
@@ -223,8 +247,9 @@ public class MainActivity extends AppCompatActivity {
                                 if (!data.isNull("id")) {
                                     id = data.getString("id");
 
-                                    Intent intent = new Intent(MainActivity.this, DoctorPrescription.class);
+                                    Intent intent = new Intent(MainActivity.this, DoctorPrescriptionActivity.class);
                                     intent.putExtra("consult_id", id);
+                                    startActivity(intent);
                                 }
 
 

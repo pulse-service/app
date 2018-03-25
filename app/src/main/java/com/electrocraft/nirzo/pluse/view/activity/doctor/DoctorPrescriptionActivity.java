@@ -2,7 +2,6 @@ package com.electrocraft.nirzo.pluse.view.activity.doctor;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -25,9 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import com.electrocraft.nirzo.pluse.R;
-import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 
@@ -36,14 +33,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
-public class DoctorPrescription extends AppCompatActivity {
+public class DoctorPrescriptionActivity extends AppCompatActivity {
     ArrayList<SymptomModel> symptomModelArrayList;
     ArrayList<TestModel> symptomwiseTestArralist;
     ArrayList<TestModel> symptomwiseTestArralistEdit;
@@ -97,6 +91,7 @@ public class DoctorPrescription extends AppCompatActivity {
 
     private String savecode;
     private ProgressDialog pDialog;
+    private String mConsultationId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +99,9 @@ public class DoctorPrescription extends AppCompatActivity {
         setContentView(R.layout.activity_doctor_prescription);
         ButterKnife.bind(this);
         queue = Volley.newRequestQueue(this);
+// todo: ge id
 
+        mConsultationId = getIntent().getStringExtra("consult_id");
         symptomModelArrayList = new ArrayList<>();
         symptomwiseTestArralist = new ArrayList<>();
         symptomwiseTestArralistEdit = new ArrayList<>();
@@ -282,6 +279,9 @@ public class DoctorPrescription extends AppCompatActivity {
         final Button mButtonCancel = (Button) promptsView
                 .findViewById(R.id.doc_pres_lab_cancel_button_edit);
 
+        final Button mButtonDelete = (Button) promptsView
+                .findViewById(R.id.doc_pres_lab_delete_button_edit);
+
         mSpinner.setAdapter(adapterSymptom);
         mSpinner2.setAdapter(adapterTestEdit);
 // reference UI elements from my_dialog_layout in similar fashion
@@ -315,7 +315,6 @@ public class DoctorPrescription extends AppCompatActivity {
                 labTestModelArrayList.add(rvPosition, labTestModel);
                 labTestAdapter.notifyDataSetChanged();
 
-
                 alertDialog.dismiss();
             }
         });
@@ -323,6 +322,15 @@ public class DoctorPrescription extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();
+            }
+        });
+        mButtonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                labTestModelArrayList.remove(rvPosition);
+                labTestAdapter.notifyDataSetChanged();
+                alertDialog.dismiss();
+
             }
         });
 
@@ -360,6 +368,9 @@ public class DoctorPrescription extends AppCompatActivity {
 
         final Button mButtonCancel = (Button) promptsView
                 .findViewById(R.id.doc_pres_rx_cancel_button_edit);
+
+        final Button mButtonDelete = (Button) promptsView
+                .findViewById(R.id.doc_pres_rx_delete_button_edit);
 
         mSpinner.setAdapter(adapterGeneric);
         mSpinner2.setAdapter(adapterDrugEdit);
@@ -423,7 +434,15 @@ public class DoctorPrescription extends AppCompatActivity {
                 alertDialog.dismiss();
             }
         });
+        mButtonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drugRVModelArrayList.remove(rvPosition);
+                drugsAdapter.notifyDataSetChanged();
+                alertDialog.dismiss();
 
+            }
+        });
         // show it
         alertDialog.show();
         alertDialog.setCanceledOnTouchOutside(false);
@@ -728,37 +747,37 @@ public class DoctorPrescription extends AppCompatActivity {
             drugRVModel.setTimes(signature.getText().toString());
             drugRVModelArrayList.add(drugRVModel);
             drugsAdapter.notifyDataSetChanged();
+            daysSpinner.setSelection(0);
+            drugSpinner.setSelection(0);
+            genericSpinner.setSelection(0);
+            strengthSpinner.setSelection(0);
         }
     }
 
     public void submit(View view) {
         String diagnosisField = diagnosis.getText().toString();
         String findingsField = findings.getText().toString();
+        String drugSignature = signature.getText().toString();
+        if (diagnosisField.length() == 0)
+            AlertDialogManager.showMissingDialog(DoctorPrescriptionActivity.this, "Diagnosis Field Missing");
+        else if (findingsField.length() == 0)
+            AlertDialogManager.showMissingDialog(DoctorPrescriptionActivity.this, "Findings Field Missing");
+        else if (drugSignature.length() == 0)
+            AlertDialogManager.showMissingDialog(DoctorPrescriptionActivity.this, "Signature Field Missing");
+        else {
+            ArrayList<String> sym = new ArrayList<>();
+            ArrayList<String> test = new ArrayList<>();
 
-        ArrayList<String> sym = new ArrayList<>();
-        ArrayList<String> test = new ArrayList<>();
+            for (int i = 0; i < labTestModelArrayList.size(); i++) {
+                sym.add(labTestModelArrayList.get(i).getSymptomCode());
+                test.add(labTestModelArrayList.get(i).getTestCode());
+            }
 
-        for (int i = 0; i < labTestModelArrayList.size(); i++) {
-            sym.add(labTestModelArrayList.get(i).getSymptomCode());
-            test.add(labTestModelArrayList.get(i).getTestCode());
+
+            savePatientHealthInfoPostAPICall(mConsultationId, findingsField, diagnosisField, drugSignature);
+
+
         }
-
-//        savePatientHealthInfo(findingsField, diagnosisField, "00000001", "0", "34", ""
-        savePatientHealthInfoPostAPICall(findingsField, diagnosisField, "00000001", "0", "34", ""
-                , "");
-
-       /* for(int i = 0; i<drugRVModelArrayList.size();i++){
-            sym.add(drugRVModelArrayList.get(i).g.getSymptomCode());
-            test.add(drugRVModelArrayList.get(i).getTestCode());
-        }*/
-
-
-        /*String signatureField = signature.getText().toString();
-        String symptomsField = symptomModelArrayList.get(symptomSpinner.getSelectedItemPosition()).getCode();
-        String testField = symptomwiseTestArralist.get(testSpinner.getSelectedItemPosition()).getTestCode();
-        String genericField = genericArralist.get(genericSpinner.getSelectedItemPosition()).getInfoCode();
-        String drugField = genericWiseDrugArralist.get(drugSpinner.getSelectedItemPosition()).getDrugCode();
-        String strengthField = strengthArraylist.get(strengthSpinner.getSelectedItemPosition()).getStrengthCode();*/
 
 
     }
@@ -773,25 +792,31 @@ public class DoctorPrescription extends AppCompatActivity {
 //            "DI_DrugCode":["SC001","DI_001"],
 //        "DI_Strength":["DI_001","DI_002"],
 //        "DI_Days":["25","54"]
+
+    /*     jsonObject.put("DrConsultationCode", "00000002");
+           jsonObject.put("Findings", "Findings");
+           jsonObject.put("Diagnosis", "Diagnosis");
+           jsonObject.put("NextFollowUpDate", "2018-03-04");
+           jsonObject.put("DrugSignature", "");*/
 //    }
-    private void savePatientHealthInfoPostAPICall(String findingsField, String diagnosisField, String s, String s1, String s2, String s3, String s4) {
+    private void savePatientHealthInfoPostAPICall(final String consultationId, String findingsField, String diagnosisField, String drugSignature) {
 
 
         JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put("DrConsultationCode", "00000002");
-            jsonObject.put("Findings", "Findings");
-            jsonObject.put("Diagnosis", "Diagnosis");
-            jsonObject.put("NextFollowUpDate", "2018-03-04");
-            jsonObject.put("DrugSignature", "");
 
+            jsonObject.put("DrConsultationCode", consultationId);
+            jsonObject.put("Findings", findingsField);
+            jsonObject.put("Diagnosis", diagnosisField);
+            jsonObject.put("NextFollowUpDate", "2018-03-04");
+            jsonObject.put("DrugSignature", drugSignature);
+            //TODO optimize the for loop
 
             // jsonArraySymptom
             JSONArray jsonArraySymptom = new JSONArray();
 
             for (int i = 0; i < labTestModelArrayList.size(); i++) {
-
 
                 jsonArraySymptom.put(labTestModelArrayList.get(i).getSymptomCode());
             }
@@ -804,7 +829,6 @@ public class DoctorPrescription extends AppCompatActivity {
 
             for (int i = 0; i < labTestModelArrayList.size(); i++) {
 
-
                 jsonArrayLabTestCode.put(labTestModelArrayList.get(i).getTestCode());
             }
 
@@ -815,7 +839,6 @@ public class DoctorPrescription extends AppCompatActivity {
             JSONArray jsonArrayDIDrugCode = new JSONArray();
 
             for (int i = 0; i < drugRVModelArrayList.size(); i++) {
-
 
                 jsonArrayDIDrugCode.put(drugRVModelArrayList.get(i).getDrugsCode());
             }
@@ -828,7 +851,6 @@ public class DoctorPrescription extends AppCompatActivity {
             JSONArray jsonArrayDIStrength = new JSONArray();
 
             for (int i = 0; i < drugRVModelArrayList.size(); i++) {
-
 
                 jsonArrayDIStrength.put(drugRVModelArrayList.get(i).getStrengthCode());
             }
@@ -863,29 +885,13 @@ public class DoctorPrescription extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     error.printStackTrace();
+                    Log.e("error_js", error.getMessage());
 
                 }
             });
-//            mRequestQueue.add(jsonObjReq);
+
             AppController.getInstance().addToRequestQueue(jsonObjReq, "tag");
-//            AndroidNetworking.post("http://180.148.210.139:8081/pulse_api/api/savedoctorPrescriptioninfo")
-//                    .addJSONObjectBody(jsonObject) // posting json
-//                    .setTag("test")
-//                    .setPriority(Priority.MEDIUM)
-//                    .build()
-//                    .getAsJSONObject(new JSONObjectRequestListener() {
-//                        @Override
-//                        public void onResponse(JSONObject response) {
-//
-//                            Log.e("onResponse", response.toString());
-//
-//                        }
-//
-//                        @Override
-//                        public void onError(ANError error) {
-//                            // handle error
-//                        }
-//                    });
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -893,6 +899,7 @@ public class DoctorPrescription extends AppCompatActivity {
 
     }
 
+/*
     private void savePatientHealthInfo(final String findings, final String diagnosis, final String docConsultratonCode,
                                        final String di_DrugCode,
                                        final String si_SymptomCode, final String nextFollowUpDate,
@@ -901,7 +908,7 @@ public class DoctorPrescription extends AppCompatActivity {
 
 
         if (pDialog == null)
-            pDialog = new ProgressDialog(DoctorPrescription.this);
+            pDialog = new ProgressDialog(DoctorPrescriptionActivity.this);
         pDialog.setMessage("Loading...");
         pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://requestbin.fullcontact.com/144rz4f1",
@@ -919,7 +926,7 @@ public class DoctorPrescription extends AppCompatActivity {
 //                            msg = jos.getString("msg");
 
 
-//                            AlertDialogManager.showSuccessDialog(DoctorPrescription.this, msg);
+//                            AlertDialogManager.showSuccessDialog(DoctorPrescriptionActivity.this, msg);
 
 
                         } catch (JSONException e) {
@@ -989,22 +996,6 @@ public class DoctorPrescription extends AppCompatActivity {
 
 
 
-        /*        ArrayList<String> numbers = new ArrayList<String>();
-                numbers.add("431111");
-                numbers.add("432222");
-
-                int i=0;
-                for(String object: numbers){
-                    params.put("DI_Days["+(i++)+"]", object);
-                    params.put("DI_Strength["+(i++)+"]", object);
-                    params.put("DI_DrugCode["+(i++)+"]", object);
-                    params.put("SI_SymptomCode["+(i++)+"]", object);
-                    params.put("LT_LabTestCode["+(i++)+"]", object);
-
-                    // you first send both data with same param name as friendnr[] ....  now send with params friendnr[0],friendnr[1] ..and so on
-                }
-*/
-
 
                 return params;
             }
@@ -1013,6 +1004,7 @@ public class DoctorPrescription extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(stringRequest, tag);
     }
 
+*/
 
     private void closeDialog() {
         if (pDialog != null && pDialog.isShowing())

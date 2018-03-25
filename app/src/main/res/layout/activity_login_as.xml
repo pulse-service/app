@@ -16,7 +16,7 @@
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:src="@drawable/newlogo" />
+            android:src="@drawable/newlogo_notag" />
 
         <TextView
             android:textColor="@color/black"
@@ -25,7 +25,7 @@
             android:layout_marginTop="30dp"
             android:fontFamily="@font/robotoregular"
             android:gravity="center"
-            android:text="Sign in / Register as:"
+            android:text="Log In / Sign Up:"
             android:textSize="16dp"
 
             android:typeface="normal" />

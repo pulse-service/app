@@ -161,7 +161,7 @@ public class PtPaymentModuleFragment extends Fragment {
                             saveDoctorAppointmentTime(mPatientId, mDoctorId, mAppointmentDate, mOat, "", "",
                                     "0", mShortDescOfProblem, "0",
                                     "", "", "", "", "");
-//                            Toast.makeText(getActivity(), "Password Matched", Toast.LENGTH_SHORT).show();
+
 
                         } else {
                             Toast.makeText(getActivity(), "Please input correct transaction ID ", Toast.LENGTH_SHORT).show();
