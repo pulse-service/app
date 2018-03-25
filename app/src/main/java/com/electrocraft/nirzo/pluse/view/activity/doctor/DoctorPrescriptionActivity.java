@@ -24,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
@@ -34,12 +33,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class DoctorPrescriptionActivity extends AppCompatActivity {
     ArrayList<SymptomModel> symptomModelArrayList;
@@ -283,6 +279,9 @@ public class DoctorPrescriptionActivity extends AppCompatActivity {
         final Button mButtonCancel = (Button) promptsView
                 .findViewById(R.id.doc_pres_lab_cancel_button_edit);
 
+        final Button mButtonDelete = (Button) promptsView
+                .findViewById(R.id.doc_pres_lab_delete_button_edit);
+
         mSpinner.setAdapter(adapterSymptom);
         mSpinner2.setAdapter(adapterTestEdit);
 // reference UI elements from my_dialog_layout in similar fashion
@@ -316,7 +315,6 @@ public class DoctorPrescriptionActivity extends AppCompatActivity {
                 labTestModelArrayList.add(rvPosition, labTestModel);
                 labTestAdapter.notifyDataSetChanged();
 
-
                 alertDialog.dismiss();
             }
         });
@@ -324,6 +322,15 @@ public class DoctorPrescriptionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();
+            }
+        });
+        mButtonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                labTestModelArrayList.remove(rvPosition);
+                labTestAdapter.notifyDataSetChanged();
+                alertDialog.dismiss();
+
             }
         });
 
@@ -361,6 +368,9 @@ public class DoctorPrescriptionActivity extends AppCompatActivity {
 
         final Button mButtonCancel = (Button) promptsView
                 .findViewById(R.id.doc_pres_rx_cancel_button_edit);
+
+        final Button mButtonDelete = (Button) promptsView
+                .findViewById(R.id.doc_pres_rx_delete_button_edit);
 
         mSpinner.setAdapter(adapterGeneric);
         mSpinner2.setAdapter(adapterDrugEdit);
@@ -424,7 +434,15 @@ public class DoctorPrescriptionActivity extends AppCompatActivity {
                 alertDialog.dismiss();
             }
         });
+        mButtonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drugRVModelArrayList.remove(rvPosition);
+                drugsAdapter.notifyDataSetChanged();
+                alertDialog.dismiss();
 
+            }
+        });
         // show it
         alertDialog.show();
         alertDialog.setCanceledOnTouchOutside(false);
@@ -729,6 +747,10 @@ public class DoctorPrescriptionActivity extends AppCompatActivity {
             drugRVModel.setTimes(signature.getText().toString());
             drugRVModelArrayList.add(drugRVModel);
             drugsAdapter.notifyDataSetChanged();
+            daysSpinner.setSelection(0);
+            drugSpinner.setSelection(0);
+            genericSpinner.setSelection(0);
+            strengthSpinner.setSelection(0);
         }
     }
 
