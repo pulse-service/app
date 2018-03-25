@@ -1,6 +1,7 @@
 package com.electrocraft.nirzo.pluse.view.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +30,16 @@ public class DoctorTimeSchAdapter extends RecyclerView.Adapter<DoctorTimeSchAdap
 
         String tem = time.getInTime() + " " + time.getInTime_AMOrPM() + " to " + time.getOutTime() + time.getOutTime_AMOrPM();
         holder.tv_DocTime.setText(tem);
-
-        if (time.isCheck())
-            holder.lr_iv_ClickButton.setImageResource(R.drawable.ic_radio_button_checked_black_24dp);
-        else
-            holder.lr_iv_ClickButton.setImageResource(R.drawable.ic_radio_button_unchecked_black_24dp);
+        if (time.getIsAlreadyBooked().equals("0")) {
+            if (time.isCheck())
+                holder.lr_iv_ClickButton.setImageResource(R.drawable.ic_radio_button_checked_black_24dp);
+            else
+                holder.lr_iv_ClickButton.setImageResource(R.drawable.ic_radio_button_unchecked_black_24dp);
+        } else {
+            holder.lr_iv_ClickButton.setImageResource(R.drawable.ic_radio_button_unchecked_gray);
+            holder.lr_iv_ClickButton.setEnabled(false);
+            holder.tv_DocTime.setTextColor(Color.GRAY);
+        }
 
 
     }

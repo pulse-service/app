@@ -1,6 +1,7 @@
 package com.electrocraft.nirzo.pluse.view.activity.doctor;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,18 +15,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.electrocraft.nirzo.pluse.R;
+import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
+import com.electrocraft.nirzo.pluse.controller.util.AppSharePreference;
 import com.electrocraft.nirzo.pluse.view.notification.AlertDialogManager;
 
 import org.json.JSONArray;
@@ -36,6 +42,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorPrescriptionActivity extends AppCompatActivity {
     ArrayList<SymptomModel> symptomModelArrayList;
@@ -76,6 +83,23 @@ public class DoctorPrescriptionActivity extends AppCompatActivity {
     @BindView(R.id.rv_labtest)
     RecyclerView labtestRV;
 
+    @BindView(R.id.doc_press_DocName)
+    TextView doc_press_DocName;
+
+    @BindView(R.id.doc_pres_doc_number)
+    TextView doc_pres_doc_number;
+
+    @BindView(R.id.doc_pres_doc_email)
+    TextView doc_pres_doc_email;
+
+
+    @BindView(R.id.doc_pres_doc_id)
+    TextView doc_pres_doc_id;
+
+
+    @BindView(R.id.doc_pres_iv_DocImage)
+    CircleImageView doc_pres_iv_DocImage;
+
     ArrayAdapter<SymptomModel> adapterSymptom;
     ArrayAdapter<TestModel> adapterTest;
     ArrayAdapter<TestModel> adapterTestEdit;
@@ -102,6 +126,8 @@ public class DoctorPrescriptionActivity extends AppCompatActivity {
 // todo: ge id
 
         mConsultationId = getIntent().getStringExtra("consult_id");
+
+        callDoctorInfo();
         symptomModelArrayList = new ArrayList<>();
         symptomwiseTestArralist = new ArrayList<>();
         symptomwiseTestArralistEdit = new ArrayList<>();
@@ -811,7 +837,7 @@ public class DoctorPrescriptionActivity extends AppCompatActivity {
             jsonObject.put("Diagnosis", diagnosisField);
             jsonObject.put("NextFollowUpDate", "2018-03-04");
             jsonObject.put("DrugSignature", drugSignature);
-            //TODO optimize the for loop
+
 
             // jsonArraySymptom
             JSONArray jsonArraySymptom = new JSONArray();
@@ -899,112 +925,74 @@ public class DoctorPrescriptionActivity extends AppCompatActivity {
 
     }
 
-/*
-    private void savePatientHealthInfo(final String findings, final String diagnosis, final String docConsultratonCode,
-                                       final String di_DrugCode,
-                                       final String si_SymptomCode, final String nextFollowUpDate,
-                                       final String lt_LabTestCode) {
-        String tag = "patient_health_info_save";
 
-
-        if (pDialog == null)
-            pDialog = new ProgressDialog(DoctorPrescriptionActivity.this);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://requestbin.fullcontact.com/144rz4f1",
+    private void callDoctorInfo() {
+        String url = "http://180.148.210.139:8081/pulse_api/api/getdoctorProfileView/";
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + AppSharePreference.getDoctorID(this),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        AppController.getInstance().getRequestQueue().getCache().clear();
-                        String id = "";
-                        String msg = "";
-                        Log.d("MOR", response);
-                        closeDialog();
+                        // Display the first 500 characters of the response string.
                         try {
-                            JSONObject jos = new JSONObject(response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-//                            msg = jos.getString("msg");
+                            String jsonObjectInside;
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("DRI_DrName");
+                                doc_press_DocName.setText(jsonObjectInside);
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("DRI_Phone");
+                                doc_pres_doc_number.setText(jsonObjectInside);
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("DRI_Email");
+                                doc_pres_doc_email.setText(jsonObjectInside);
+
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("DRI_DrID");
+                                doc_pres_doc_id.setText(jsonObjectInside);
 
 
-//                            AlertDialogManager.showSuccessDialog(DoctorPrescriptionActivity.this, msg);
-
-
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("Photo");
+                                getDoctorImageRequest(jsonObjectInside, doc_pres_iv_DocImage);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        } finally {
+
                         }
-                        Log.d("More", response);
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Timber.d("Error: " + error.getMessage());
 
-                closeDialog();
             }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                ArrayList<String> symptomCOdes = new ArrayList<>();
+        });
 
-
-                symptomCOdes.add("DSI_014");
-                symptomCOdes.add("DSI_013");
-
-
-                for (int i = 0; i < symptomCOdes.size(); i++) {
-
-
-                }
-
-//                ArrayList<String> symptomCOdes = putSymptomCodes(params);
-//                ArrayList<String> symptomCOdes = putSymptomCodes(params);
-//
-//
-//
-//
-//                params.put("DI_Strength[]", symptomCOdes.get(i));
-//                params.put("DI_Days[]", symptomCOdes.get(i));
-
-                ArrayList<String> drugCodes = new ArrayList<>();
-                drugCodes.add("DI_001");
-                drugCodes.add("DI_002");
-
-
-                for (int i = 0; i < drugCodes.size(); i++) {
-
-//                    params.put("DI_DrugCode[]", drugCodes.get(i));
-
-                }
-
-                params.put("SI_SymptomCode[]", String.valueOf(symptomCOdes.size()));
-
-                params.put("DI_DrugCode[]", String.valueOf(drugCodes.size()));
-
-                params.put("DrConsultationCode", docConsultratonCode);
-                params.put("Findings", findings);
-                params.put("Diagnosis", diagnosis);
-                params.put("NextFollowUpDate", nextFollowUpDate);
-//                params.put("SI_SymptomCode[]", si_SymptomCode);
-                params.put("LT_LabTestCode[]", "");
-                params.put("DI_Strength[]", "");
-                params.put("DI_Days[]", "");
-                params.put("DrugSignature", "ok");
-
-
-
-
-
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, tag);
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 
-*/
+    private void getDoctorImageRequest(String imageLink, final ImageView imageView) {
+
+
+// Retrieves an image specified by the URL, displays it in the UI.
+        ImageRequest request = new ImageRequest(AppConfig.LIVE_IMAGE_DOCTOR_API_LINK + imageLink,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        imageView.setImageBitmap(bitmap);
+//                        pDialog.hide();
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        imageView.setImageResource(R.drawable.ic_doctor);
+//                        pDialog.hide();
+                    }
+                });
+        // Access the RequestQueue through your singleton class.
+        AppController.getInstance().addToRequestQueue(request);
+    }
 
     private void closeDialog() {
         if (pDialog != null && pDialog.isShowing())

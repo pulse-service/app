@@ -32,6 +32,12 @@ public class AlertDialogManager {
 
     }
 
+    public static void showWarnigDialog(Context context, String message) {
+
+        showAcknowledgementDialog(context, "Warning", message, "ok", WARNING);
+
+    }
+
     public static void showMissingDialog(Context context, String message) {
 
         showAcknowledgementDialog(context, "Missing", message, "ok", MISSING);
