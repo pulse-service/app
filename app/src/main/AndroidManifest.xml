@@ -104,14 +104,14 @@
         </activity>
         <activity android:name=".view.activity.patient.PtAppointBookActivity" />
         <activity android:name=".view.activity.doctor.DoctorHomeActivity" />
-        <activity android:name=".controller.network.NotifySMSReceived">
+        <activity android:name=".view.activity.doctor.DocNotifyCallReceivedAlertActivity">
             <intent-filter>
                 <action android:name="click_action" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".controller.receive.DoctorReceiver">
+        <receiver android:name=".controller.receive.DoctorIncomingAlertReceiver">
             <intent-filter>
                 <action android:name="com.tutorialspoint.CUSTOM_INTENT" />
             </intent-filter>
