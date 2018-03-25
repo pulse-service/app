@@ -2,10 +2,13 @@ package com.electrocraft.nirzo.pluse.view.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -88,7 +91,7 @@ public class PtPescriptionListFrag extends Fragment {
                 Bundle arg = new Bundle();
                 arg.putString("pescription_id", mList.get(position).getPI_DoctorPrescriptionCode());
 
-                Fragment fragment = new PatientPrescriptionFragment();
+                /*Fragment fragment = new PatientPrescriptionFragment();
                 if (fragment != null) {
 
                     //set Bundle
@@ -97,7 +100,12 @@ public class PtPescriptionListFrag extends Fragment {
                     FragmentTransaction ft = getFragmentManager().beginTransaction();ft.addToBackStack(null);
                     ft.add(R.id.content_frame, fragment);
                     ft.commit();
-                }
+                }*/
+
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(getActivity(), Uri.parse("http://docs.google.com/gview?embedded=true&url=http://180.148.210.139:8081/pulse_api/api/prescriptionpdf/"+ mList.get(position).getPI_DoctorPrescriptionCode()));
+                builder.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 //                DoctorSearch doctor = mList.get(position);
 
 
