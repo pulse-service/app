@@ -38,6 +38,7 @@ import com.electrocraft.nirzo.pluse.view.fragment.PatientPrescriptionFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtAppointmentFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtHealthProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtLocationBaseFragment;
+import com.electrocraft.nirzo.pluse.view.fragment.PtPescriptionListFrag;
 import com.electrocraft.nirzo.pluse.view.fragment.PtProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment;
 import com.electrocraft.nirzo.pluse.view.util.Key;
@@ -272,7 +273,8 @@ public class PatientHomeActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_prescription:
-                fragment = new PatientPrescriptionFragment();
+//                fragment = new PatientPrescriptionFragment();
+                fragment = new PtPescriptionListFrag();
                 title = "";
                 break;
             case R.id.nav_logout:

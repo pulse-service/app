@@ -60,6 +60,9 @@ public class PatientPrescriptionFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_pt_prescription, container, false);
         ButterKnife.bind(this, view);
 
+        String aap = "";
+        if (getArguments() != null)
+            aap = getArguments().getString("pescription_id", "DP-00000018");
 
 
       /*  down vote
@@ -69,7 +72,7 @@ public class PatientPrescriptionFragment extends Fragment {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
-        webView.loadUrl("http://docs.google.com/gview?embedded=true&url=http://180.148.210.139:8081/pulse_api/api/prescriptionpdf/DP-00000018");
+        webView.loadUrl("http://docs.google.com/gview?embedded=true&url=http://180.148.210.139:8081/pulse_api/api/prescriptionpdf/"+aap);
         return view;
     }
 

@@ -19,14 +19,17 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.electrocraft.nirzo.pluse.R;
 import com.electrocraft.nirzo.pluse.controller.application.AppConfig;
 import com.electrocraft.nirzo.pluse.controller.application.AppController;
@@ -40,6 +43,7 @@ import com.electrocraft.nirzo.pluse.view.fragment.DocTodayAppointFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DoctorHomeFragment;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -63,7 +67,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
 
 
     private ProgressDialog pDialog;
-
+    RequestQueue queue;
 
     String token = "";
     private String mDoctorId;
@@ -73,7 +77,8 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doc_activity_home);
         ButterKnife.bind(this);
-
+        queue = Volley.newRequestQueue(this);
+        callDoctorInfo();
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -103,15 +108,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
 //        timeConsume();
 
         Log.d("PLTO", " mDoctorId :" + mDoctorId);
-//        getPatientAppointment(mDoctorId);
-//        getDoctorImageRequest();
 
-       /* Test Json resouce reader
-        try {
-            Timber.d(AssetUtils.getJsonAsString("files.json",this));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
@@ -187,251 +184,77 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
     }
 
 
-    private void getPatientAppointment(final String doctorId) {
-        String patient_login_tag = "doctor_s_appointment";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.LIVE_API_LINK + "searchCallRequestForDoctor?receiverid=" + doctorId,
+    private void callDoctorInfo() {
+        String url = "http://180.148.210.139:8081/pulse_api/api/getdoctorProfileView/";
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + AppSharePreference.getDoctorID(this),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        AppController.getInstance().getRequestQueue().getCache().clear();
-                        Log.d("PLTO", response);
-
-                        /**
-                         * {
-                         "status": "success",
-                         "data": [
-                         {
-                         "receiverid": "DR000000001",
-                         "senderId": "ECL-00000001",
-                         "receiverType": "Doctor"
-                         }
-                         ],
-                         "msg": "Call Request List"
-                         }
-                         */
-
-                        String receiverid = "";
-                        String senderId = "";
-                        String receiverType = "";
-
-
+                        // Display the first 500 characters of the response string.
                         try {
-                            JSONObject object = new JSONObject(response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            View hView = navigationView.getHeaderView(0);
 
-                            if (object.getString("status").equals("success")) {
-                                if (!object.isNull("data")) {
-                                    JSONArray array = object.getJSONArray("data");
-                                    for (int i = 0; i < array.length(); i++) {
-                                        JSONObject object1 = array.getJSONObject(i);
+                            TextView pat_name = hView.findViewById(R.id.nav_tvPatientNameNavBar);
 
-                                        receiverid = object1.getString("receiverid");
-                                        senderId = object1.getString("senderId");
-                                        receiverType = object1.getString("receiverType");
+                            TextView pat_number = hView.findViewById(R.id.tvPatNumber);
 
-                                        Intent intent = new Intent();
-                                        intent.setAction("com.tutorialspoint.CUSTOM_INTENT");
-                                        sendBroadcast(intent);
+                            TextView pat_email = hView.findViewById(R.id.tvpatemail);
 
-                                /*        IntentFilter filter = new IntentFilter(ACTION);
-                                        DoctorHomeActivity.registerReceiver(mReceivedSMSReceiver, filter);*/
+                            ImageView pat_img = hView.findViewById(R.id.imageView);
+                            String jsonObjectInside;
 
-                                    }
-                                }
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("DRI_DrName");
+                                pat_name.setText(jsonObjectInside);
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("DRI_Phone");
+                                pat_number.setText(jsonObjectInside);
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("DRI_Email");
+                                pat_email.setText(jsonObjectInside);
+
+
+                                jsonObjectInside = jsonArray.getJSONObject(i).getString("Photo");
+                                getDoctorImageRequest(jsonObjectInside, pat_img);
                             }
-                        } catch (Exception e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
+                        } finally {
+
                         }
-
-
                     }
-                }, new Response.ErrorListener()
-
-        {
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
 
             }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+        });
 
-
-                params.put("doctorId", doctorId);
-
-
-                return params;
-            }
-        };
-
-        AppController.getInstance().
-
-                addToRequestQueue(stringRequest, patient_login_tag);
-
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 
-
-   /* private final BroadcastReceiver mReceivedSMSReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            if (ACTION.equals(action))
-            {
-                //your SMS processing code
-                displayAlert();
-            }
-        }
-    };*/
-
-
-  /*  public void showRiningMessage(Context context) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        AlertDialog ad = builder.create();
-//                .create();
-
-
-   *//*     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        final String selectedDate = sdf.format(new Date(calendarView.getDate()));
-        ad.setCancelable(false);*//*
-        ad.setTitle("Ringing");
-        ad.setMessage("You have Call");
-        ad.setButton("Accept ", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-
-
-            }
-        });
-        ad.setButton("Reject ", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-
-            }
-        });
-        ad.show();
-    }*/
-
-/*    private void getDoctorImageRequest() {
-
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-
-        String url = "http://192.168.1.7/elc_api/public/image/img.jpg";
+    private void getDoctorImageRequest(String imageLink, final ImageView imageView) {
 
 
 // Retrieves an image specified by the URL, displays it in the UI.
-        ImageRequest request = new ImageRequest(url,
+        ImageRequest request = new ImageRequest(AppConfig.LIVE_IMAGE_DOCTOR_API_LINK + imageLink,
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
-                        ivDocCoverPic.setImageBitmap(bitmap);
-                        pDialog.hide();
+                        imageView.setImageBitmap(bitmap);
+//                        pDialog.hide();
                     }
                 }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
-                        ivDocCoverPic.setImageResource(R.drawable.ic_doctor);
-                        pDialog.hide();
+                        imageView.setImageResource(R.drawable.ic_doctor);
+//                        pDialog.hide();
                     }
                 });
         // Access the RequestQueue through your singleton class.
         AppController.getInstance().addToRequestQueue(request);
-    }*/
-
-
-    private void timeConsume() {
-
-/*
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.API_LINK + "auth/login", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-//                AppController.getInstance().getRequestQueue().getCache().clear();
-                try {
-                    JSONObject jos = new JSONObject(response);
-                    if (!jos.isNull("token")) {
-                        token = jos.getString("token");
-                        if (token.length() > 6)
-//                            heatStoke(token);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.d("more", response);
-                pDialog.hide();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Timber.d("Error: " + error.getMessage());
-                // hide the progress dialog
-                pDialog.hide();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", "user@user.com");
-                params.put("password", "123456");
-                return params;
-            }
-        };
-
-        AppController.getInstance().addToRequestQueue(stringRequest, "token");*/
     }
 
-
-  /*  private void heatStoke(final String token1) {
-        // Tag used to cancel the request
-        String tag_json_obj = "json_obj_req";
-
-        String url = "http://192.168.1.7/elc_api/public/api/user_list";
-
-//        pDialog = new ProgressDialog(this);
-//        pDialog.setMessage("Loading...");
-//        pDialog.show();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-
-                AppController.getInstance().getRequestQueue().getCache().clear();
-                Log.d("DAM", response);
-                pDialog.hide();
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                // hide the progress dialog
-                pDialog.hide();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("token", token1);
-                return params;
-            }
-        };
-
-
-// Adding request to request queue
-        AppController.getInstance().addToRequestQueue(stringRequest, tag_json_obj);
-    }*/
 }
