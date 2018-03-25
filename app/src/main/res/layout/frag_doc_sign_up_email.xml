@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/root_container_style"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.patient.SignUpEmailActivity">
+    android:background="@color/white"
+    tools:context=".view.activity.doctor.DocRegistrationActivity">
 
-<!--    <include
-        android:id="@+id/my_toolbar"
-        layout="@layout/appbar_layout" />-->
-   <!-- android:layout_below="@+id/my_toolbar"-->
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-     >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_toolbar">
 
-        <RelativeLayout
-
-            style="@style/container_style_1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/logo"
-                android:src="@drawable/pulse_logo"
-                android:layout_alignParentTop="true"
-                android:layout_width="wrap_content"
-                android:layout_height="90dp" />
+                android:id="@+id/top_icon"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/newlogo" />
 
             <EditText
-                android:layout_below="@+id/logo"
                 android:id="@+id/edit_name"
                 style="@style/edit_text_style_1"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/margin_def"
-                android:hint="@string/full_name"
+                android:layout_marginTop="36dp"
+                android:hint="@string/name"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -45,24 +45,39 @@
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
 
-            <Spinner
-                android:id="@+id/spCountryCode"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/edt_email"
-                android:layout_marginEnd="15dp"
-                android:layout_marginTop="22dp"
-                android:layout_toStartOf="@+id/edt_phoneNo" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/edt_phoneNo"
-                style="@style/edit_text_style_1"
-                android:layout_width="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/edt_email"
-                android:layout_marginTop="10dp"
-                android:hint="@string/phone_no1"
-                android:inputType="phone" />
+                <Spinner
+                    android:id="@+id/spCountryCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/edt_email"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toStartOf="@+id/edt_phoneNo"
+                    android:background="@drawable/spinner"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="10dp" />
+
+                <EditText
+                    android:id="@+id/edt_phoneNo"
+                    style="@style/edit_text_style_1"
+                    android:layout_width="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/edt_email"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/phone_no1"
+                    android:inputType="phone" />
+
+            </LinearLayout>
+
 
             <EditText
                 android:id="@+id/edt_password"
@@ -70,84 +85,216 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/edt_phoneNo"
                 android:layout_marginTop="14dp"
-                android:hint="@string/password"
+                android:hint="Password (6 characters required)"
                 android:inputType="textPassword" />
 
             <TextView
-                android:id="@+id/tv_label"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/edt_password"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/robotoregular"
                 android:gravity="center"
-                android:text="@string/otp_info" />
-
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="The System will send you a onetime passcode to verify the provided phone number"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:typeface="normal" />
 
             <TextView
-                android:id="@+id/tv_labe2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_label"
-                android:layout_marginTop="@dimen/margin_top_def"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/robotoregular"
                 android:gravity="center"
-                android:text="@string/lable" />
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="By continuing, you confirm that you accept our "
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:typeface="normal" />
 
             <LinearLayout
-                android:id="@+id/ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_labe2"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_labe3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/terms_N_condition"
-                    android:textColor="@color/btn_green_"
-                    android:textSize="12sp" />
+                    android:fontFamily="@font/robotoregular"
+                    android:gravity="center"
+                    android:text="Terms &amp; Conditions"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorPrimary"
+                    android:typeface="normal" />
 
                 <TextView
-                    android:id="@+id/tv_labe5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" and "
-                    android:textSize="12sp" />
+                    android:fontFamily="@font/robotoregular"
+                    android:gravity="center"
+                    android:text=" and"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:typeface="normal" />
 
                 <TextView
-                    android:id="@+id/tv_labe4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/privacyNpolicy"
-                    android:textColor="@color/btn_green_"
-                    android:textSize="12sp" />
+                    android:fontFamily="@font/robotoregular"
+                    android:gravity="center"
+                    android:text=" Privacy Policy"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorPrimary"
+                    android:typeface="normal" />
+
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/i_agree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="I Agree" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnSignUpContinue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/ll"
+                android:layout_below="@+id/edt_password"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/ripple_effect_reg"
                 android:text="@string/continu"
+                android:textAllCaps="false"
                 android:textColor="@color/color_white" />
 
             <TextView
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:layout_below="@+id/btnSignUpContinue"
-                android:id="@+id/tv_labe8"
+                android:id="@+id/docFbSign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/already_have_an_account_login"
-                android:textColor="@color/btn_green_"
-                android:textSize="12sp" />
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/robotoregular"
+                android:gravity="center"
+                android:text="Facebook Login?"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorPrimary"
+                android:typeface="normal" />
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/docLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/robotoregular"
+                android:gravity="center"
+                android:text="Already have an account ? Login"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorPrimary"
+                android:typeface="normal" />
+
+
+        </LinearLayout>
     </ScrollView>
 
 
 </RelativeLayout>
+
+    <!--
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.activity.patient.SignUpEmailActivity">
+
+        <include
+            android:id="@+id/my_toolbar"
+            layout="@layout/appbar_layout" />
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/my_toolbar">
+
+            <RelativeLayout style="@style/container_style_1">
+
+                <EditText
+                    android:id="@+id/edit_name"
+                    style="@style/edit_text_style_1"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="36dp"
+                    android:hint="@string/name"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/edt_email"
+                    style="@style/edit_text_style_1"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/edit_name"
+                    android:layout_marginTop="14dp"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
+
+                <Spinner
+                    android:id="@+id/spCountryCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edt_email"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_toStartOf="@+id/edt_phoneNo" />
+
+                <EditText
+                    android:id="@+id/edt_phoneNo"
+                    style="@style/edit_text_style_1"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/edt_email"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/phone_no1"
+                    android:inputType="phone" />
+
+                <EditText
+                    android:id="@+id/edt_password"
+                    style="@style/edit_text_style_1"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/edt_phoneNo"
+                    android:layout_marginTop="14dp"
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
+
+                <Button
+                    android:id="@+id/btnSignUpContinue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/edt_password"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/ripple_effect_reg"
+                    android:text="@string/continu"
+                    android:textColor="@color/color_white" />
+
+
+
+            </RelativeLayout>
+        </ScrollView>
+
+
+    </RelativeLayout>
+    -->

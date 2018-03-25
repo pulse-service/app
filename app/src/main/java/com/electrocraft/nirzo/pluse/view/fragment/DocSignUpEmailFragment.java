@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,7 +146,8 @@ public class DocSignUpEmailFragment extends Fragment {
         });
     }
 
-
+    @BindView(R.id.i_agree)
+    AppCompatCheckBox checkBox;
     @OnClick(R.id.btnSignUpContinue)
     public void onSignContinueClick(View view) {
         Context context = getActivity();
@@ -174,6 +176,9 @@ public class DocSignUpEmailFragment extends Fragment {
 
         else if (password.length() < 6)
             AlertDialogManager.showErrorDialog(context, "Password must be 6 digit");
+        else if (!checkBox.isChecked()) {
+            Toast.makeText(context, "You need to agree to the terms and condition", Toast.LENGTH_SHORT).show();
+        }
         else {
 
 
@@ -214,5 +219,11 @@ public class DocSignUpEmailFragment extends Fragment {
         ft.commit();
     }
 
-
+    @OnClick(R.id.docFbSign)
+    public void regFBLogin() {
+    }
+    @OnClick(R.id.docLogin)
+    public void regLogin(View view) {
+        getActivity().onBackPressed();
+    }
 }
