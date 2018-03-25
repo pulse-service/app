@@ -197,6 +197,7 @@ public class PtSpecializationFragment extends Fragment {
 
                             if (!object.isNull("DoctorsLists")) {
 
+                                mList.clear();
                                 JSONArray array = object.getJSONArray("DoctorsLists");
 
                                 for (int i = 0; i < array.length(); i++) {
@@ -209,7 +210,7 @@ public class PtSpecializationFragment extends Fragment {
                                     DCharge = jsonObject.getString("amount");
                                     Photo = jsonObject.getString("Photo");
 
-                                    mList.clear();
+
                                     DoctorSearch doctor = new DoctorSearch(DRI_ID, DRI_DrName, Expertise, SPName, DCharge, true, Photo);
                                     mList.add(doctor);
                                 }

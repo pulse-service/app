@@ -41,7 +41,7 @@ public class DocNotifyCallReceivedAlertActivity extends Activity {
             final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             if (audioManager.getStreamVolume(AudioManager.STREAM_RING) != 0) {
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
-                mMediaPlayer.setLooping(true);
+                mMediaPlayer.setLooping(false);
                 mMediaPlayer.prepare();
                 mMediaPlayer.start();
             }

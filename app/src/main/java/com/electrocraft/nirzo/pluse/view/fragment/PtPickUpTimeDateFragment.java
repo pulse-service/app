@@ -288,8 +288,9 @@ public class PtPickUpTimeDateFragment extends Fragment {
                                 String OutTime = object.getString("OutTime");
                                 String OutTime_AMOrPM = object.getString("OutTime_AMOrPM");
                                 String OAT_COD = object.getString("OAT_COD");
+                                String isAlreadyBooked = object.getString("isAlreadyBooked");
 
-                                DoctorAvailableTime availableTime = new DoctorAvailableTime(Day, InTime, InTime_AMOrPM, OutTime, OutTime_AMOrPM, OAT_COD);
+                                DoctorAvailableTime availableTime = new DoctorAvailableTime(Day, InTime, InTime_AMOrPM, OutTime, OutTime_AMOrPM, OAT_COD,isAlreadyBooked);
                                 mList.add(availableTime);
                             }
 
