@@ -41,6 +41,7 @@ import com.electrocraft.nirzo.pluse.view.fragment.DocChamberFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DocTodayAppointFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.DoctorHomeFragment;
+import com.facebook.login.LoginManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,7 +144,7 @@ public class DoctorHomeActivity extends AppCompatActivity implements NavigationV
                 break;
 
             case R.id.nav_logout:
-
+                LoginManager.getInstance().logOut();
                 AppSharePreference.saveDoctorID(this, "");
                 AppSharePreference.savePatientID(this, "");
                 Intent intent = new Intent(DoctorHomeActivity.this, LoginAsActivity.class);

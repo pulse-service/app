@@ -1,8 +1,6 @@
 package com.electrocraft.nirzo.pluse.view.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,11 +13,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -129,17 +124,52 @@ public class LoginActivity extends AppCompatActivity {
                                     JSONObject object,
                                     GraphResponse response) {
                                 // Application code
-                                Log.d("wasiun", ": " + response.getRawResponse());
                                 try {
                                     JSONObject jsonObject = new JSONObject(response.getRawResponse());
-                                    Log.d("wasiun", ": " + jsonObject.optString("name"));
-                                    Log.d("wasiun", ": " + jsonObject.optString("email"));
-                                    JSONObject jsonObject1 = jsonObject.getJSONObject("picture").getJSONObject("data");
-                                    Log.d("wasiun", ": " + jsonObject1.optString("url"));
-                                    Toast.makeText(mContext, "Welcome "+jsonObject.optString("name"), Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(mContext, "Sorry, you'll have to login using your mobile number for now.", Toast.LENGTH_LONG).show();
+                                    String type = "";
+                                    if (isDoctorLogin) {
+                                        type = "2/";
+                                    } else {
+                                        type = "1/";
+                                    }
+                                    StringRequest fbloginRequest = new StringRequest(Request.Method.GET,
+                                            "http://180.148.210.139:8081/pulse_api/api/getInfoForFBLogin/" + jsonObject.optString("id") + "2/" + type + jsonObject.optString("name"), new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            try {
+                                                String id="";
+                                                JSONObject dataArray = new JSONObject(response);
+                                                if (response.contains("PRI_PTID")) {
+                                                    id = dataArray.getJSONArray("data").getJSONObject(0).optString("PRI_PTID");
+                                                } else if (response.contains("\"id\":")) {
+                                                    id = dataArray.getJSONObject("data").optString("id");
+                                                }
 
-                                    //showDialog(LoginActivity.this, jsonObject.optString("name") + "\n " + jsonObject.optString("email" + " \n" + jsonObject.optString("id")), jsonObject1.optString("url"));
+                                                if (isDoctorLogin) {
+                                                    AppSharePreference.saveDoctorID(mContext, id);
+                                                    Intent intent = new Intent(LoginActivity.this, DoctorHomeActivity.class);
+                                                    intent.putExtra(Key.KEY_PATIENT_ID, id);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(intent);
+                                                } else {
+                                                    AppSharePreference.savePatientID(mContext, id);
+                                                    Intent intent = new Intent(LoginActivity.this, PatientHomeActivity.class);
+                                                    intent.putExtra(Key.KEY_PATIENT_ID, id);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(intent);
+                                                }
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+
+                                        }
+                                    });
+                                    AppController.getInstance().addToRequestQueue(fbloginRequest, "fblogin");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -164,6 +194,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onError(FacebookException error) {
                 Log.d(TAG, "facebook:onError", error);
                 Toast.makeText(mContext, "Sorry, couldn't login", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, ""+error.getMessage(), Toast.LENGTH_LONG).show();
                 // ...
             }
         });
@@ -495,7 +526,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 
 
 }
