@@ -42,6 +42,7 @@ import com.electrocraft.nirzo.pluse.view.fragment.PtPescriptionListFrag;
 import com.electrocraft.nirzo.pluse.view.fragment.PtProfileFragment;
 import com.electrocraft.nirzo.pluse.view.fragment.PtSpecializationFragment;
 import com.electrocraft.nirzo.pluse.view.util.Key;
+import com.facebook.login.LoginManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -280,6 +281,7 @@ public class PatientHomeActivity extends AppCompatActivity
             case R.id.nav_logout:
                 AppSharePreference.saveDoctorID(this, "");
                 AppSharePreference.savePatientID(this, "");
+                LoginManager.getInstance().logOut();
                 Intent intent = new Intent(PatientHomeActivity.this, LoginAsActivity.class);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
